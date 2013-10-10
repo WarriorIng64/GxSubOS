@@ -6,7 +6,7 @@ highlight_color = 0, 255, 255
 glass_alpha = 200
 accent_color = pygame.color.Color(0, 255, 255)
 enable_blur = False
-enable_transparency = False
+enable_transparency = True
 
 def glass_blur(surface):
   if not enable_blur:
