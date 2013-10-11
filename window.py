@@ -96,7 +96,10 @@ class Window:
   def titlebar_clicked(self, x, y):
     x1, x2 = self.rect.x, self.rect.x + self.width
     y1, y2 = self.rect.y, self.rect.y + titlebar_height
-    return x > x1 and x < x2 and y > y1 and y < y2
+    top_titlebar_clicked = x1 < x < x2 and y1 < y < y2
+    y1, y2 = self.rect.y + self.height - titlebar_height, self.rect.y + self.height
+    bottom_titlebar_clicked = x1 < x < x2 and y1 < y < y2
+    return top_titlebar_clicked or bottom_titlebar_clicked
   
   def window_clicked(self, x, y):
     x1, x2 = self.rect.x, self.rect.x + self.width
