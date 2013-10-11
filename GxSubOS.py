@@ -17,6 +17,7 @@ system_font = pygame.font.Font(None, 12)
 
 # Wallpaper setup
 wallpaper = pygame.image.load("graphics/default_wallpaper.png")
+wallpaper = pygame.transform.smoothscale(wallpaper, (width, height))
 wallpaper = wallpaper.convert()
 wallpaper_rect = wallpaper.get_rect()
 wallpaper_rect.topleft = (0, 0)
