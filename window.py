@@ -70,12 +70,16 @@ class Window:
     self.surface.blit(self.window_surface, [0, 0, 0, 0])
   
   def draw_titlebar(self):
-    start = [0, titlebar_height]
-    end = [self.width, titlebar_height]
+    start_top = [0, titlebar_height]
+    end_top = [self.width, titlebar_height]
+    start_bottom = [0, self.height - titlebar_height]
+    end_bottom = [self.width, self.height - titlebar_height]
+    sep_color = glass.accent_color
     # Draw separator
-    pygame.draw.line(self.window_surface, glass.accent_color, start, end, 1)
+    pygame.draw.line(self.window_surface, sep_color, start_top, end_top, 1)
+    pygame.draw.line(self.window_surface, sep_color, start_bottom, end_bottom, 1)
     # Draw titlebar text
-    text_surf = titlebar_font.render(self.titlebar_text, True, glass.accent_color)
+    text_surf = titlebar_font.render(self.titlebar_text, True, sep_color)
     text_surf.get_rect().x = self.rect.x + titlebar_height
     text_surf.get_rect().y = self.rect.y
     self.window_surface.blit(text_surf, [titlebar_height, 1, 0, 0])
