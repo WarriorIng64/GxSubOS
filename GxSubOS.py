@@ -25,7 +25,7 @@ wallpaper_rect.topleft = (0, 0)
 def CreateWindow(x, y, width, height, titlebar_text=''):
   # Properly create a new application window that the launcher knows about
   for window in window_list:
-    window.has_focus = False
+    window.set_focus(False)
   window_list.append(Window(x, y, width, height, titlebar_text))
   launcher_list.append(Launcherbutton(window_list[-1], len(window_list)))
   return window_list[-1]
