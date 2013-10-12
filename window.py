@@ -16,7 +16,6 @@ class Window:
     self.height = height
     
     self.rect = pygame.rect.Rect(x, y, x + width, y + height)
-    self.titlebar_rect = pygame.rect.Rect(x, y, x + width, y + titlebar_height)
     self.close_image = pygame.image.load("graphics/close.png")
     self.close_rect = self.close_image.get_rect()
     
@@ -86,7 +85,6 @@ class Window:
   
   def move_by_amount(self, x, y):
     self.rect.move_ip(x, y)
-    self.titlebar_rect.move_ip(x, y)
   
   def close_button_clicked(self, x, y):
     close_x1, close_x2 = self.rect.x, self.rect.x + titlebar_height
