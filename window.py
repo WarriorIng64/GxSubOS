@@ -22,9 +22,7 @@ class Window:
     self.resize_rect = self.resize_image.get_rect()
     self.resize_rect.move_ip(width - titlebar_height, height - titlebar_height)
     
-    self.surface = pygame.Surface((width, height), pygame.SRCALPHA)
-    self.window_surface = pygame.Surface((width, height), pygame.SRCALPHA)
-    self.background_surface = pygame.Surface((width, height), pygame.SRCALPHA)
+    self.create_surfaces(width, height)
     self.titlebar_text = titlebar_text
     self.being_dragged = False
     self.being_resized = False
@@ -153,9 +151,12 @@ class Window:
     self.height = new_height
     x, y = self.rect.x, self.rect.y
     self.rect = pygame.rect.Rect(x, y, x + new_width, y + new_height)
-    self.surface = pygame.Surface((new_width, new_height), pygame.SRCALPHA)
-    self.window_surface = pygame.Surface((new_width, new_height), pygame.SRCALPHA)
-    self.background_surface = pygame.Surface((new_width, new_height), pygame.SRCALPHA)
+    self.create_surfaces(new_width, new_height)
     self.draw_window_surface()
     self.resize_rect = self.resize_image.get_rect()
     self.resize_rect.move_ip(new_width - titlebar_height, new_height - titlebar_height)
+  
+  def create_surfaces(self, w, h):
+    self.surface = pygame.Surface((w, h), pygame.SRCALPHA)
+    self.window_surface = pygame.Surface((w, h), pygame.SRCALPHA)
+    self.background_surface = pygame.Surface((w, h), pygame.SRCALPHA)
