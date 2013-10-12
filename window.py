@@ -123,3 +123,9 @@ class Window:
       self.draw_window_surface()
     else:
       self.has_focus = focus
+  
+  def resize(self, new_width, new_height):
+    self.width = new_width
+    self.height = new_height
+    x, y = self.rect.x, self.rect.y
+    self.rect = pygame.rect.Rect(x, y, x + new_width, y + new_height)
