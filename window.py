@@ -26,6 +26,8 @@ class Window:
     self.titlebar_text = titlebar_text
     self.being_dragged = False
     self.being_resized = False
+    self.is_maximized = False
+    self.restore_rect = self.rect
     self.has_focus = True
     self.draw_window_surface()
     self.click_x, self.click_y = 0, 0
@@ -46,6 +48,11 @@ class Window:
             self.being_dragged = True
             self.click_x, self.click_y = mouse_x, mouse_y
         elif mouse_event.type == pygame.MOUSEBUTTONUP:
+          if self.being_dragged:
+            if mouse_y <= 5 and not self.is_maximized:
+              self.maximize()
+            else:
+              self.unmaximize()
           self.being_dragged = False
           self.being_resized = False
       
@@ -106,6 +113,9 @@ class Window:
     return close_x1 < x < close_x2 and close_y1 < y < close_y2
   
   def resize_button_clicked(self, x, y):
+    # Do not resize maximized windows
+    if self.is_maximized:
+      return False
     resize_x1 = self.rect.x + self.width - titlebar_height
     resize_x2 = self.rect.x + self.width
     resize_y1 = self.rect.y + self.height - titlebar_height
@@ -137,7 +147,8 @@ class Window:
     if self.has_focus:
       pygame.draw.rect(self.window_surface, glass.accent_color, window_rect, 1)
     self.window_surface.blit(self.close_image, self.close_rect)
-    self.window_surface.blit(self.resize_image, self.resize_rect)
+    if not self.is_maximized:
+      self.window_surface.blit(self.resize_image, self.resize_rect)
   
   def set_focus(self, focus):
     if self.has_focus != focus:
@@ -147,8 +158,8 @@ class Window:
       self.has_focus = focus
   
   def resize(self, new_width, new_height):
-    self.width = new_width
-    self.height = new_height
+    self.width = max(new_width, titlebar_height * 2)
+    self.height = max(new_height, titlebar_height * 2)
     x, y = self.rect.x, self.rect.y
     self.rect = pygame.rect.Rect(x, y, x + new_width, y + new_height)
     self.create_surfaces(new_width, new_height)
@@ -160,3 +171,21 @@ class Window:
     self.surface = pygame.Surface((w, h), pygame.SRCALPHA)
     self.window_surface = pygame.Surface((w, h), pygame.SRCALPHA)
     self.background_surface = pygame.Surface((w, h), pygame.SRCALPHA)
+  
+  def maximize(self):
+    self.restore_rect = self.rect
+    maximized_width = pygame.display.Info().current_w - 48
+    maximized_height = pygame.display.Info().current_h
+    self.rect.x = 48 # Replace this later with a variable for desktop size
+    self.rect.y = 0
+    self.resize(maximized_width, maximized_height)
+    self.draw_window_surface()
+    self.is_maximized = True
+  
+  def unmaximize(self):
+    if self.is_maximized:
+      self.rect.x = self.restore_rect.x
+      self.rect.y = self.restore_rect.y
+      self.resize(self.restore_rect.width, self.restore_rect.height)
+      self.draw_window_surface()
+      self.is_maximized = False
