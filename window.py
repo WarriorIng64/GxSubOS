@@ -27,6 +27,7 @@ class Window:
     self.background_surface = pygame.Surface((width, height), pygame.SRCALPHA)
     self.titlebar_text = titlebar_text
     self.being_dragged = False
+    self.being_resized = False
     self.has_focus = True
     self.draw_window_surface()
     self.click_x, self.click_y = 0, 0
@@ -38,29 +39,41 @@ class Window:
       mouse_x, mouse_y = mouse_event.pos
       if mouse_button == 1:
         if mouse_event.type == pygame.MOUSEBUTTONDOWN:
-          if self.window_clicked(mouse_x, mouse_y):
-            if self.titlebar_clicked(mouse_x, mouse_y):
-              self.being_dragged = True
-              self.click_x, self.click_y = mouse_x, mouse_y
           if self.close_button_clicked(mouse_x, mouse_y):
             self.window_closed = True
+          elif self.resize_button_clicked(mouse_x, mouse_y):
+            self.being_resized = True
+            self.click_x, self.click_y = mouse_x, mouse_y
+          elif self.titlebar_clicked(mouse_x, mouse_y):
+            self.being_dragged = True
+            self.click_x, self.click_y = mouse_x, mouse_y
         elif mouse_event.type == pygame.MOUSEBUTTONUP:
           self.being_dragged = False
+          self.being_resized = False
       
-      # Window dragging
-      if mouse_event.type == pygame.MOUSEMOTION and self.being_dragged:
-        if self.has_focus:
-          offset_x, offset_y = mouse_x - self.click_x, mouse_y - self.click_y
-          self.move_by_amount(offset_x, offset_y)
-          # Dragging limits
-          if self.rect.y < 0:
-            self.rect.y = 0
-          if self.rect.y + titlebar_height > pygame.display.Info().current_h:
-            self.rect.y = pygame.display.Info().current_h - titlebar_height
-          self.click_x = mouse_x
-          self.click_y = mouse_y
-        else:
-          self.being_dragged = False
+      # Window dragging and resizing
+      if mouse_event.type == pygame.MOUSEMOTION:
+        if self.being_dragged:
+          if self.has_focus:
+            offset_x, offset_y = mouse_x - self.click_x, mouse_y - self.click_y
+            self.move_by_amount(offset_x, offset_y)
+            # Dragging limits
+            if self.rect.y < 0:
+              self.rect.y = 0
+            if self.rect.y + titlebar_height > pygame.display.Info().current_h:
+              self.rect.y = pygame.display.Info().current_h - titlebar_height
+            self.click_x = mouse_x
+            self.click_y = mouse_y
+          else:
+            self.being_dragged = False
+        elif self.being_resized:
+          if self.has_focus:
+            offset_x, offset_y = mouse_x - self.click_x, mouse_y - self.click_y
+            self.resize(self.width + offset_x, self.height + offset_y)
+            self.click_x = mouse_x
+            self.click_y = mouse_y
+          else:
+            self.being_resized = False
   
   def redraw(self, screen):
     if glass.enable_transparency:
@@ -77,7 +90,7 @@ class Window:
     start_bottom = [0, self.height - titlebar_height]
     end_bottom = [self.width, self.height - titlebar_height]
     sep_color = glass.accent_color
-    # Draw separator
+    # Draw separators
     pygame.draw.line(self.window_surface, sep_color, start_top, end_top, 1)
     pygame.draw.line(self.window_surface, sep_color, start_bottom, end_bottom, 1)
     # Draw titlebar text
@@ -112,7 +125,7 @@ class Window:
   def window_clicked(self, x, y):
     x1, x2 = self.rect.x, self.rect.x + self.width
     y1, y2 = self.rect.y, self.rect.y + self.height
-    return x > x1 and x < x2 and y > y1 and y < y2
+    return x1 < x < x2 and y1 < y < y2
   
   def draw_window_surface(self):
     # Draw the window chrome and prepare the window_surface for blitting
@@ -140,5 +153,9 @@ class Window:
     self.height = new_height
     x, y = self.rect.x, self.rect.y
     self.rect = pygame.rect.Rect(x, y, x + new_width, y + new_height)
+    self.surface = pygame.Surface((new_width, new_height), pygame.SRCALPHA)
+    self.window_surface = pygame.Surface((new_width, new_height), pygame.SRCALPHA)
+    self.background_surface = pygame.Surface((new_width, new_height), pygame.SRCALPHA)
+    self.draw_window_surface()
     self.resize_rect = self.resize_image.get_rect()
     self.resize_rect.move_ip(new_width - titlebar_height, new_height - titlebar_height)
