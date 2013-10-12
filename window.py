@@ -17,7 +17,10 @@ class Window:
     
     self.rect = pygame.rect.Rect(x, y, x + width, y + height)
     self.close_image = pygame.image.load("graphics/close.png")
+    self.resize_image = pygame.image.load("graphics/resize.png")
     self.close_rect = self.close_image.get_rect()
+    self.resize_rect = self.resize_image.get_rect()
+    self.resize_rect.move_ip(width - titlebar_height, height - titlebar_height)
     
     self.surface = pygame.Surface((width, height), pygame.SRCALPHA)
     self.window_surface = pygame.Surface((width, height), pygame.SRCALPHA)
@@ -116,6 +119,7 @@ class Window:
     if self.has_focus:
       pygame.draw.rect(self.window_surface, glass.accent_color, window_rect, 1)
     self.window_surface.blit(self.close_image, self.close_rect)
+    self.window_surface.blit(self.resize_image, self.resize_rect)
   
   def set_focus(self, focus):
     if self.has_focus != focus:
