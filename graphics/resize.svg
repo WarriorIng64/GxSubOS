@@ -14,7 +14,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="New document 1">
+   sodipodi:docname="resize.svg"
+   inkscape:export-filename="/home/christopher/GxSubOS/graphics/resize.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -61,9 +64,9 @@
      id="layer1"
      transform="translate(0,-1028.3622)">
     <path
-       style="fill:#00ffff;fill-opacity:1;stroke:#00ffff;stroke-width:1;stroke-miterlimit:4;stroke-opacity:0;stroke-dasharray:none"
-       d="M 3 2 C 2.446 2 2 2.446 2 3 L 2 18.46875 L 6 14.46875 L 6 7 C 6 6.446 6.446 6 7 6 L 14.46875 6 L 18.46875 2 L 3 2 z M 22 5.53125 L 18 9.53125 L 18 17 C 18 17.554 17.554 18 17 18 L 9.53125 18 L 5.53125 22 L 21 22 C 21.554 22 22 21.554 22 21 L 22 5.53125 z "
-       transform="translate(0,1028.3622)"
-       id="rect2987" />
+       style="fill:#00ffff;fill-opacity:1;stroke:#00ffff;stroke-width:0.80000001;stroke-miterlimit:4;stroke-opacity:0;stroke-dasharray:none"
+       d="m 4.8,1032.3622 c -0.4432,0 -0.8,0.3568 -0.8,0.8 l 0,12.375 3.2,-3.2 0,-5.975 c 0,-0.4432 0.3568,-0.8 0.8,-0.8 l 5.975,0 3.2,-3.2 -12.375,0 z m 15.2,2.825 -3.2,3.2 0,5.975 c 0,0.4432 -0.3568,0.8 -0.8,0.8 l -5.975,0 -3.2,3.2 12.375,0 c 0.4432,0 0.8,-0.3568 0.8,-0.8 l 0,-12.375 z"
+       id="rect2987"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>

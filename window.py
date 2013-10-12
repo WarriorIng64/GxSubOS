@@ -92,7 +92,14 @@ class Window:
   def close_button_clicked(self, x, y):
     close_x1, close_x2 = self.rect.x, self.rect.x + titlebar_height
     close_y1, close_y2 = self.rect.y, self.rect.y + titlebar_height
-    return x > close_x1 and x < close_x2 and y > close_y1 and y < close_y2
+    return close_x1 < x < close_x2 and close_y1 < y < close_y2
+  
+  def resize_button_clicked(self, x, y):
+    resize_x1 = self.rect.x + self.width - titlebar_height
+    resize_x2 = self.rect.x + self.width
+    resize_y1 = self.rect.y + self.height - titlebar_height
+    resize_y2 = self.rect.y + self.height
+    return resize_x1 < x < resize_x2 and resize_y1 < y < resize_y2
   
   def titlebar_clicked(self, x, y):
     x1, x2 = self.rect.x, self.rect.x + self.width
@@ -133,3 +140,5 @@ class Window:
     self.height = new_height
     x, y = self.rect.x, self.rect.y
     self.rect = pygame.rect.Rect(x, y, x + new_width, y + new_height)
+    self.resize_rect = self.resize_image.get_rect()
+    self.resize_rect.move_ip(new_width - titlebar_height, new_height - titlebar_height)
