@@ -154,6 +154,7 @@ class Window:
     self.window_surface.blit(self.close_image, self.close_rect)
     if not self.is_maximized:
       self.window_surface.blit(self.resize_image, self.resize_rect)
+    self.window_surface.convert_alpha()
   
   def set_focus(self, focus):
     if self.has_focus != focus:

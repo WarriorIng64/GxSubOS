@@ -54,6 +54,7 @@ def DrawDesktopSurface(window_list):
     if not window.is_maximized:
       DrawWindowShadow(desktop_surface, window.rect)
     desktop_surface.blit(window.surface, window.rect)
+  desktop_surface.convert()
 
 def DrawTopWindow(surface, window_list):
   # Draws the top window onto the desktop_surface
