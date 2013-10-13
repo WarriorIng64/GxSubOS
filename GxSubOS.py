@@ -1,7 +1,7 @@
 import sys, pygame
 from launcher import Launcher
 from startbutton import Startbutton
-from window import Window
+from window import *
 from launcherbutton import Launcherbutton
 pygame.init()
 
@@ -29,6 +29,21 @@ def CreateWindow(x, y, width, height, titlebar_text=''):
   window_list.append(Window(x, y, width, height, titlebar_text))
   launcher_list.append(Launcherbutton(window_list[-1], len(window_list)))
   return window_list[-1]
+
+def DrawWindowShadow(screen, window_rect):
+  # Draw a shadow around the given window area
+  shadow_offset = titlebar_height / 2
+  shadow_width = titlebar_height
+  # Corners
+  screen.blit(shadow_tl_image, [window_rect.left - shadow_offset, window_rect.top - shadow_offset, shadow_width, shadow_width])
+  screen.blit(shadow_tr_image, [window_rect.right - shadow_offset, window_rect.top - shadow_offset, shadow_width, shadow_width])
+  screen.blit(shadow_bl_image, [window_rect.left - shadow_offset, window_rect.bottom - shadow_offset, shadow_width, shadow_width])
+  screen.blit(shadow_br_image, [window_rect.right - shadow_offset, window_rect.bottom - shadow_offset, shadow_width, shadow_width])
+  # Edges
+  screen.blit(pygame.transform.scale(shadow_t_image, (window_rect.width - shadow_width, shadow_width)), [window_rect.left + shadow_offset, window_rect.top - shadow_offset, window_rect.width - shadow_width, shadow_width])
+  screen.blit(pygame.transform.scale(shadow_l_image, (shadow_width, window_rect.height - shadow_width)), [window_rect.left - shadow_offset, window_rect.top + shadow_offset, shadow_width, window_rect.height - shadow_width])
+  screen.blit(pygame.transform.scale(shadow_r_image, (shadow_width, window_rect.height - shadow_width)), [window_rect.right - shadow_offset, window_rect.top + shadow_offset, shadow_width, window_rect.height - shadow_width])
+  screen.blit(pygame.transform.scale(shadow_b_image, (window_rect.width - shadow_width, shadow_width)), [window_rect.left + shadow_offset, window_rect.bottom - shadow_offset, window_rect.width - shadow_width, shadow_width])
 
 launcher = Launcher(width, height)
 window_list = []
@@ -95,6 +110,7 @@ while 1:
   screen.blit(wallpaper, wallpaper_rect)
   for window in window_list:
     window.redraw(screen)
+    DrawWindowShadow(screen, window.rect)
     screen.blit(window.surface, window.rect)
   launcher.update(screen)
   startbutton.update(mouse_event, mouse_button)

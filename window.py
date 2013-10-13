@@ -20,10 +20,7 @@ class Window:
   window_color.a = glass.glass_alpha
   
   def __init__(self, x, y, width, height, titlebar_text=''):
-    self.width = width
-    self.height = height
-    
-    self.rect = pygame.rect.Rect(x, y, x + width, y + height)
+    self.rect = pygame.rect.Rect(x, y, width, height)
     self.close_image = pygame.image.load("graphics/close.png")
     self.resize_image = pygame.image.load("graphics/resize.png")
     self.close_rect = self.close_image.get_rect()
@@ -82,7 +79,7 @@ class Window:
         elif self.being_resized:
           if self.has_focus:
             offset_x, offset_y = mouse_x - self.click_x, mouse_y - self.click_y
-            self.resize(self.width + offset_x, self.height + offset_y)
+            self.resize(self.rect.width + offset_x, self.rect.height + offset_y)
             self.click_x = mouse_x
             self.click_y = mouse_y
           else:
@@ -99,9 +96,9 @@ class Window:
   
   def draw_titlebar(self):
     start_top = [0, titlebar_height]
-    end_top = [self.width, titlebar_height]
-    start_bottom = [0, self.height - titlebar_height]
-    end_bottom = [self.width, self.height - titlebar_height]
+    end_top = [self.rect.width, titlebar_height]
+    start_bottom = [0, self.rect.height - titlebar_height]
+    end_bottom = [self.rect.width, self.rect.height - titlebar_height]
     sep_color = glass.accent_color
     # Draw separators
     pygame.draw.line(self.window_surface, sep_color, start_top, end_top, 1)
@@ -124,28 +121,28 @@ class Window:
     # Do not resize maximized windows
     if self.is_maximized:
       return False
-    resize_x1 = self.rect.x + self.width - titlebar_height
-    resize_x2 = self.rect.x + self.width
-    resize_y1 = self.rect.y + self.height - titlebar_height
-    resize_y2 = self.rect.y + self.height
+    resize_x1 = self.rect.x + self.rect.width - titlebar_height
+    resize_x2 = self.rect.x + self.rect.width
+    resize_y1 = self.rect.y + self.rect.height - titlebar_height
+    resize_y2 = self.rect.y + self.rect.height
     return resize_x1 < x < resize_x2 and resize_y1 < y < resize_y2
   
   def titlebar_clicked(self, x, y):
-    x1, x2 = self.rect.x, self.rect.x + self.width
+    x1, x2 = self.rect.x, self.rect.x + self.rect.width
     y1, y2 = self.rect.y, self.rect.y + titlebar_height
     top_titlebar_clicked = x1 < x < x2 and y1 < y < y2
-    y1, y2 = self.rect.y + self.height - titlebar_height, self.rect.y + self.height
+    y1, y2 = self.rect.y + self.rect.height - titlebar_height, self.rect.y + self.rect.height
     bottom_titlebar_clicked = x1 < x < x2 and y1 < y < y2
     return top_titlebar_clicked or bottom_titlebar_clicked
   
   def window_clicked(self, x, y):
-    x1, x2 = self.rect.x, self.rect.x + self.width
-    y1, y2 = self.rect.y, self.rect.y + self.height
+    x1, x2 = self.rect.x, self.rect.x + self.rect.width
+    y1, y2 = self.rect.y, self.rect.y + self.rect.height
     return x1 < x < x2 and y1 < y < y2
   
   def draw_window_surface(self):
     # Draw the window chrome and prepare the window_surface for blitting
-    w, h = self.width, self.height
+    w, h = self.rect.width, self.rect.height
     window_rect = self.window_surface.get_rect()
     self.window_surface = pygame.Surface((w, h), pygame.SRCALPHA)
     if glass.enable_transparency:
@@ -166,14 +163,14 @@ class Window:
       self.has_focus = focus
   
   def resize(self, new_width, new_height):
-    self.width = max(new_width, titlebar_height * 2)
-    self.height = max(new_height, titlebar_height * 2)
+    correct_width = max(new_width, titlebar_height * 2)
+    correct_height = max(new_height, titlebar_height * 2)
     x, y = self.rect.x, self.rect.y
-    self.rect = pygame.rect.Rect(x, y, x + new_width, y + new_height)
-    self.create_surfaces(new_width, new_height)
+    self.rect = pygame.rect.Rect(x, y, correct_width, correct_height)
+    self.create_surfaces(correct_width, correct_height)
     self.draw_window_surface()
     self.resize_rect = self.resize_image.get_rect()
-    self.resize_rect.move_ip(new_width - titlebar_height, new_height - titlebar_height)
+    self.resize_rect.move_ip(correct_width - titlebar_height, correct_height - titlebar_height)
   
   def create_surfaces(self, w, h):
     self.surface = pygame.Surface((w, h), pygame.SRCALPHA)
