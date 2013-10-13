@@ -113,8 +113,8 @@ class Window:
     self.rect.move_ip(x, y)
   
   def close_button_clicked(self, x, y):
-    close_x1, close_x2 = self.rect.x, self.rect.x + titlebar_height
-    close_y1, close_y2 = self.rect.y, self.rect.y + titlebar_height
+    close_x1, close_x2 = self.rect.left, self.rect.left + titlebar_height
+    close_y1, close_y2 = self.rect.top, self.rect.top + titlebar_height
     return close_x1 < x < close_x2 and close_y1 < y < close_y2
   
   def resize_button_clicked(self, x, y):
@@ -128,16 +128,16 @@ class Window:
     return resize_x1 < x < resize_x2 and resize_y1 < y < resize_y2
   
   def titlebar_clicked(self, x, y):
-    x1, x2 = self.rect.x, self.rect.x + self.rect.width
-    y1, y2 = self.rect.y, self.rect.y + titlebar_height
+    x1, x2 = self.rect.left, self.rect.right
+    y1, y2 = self.rect.top, self.rect.top + titlebar_height
     top_titlebar_clicked = x1 < x < x2 and y1 < y < y2
-    y1, y2 = self.rect.y + self.rect.height - titlebar_height, self.rect.y + self.rect.height
+    y1, y2 = self.rect.bottom - titlebar_height, self.rect.bottom
     bottom_titlebar_clicked = x1 < x < x2 and y1 < y < y2
     return top_titlebar_clicked or bottom_titlebar_clicked
   
   def window_clicked(self, x, y):
-    x1, x2 = self.rect.x, self.rect.x + self.rect.width
-    y1, y2 = self.rect.y, self.rect.y + self.rect.height
+    x1, x2 = self.rect.left, self.rect.right
+    y1, y2 = self.rect.top, self.rect.bottom
     return x1 < x < x2 and y1 < y < y2
   
   def draw_window_surface(self):
