@@ -110,7 +110,8 @@ while 1:
   screen.blit(wallpaper, wallpaper_rect)
   for window in window_list:
     window.redraw(screen)
-    DrawWindowShadow(screen, window.rect)
+    if not window.is_maximized:
+      DrawWindowShadow(screen, window.rect)
     screen.blit(window.surface, window.rect)
   launcher.update(screen)
   startbutton.update(mouse_event, mouse_button)
