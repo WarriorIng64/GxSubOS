@@ -109,20 +109,33 @@ class Window:
     self.surface.blit(self.background_surface, [0, 0, 0, 0])
     self.surface.blit(self.window_surface, [0, 0, 0, 0])
   
+  def draw_titlebar_separator(self, surface, upper):
+    if upper:
+      height = titlebar_height
+    else:
+      height = self.rect.height - titlebar_height
+    sep_color_top = pygame.Color(0, 0, 0, 20)
+    sep_color_bottom = pygame.Color(255, 255, 255, 20)
+    start_top, end_top = [0, height], [self.rect.width, height]
+    start_bottom, end_bottom = [0, height + 1], [self.rect.width, height + 1]
+    
+    pygame.draw.line(surface, sep_color_top, start_top, end_top, 1)
+    pygame.draw.line(surface, sep_color_bottom, start_bottom, end_bottom, 1)
+  
+  def draw_titlebar_separators(self):
+    separator_surface = pygame.Surface((self.rect.width, self.rect.height), pygame.SRCALPHA)
+    self.draw_titlebar_separator(separator_surface, True)
+    self.draw_titlebar_separator(separator_surface, False)
+    self.window_surface.blit(separator_surface, [0, 0, 0, 0])
+  
   def draw_titlebar(self):
-    start_top = [0, titlebar_height]
-    end_top = [self.rect.width, titlebar_height]
-    start_bottom = [0, self.rect.height - titlebar_height]
-    end_bottom = [self.rect.width, self.rect.height - titlebar_height]
-    sep_color = glass.accent_color
     # Draw titlebar background
     pygame.draw.rect(self.window_surface, glass.glass_color, [0, 0, self.rect.width, titlebar_height])
     pygame.draw.rect(self.window_surface, glass.glass_color, [0, self.rect.height - titlebar_height, self.rect.width, titlebar_height])
     # Draw separators
-    pygame.draw.line(self.window_surface, sep_color, start_top, end_top, 1)
-    pygame.draw.line(self.window_surface, sep_color, start_bottom, end_bottom, 1)
+    self.draw_titlebar_separators()
     # Draw titlebar text
-    text_surf = titlebar_font.render(self.titlebar_text, True, sep_color)
+    text_surf = titlebar_font.render(self.titlebar_text, True, glass.accent_color)
     text_surf.get_rect().x = self.rect.x + titlebar_height
     text_surf.get_rect().y = self.rect.y
     self.window_surface.blit(text_surf, [titlebar_height, 1, 0, 0])
@@ -163,8 +176,6 @@ class Window:
     w, h = self.rect.width, self.rect.height
     window_rect = self.window_surface.get_rect()
     self.window_surface = pygame.Surface((w, h), pygame.SRCALPHA)
-    #if glass.enable_transparency:
-    #  self.window_surface.fill(self.window_color)
     pygame.draw.rect(self.window_surface, glass.content_area_color, [0, titlebar_height, self.rect.width, self.rect.height - 2 * titlebar_height])
     self.draw_titlebar()
     # Draw focus outline
@@ -196,6 +207,7 @@ class Window:
     self.surface = pygame.Surface((w, h), pygame.SRCALPHA)
     self.window_surface = pygame.Surface((w, h), pygame.SRCALPHA)
     self.background_surface = pygame.Surface((w, h), pygame.SRCALPHA)
+    self.separator_surface = pygame.Surface((w, h), pygame.SRCALPHA)
   
   def maximize(self):
     self.restore_rect = self.rect
