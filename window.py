@@ -178,9 +178,6 @@ class Window:
     self.window_surface = pygame.Surface((w, h), pygame.SRCALPHA)
     pygame.draw.rect(self.window_surface, glass.content_area_color, [0, titlebar_height, self.rect.width, self.rect.height - 2 * titlebar_height])
     self.draw_titlebar()
-    # Draw focus outline
-    if self.has_focus:
-      pygame.draw.rect(self.window_surface, glass.accent_color, window_rect, 1)
     self.window_surface.blit(self.close_image, self.close_rect)
     if not self.is_maximized:
       self.window_surface.blit(self.resize_image, self.resize_rect)
