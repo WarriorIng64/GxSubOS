@@ -46,6 +46,21 @@ def DrawWindowShadow(screen, window_rect):
   screen.blit(pygame.transform.scale(shadow_r_image, (shadow_width, window_rect.height - shadow_width)), [window_rect.right - shadow_offset, window_rect.top + shadow_offset, shadow_width, window_rect.height - shadow_width])
   screen.blit(pygame.transform.scale(shadow_b_image, (window_rect.width - shadow_width, shadow_width)), [window_rect.left + shadow_offset, window_rect.bottom - shadow_offset, window_rect.width - shadow_width, shadow_width])
 
+def DrawFocusedWindowShadow(screen, window_rect):
+  # Draw a shadow around the given window area for a focused window
+  shadow_offset = titlebar_height / 2
+  shadow_width = titlebar_height
+  # Corners
+  screen.blit(shadow_focused_tl_image, [window_rect.left - shadow_offset, window_rect.top - shadow_offset, shadow_width, shadow_width])
+  screen.blit(shadow_focused_tr_image, [window_rect.right - shadow_offset, window_rect.top - shadow_offset, shadow_width, shadow_width])
+  screen.blit(shadow_focused_bl_image, [window_rect.left - shadow_offset, window_rect.bottom - shadow_offset, shadow_width, shadow_width])
+  screen.blit(shadow_focused_br_image, [window_rect.right - shadow_offset, window_rect.bottom - shadow_offset, shadow_width, shadow_width])
+  # Edges
+  screen.blit(pygame.transform.scale(shadow_focused_t_image, (window_rect.width - shadow_width, shadow_width)), [window_rect.left + shadow_offset, window_rect.top - shadow_offset, window_rect.width - shadow_width, shadow_width])
+  screen.blit(pygame.transform.scale(shadow_focused_l_image, (shadow_width, window_rect.height - shadow_width)), [window_rect.left - shadow_offset, window_rect.top + shadow_offset, shadow_width, window_rect.height - shadow_width])
+  screen.blit(pygame.transform.scale(shadow_focused_r_image, (shadow_width, window_rect.height - shadow_width)), [window_rect.right - shadow_offset, window_rect.top + shadow_offset, shadow_width, window_rect.height - shadow_width])
+  screen.blit(pygame.transform.scale(shadow_focused_b_image, (window_rect.width - shadow_width, shadow_width)), [window_rect.left + shadow_offset, window_rect.bottom - shadow_offset, window_rect.width - shadow_width, shadow_width])
+
 def DrawDesktopSurface(window_list):
   # Update the surface behind the focused window
   desktop_surface.blit(wallpaper, wallpaper_rect)
@@ -63,7 +78,10 @@ def DrawTopWindow(surface, window_list):
   window = window_list[-1]
   window.redraw(surface)
   if not window.is_maximized:
-    DrawWindowShadow(surface, window.rect)
+    if window.has_focus:
+      DrawFocusedWindowShadow(surface, window.rect)
+    else:
+      DrawWindowShadow(surface, window.rect)
   surface.blit(window.surface, window.rect)
 
 launcher = Launcher(width, height)
