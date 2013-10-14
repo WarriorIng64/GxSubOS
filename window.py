@@ -207,7 +207,6 @@ class Window:
     self.surface = pygame.Surface((w, h), pygame.SRCALPHA)
     self.window_surface = pygame.Surface((w, h), pygame.SRCALPHA)
     self.background_surface = pygame.Surface((w, h), pygame.SRCALPHA)
-    self.separator_surface = pygame.Surface((w, h), pygame.SRCALPHA)
   
   def maximize(self):
     self.restore_rect = self.rect
