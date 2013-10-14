@@ -1,7 +1,8 @@
 import pygame
 
 glass_blur_amount = 2
-glass_color = pygame.color.Color(10, 40, 40)
+glass_color = pygame.color.Color(5, 30, 30)
+content_area_color = pygame.color.Color(20, 50, 50)
 highlight_color = 0, 255, 255
 glass_alpha = 200
 accent_color = pygame.color.Color(0, 255, 255)

@@ -30,6 +30,9 @@ class Window:
   window_color = glass.glass_color
   window_color_opaque = glass.glass_color
   window_color.a = glass.glass_alpha
+  content_color = glass.content_area_color
+  content_color_opaque = glass.content_area_color
+  content_color.a = glass.glass_alpha
   
   def __init__(self, x, y, width, height, titlebar_text=''):
     self.rect = pygame.rect.Rect(x, y, width, height)
@@ -112,6 +115,9 @@ class Window:
     start_bottom = [0, self.rect.height - titlebar_height]
     end_bottom = [self.rect.width, self.rect.height - titlebar_height]
     sep_color = glass.accent_color
+    # Draw titlebar background
+    pygame.draw.rect(self.window_surface, glass.glass_color, [0, 0, self.rect.width, titlebar_height])
+    pygame.draw.rect(self.window_surface, glass.glass_color, [0, self.rect.height - titlebar_height, self.rect.width, titlebar_height])
     # Draw separators
     pygame.draw.line(self.window_surface, sep_color, start_top, end_top, 1)
     pygame.draw.line(self.window_surface, sep_color, start_bottom, end_bottom, 1)
@@ -157,8 +163,9 @@ class Window:
     w, h = self.rect.width, self.rect.height
     window_rect = self.window_surface.get_rect()
     self.window_surface = pygame.Surface((w, h), pygame.SRCALPHA)
-    if glass.enable_transparency:
-      self.window_surface.fill(self.window_color)
+    #if glass.enable_transparency:
+    #  self.window_surface.fill(self.window_color)
+    pygame.draw.rect(self.window_surface, glass.content_area_color, [0, titlebar_height, self.rect.width, self.rect.height - 2 * titlebar_height])
     self.draw_titlebar()
     # Draw focus outline
     if self.has_focus:
