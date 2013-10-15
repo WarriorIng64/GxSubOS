@@ -6,26 +6,6 @@ pygame.font.init()
 titlebar_height = 24
 titlebar_font = pygame.font.SysFont("Droid Sans", 20)
 
-shadow_path = "graphics/shadows/"
-shadow_tl_image = pygame.image.load(shadow_path + "topleft.png")
-shadow_t_image = pygame.image.load(shadow_path + "top.png")
-shadow_tr_image = pygame.image.load(shadow_path + "topright.png")
-shadow_r_image = pygame.image.load(shadow_path + "right.png")
-shadow_br_image = pygame.image.load(shadow_path + "bottomright.png")
-shadow_b_image = pygame.image.load(shadow_path + "bottom.png")
-shadow_bl_image = pygame.image.load(shadow_path + "bottomleft.png")
-shadow_l_image = pygame.image.load(shadow_path + "left.png")
-
-shadow_focused_path = "graphics/shadows/focused/"
-shadow_focused_tl_image = pygame.image.load(shadow_focused_path + "topleft.png")
-shadow_focused_t_image = pygame.image.load(shadow_focused_path + "top.png")
-shadow_focused_tr_image = pygame.image.load(shadow_focused_path + "topright.png")
-shadow_focused_r_image = pygame.image.load(shadow_focused_path + "right.png")
-shadow_focused_br_image = pygame.image.load(shadow_focused_path + "bottomright.png")
-shadow_focused_b_image = pygame.image.load(shadow_focused_path + "bottom.png")
-shadow_focused_bl_image = pygame.image.load(shadow_focused_path + "bottomleft.png")
-shadow_focused_l_image = pygame.image.load(shadow_focused_path + "left.png")
-
 class Window:
   window_color = glass.glass_color
   window_color_opaque = glass.glass_color
