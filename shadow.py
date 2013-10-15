@@ -27,20 +27,49 @@ shadow_focused_b_image = LoadFocusedShadowImage("bottom.png")
 shadow_focused_bl_image = LoadFocusedShadowImage("bottomleft.png")
 shadow_focused_l_image = LoadFocusedShadowImage("left.png")
 
-def DrawWindowShadow(screen, window_rect):
-  # Draw a shadow around the given window area
+class Corner():
+  TL, TR, BL, BR = range(4)
+
+class Edge():
+  T, L, R, B = range(4)
+
+def DrawWindowShadowCorner(screen, window_rect, corner):
   shadow_offset = window.titlebar_height / 2
   shadow_width = window.titlebar_height
+  if corner == Corner.TL:
+    screen.blit(shadow_tl_image, [window_rect.left - shadow_offset, window_rect.top - shadow_offset, shadow_width, shadow_width])
+  elif corner == Corner.TR:
+    screen.blit(shadow_tr_image, [window_rect.right - shadow_offset, window_rect.top - shadow_offset, shadow_width, shadow_width])
+  elif corner == Corner.BL:
+    screen.blit(shadow_bl_image, [window_rect.left - shadow_offset, window_rect.bottom - shadow_offset, shadow_width, shadow_width])
+  else:
+    screen.blit(shadow_br_image, [window_rect.right - shadow_offset, window_rect.bottom - shadow_offset, shadow_width, shadow_width])
+
+def DrawWindowShadowEdge(screen, window_rect, edge):
+  shadow_offset = window.titlebar_height / 2
+  shadow_width = window.titlebar_height
+  if edge == Edge.T:
+    screen.blit(pygame.transform.scale(shadow_t_image, (window_rect.width - shadow_width, shadow_width)), [window_rect.left + shadow_offset, window_rect.top - shadow_offset, window_rect.width - shadow_width, shadow_width])
+  elif edge == Edge.L:
+    screen.blit(pygame.transform.scale(shadow_l_image, (shadow_width, window_rect.height - shadow_width)), [window_rect.left - shadow_offset, window_rect.top + shadow_offset, shadow_width, window_rect.height - shadow_width])
+  elif edge == Edge.R:
+    screen.blit(pygame.transform.scale(shadow_r_image, (shadow_width, window_rect.height - shadow_width)), [window_rect.right - shadow_offset, window_rect.top + shadow_offset, shadow_width, window_rect.height - shadow_width])
+  else:
+    screen.blit(pygame.transform.scale(shadow_b_image, (window_rect.width - shadow_width, shadow_width)), [window_rect.left + shadow_offset, window_rect.bottom - shadow_offset, window_rect.width - shadow_width, shadow_width])
+
+def DrawWindowShadow(screen, window_rect):
+  # Draw a shadow around the given window area
+  
   # Corners
-  screen.blit(shadow_tl_image, [window_rect.left - shadow_offset, window_rect.top - shadow_offset, shadow_width, shadow_width])
-  screen.blit(shadow_tr_image, [window_rect.right - shadow_offset, window_rect.top - shadow_offset, shadow_width, shadow_width])
-  screen.blit(shadow_bl_image, [window_rect.left - shadow_offset, window_rect.bottom - shadow_offset, shadow_width, shadow_width])
-  screen.blit(shadow_br_image, [window_rect.right - shadow_offset, window_rect.bottom - shadow_offset, shadow_width, shadow_width])
+  DrawWindowShadowCorner(screen, window_rect, Corner.TL)
+  DrawWindowShadowCorner(screen, window_rect, Corner.TR)
+  DrawWindowShadowCorner(screen, window_rect, Corner.BL)
+  DrawWindowShadowCorner(screen, window_rect, Corner.BR)
   # Edges
-  screen.blit(pygame.transform.scale(shadow_t_image, (window_rect.width - shadow_width, shadow_width)), [window_rect.left + shadow_offset, window_rect.top - shadow_offset, window_rect.width - shadow_width, shadow_width])
-  screen.blit(pygame.transform.scale(shadow_l_image, (shadow_width, window_rect.height - shadow_width)), [window_rect.left - shadow_offset, window_rect.top + shadow_offset, shadow_width, window_rect.height - shadow_width])
-  screen.blit(pygame.transform.scale(shadow_r_image, (shadow_width, window_rect.height - shadow_width)), [window_rect.right - shadow_offset, window_rect.top + shadow_offset, shadow_width, window_rect.height - shadow_width])
-  screen.blit(pygame.transform.scale(shadow_b_image, (window_rect.width - shadow_width, shadow_width)), [window_rect.left + shadow_offset, window_rect.bottom - shadow_offset, window_rect.width - shadow_width, shadow_width])
+  DrawWindowShadowEdge(screen, window_rect, Edge.T)
+  DrawWindowShadowEdge(screen, window_rect, Edge.L)
+  DrawWindowShadowEdge(screen, window_rect, Edge.R)
+  DrawWindowShadowEdge(screen, window_rect, Edge.B)
 
 def DrawFocusedWindowShadow(screen, window_rect):
   # Draw a shadow around the given window area for a focused window
