@@ -62,6 +62,15 @@ def DrawLauncher(surface, launcher_list, startbutton):
     screen.blit(button.image, button.rect)
   screen.blit(startbutton.image, startbutton.rect)
 
+def UpdateLauncherButtons(launcher_list, mouse_event, mouse_button):
+  # Update launcher buttons
+  new_button_number = 0
+  for button in launcher_list:
+    new_button_number += 1
+    button.Update(mouse_event, mouse_button, new_button_number)
+    if button.WindowWasClosed():
+      launcher_list.remove(button)
+
 launcher = Launcher(width, height)
 window_list = []
 launcher_list = []
@@ -108,13 +117,7 @@ while 1:
           focused_window_found = True
         else:
           window.set_focus(False)
-    # Update launcher buttons
-    new_button_number = 0
-    for button in launcher_list:
-      new_button_number += 1
-      button.update(mouse_event, mouse_button, new_button_number)
-      if button.window_closed:
-        launcher_list.remove(button)
+    UpdateLauncherButtons(launcher_list, mouse_event, mouse_button)
   
   # Maintain proper window order
   for window in window_list[:-1]:
@@ -126,7 +129,7 @@ while 1:
       redraw_all_windows = True
   # Update launcher button positions
   for button in launcher_list:
-    button.update_position()
+    button.UpdatePosition()
   
   # Drawing and game object updates
   if redraw_all_windows:
