@@ -43,7 +43,7 @@ def DrawDesktopSurface(window_list):
   desktop_surface.convert()
 
 def DrawTopWindow(surface, window_list):
-  # Draws the top window onto the desktop_surface
+  # Draws the top window onto the given surface
   if len(window_list) < 1:
     return
   window = window_list[-1]
@@ -54,6 +54,13 @@ def DrawTopWindow(surface, window_list):
     else:
       shadow.DrawWindowShadow(surface, window.rect)
   surface.blit(window.surface, window.rect)
+
+def DrawLauncher(surface, launcher_list, startbutton):
+  # Draws the launcher onto the given surface
+  screen.blit(launcher.launcher_surface, (0, 0))
+  for button in launcher_list:
+    screen.blit(button.image, button.rect)
+  screen.blit(startbutton.image, startbutton.rect)
 
 launcher = Launcher(width, height)
 window_list = []
@@ -128,10 +135,7 @@ while 1:
   DrawTopWindow(screen, window_list)
   launcher.update(screen)
   startbutton.update(mouse_event, mouse_button)
-  screen.blit(launcher.launcher_surface, (0, 0))
-  for button in launcher_list:
-    screen.blit(button.image, button.rect)
-  screen.blit(startbutton.image, startbutton.rect)
+  DrawLauncher(screen, launcher_list, startbutton)
 
   pygame.display.update()
   fpsClock.tick(60)
