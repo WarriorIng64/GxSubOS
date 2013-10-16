@@ -55,18 +55,22 @@ def DrawWindowShadowEdge(screen, window_rect, edge):
   offset = window.titlebar_height / 2
   shadow_width = window.titlebar_height
   if edge == Edge.T:
-    shadow_image = pygame.transform.scale(shadow_t_image, (window_rect.width - shadow_width, shadow_width))
-    shadow_rect = [window_rect.left + offset, window_rect.top - offset, window_rect.width - shadow_width, shadow_width]
+    shadow_size = (window_rect.width - shadow_width, shadow_width)
+    shadow_pos = (window_rect.left + offset, window_rect.top - offset)
+    shadow_image = pygame.transform.scale(shadow_t_image, shadow_size)
   elif edge == Edge.L:
-    shadow_image = pygame.transform.scale(shadow_l_image, (shadow_width, window_rect.height - shadow_width))
-    shadow_rect = [window_rect.left - offset, window_rect.top + offset, shadow_width, window_rect.height - shadow_width]
+    shadow_size = (shadow_width, window_rect.height - shadow_width)
+    shadow_pos = (window_rect.left - offset, window_rect.top + offset)
+    shadow_image = pygame.transform.scale(shadow_l_image, shadow_size)
   elif edge == Edge.R:
-    shadow_image = pygame.transform.scale(shadow_r_image, (shadow_width, window_rect.height - shadow_width))
-    shadow_rect = [window_rect.right - offset, window_rect.top + offset, shadow_width, window_rect.height - shadow_width]
+    shadow_size = (shadow_width, window_rect.height - shadow_width)
+    shadow_pos = (window_rect.right - offset, window_rect.top + offset)
+    shadow_image = pygame.transform.scale(shadow_r_image, shadow_size)
   else:
-    shadow_image = pygame.transform.scale(shadow_b_image, (window_rect.width - shadow_width, shadow_width))
-    shadow_rect = [window_rect.left + offset, window_rect.bottom - offset, window_rect.width - shadow_width, shadow_width]
-  screen.blit(shadow_image, shadow_rect)
+    shadow_size = (window_rect.width - shadow_width, shadow_width)
+    shadow_pos = (window_rect.left + offset, window_rect.bottom - offset)
+    shadow_image = pygame.transform.scale(shadow_b_image, shadow_size)
+  screen.blit(shadow_image, pygame.Rect(shadow_pos, shadow_size))
 
 def DrawFocusedWindowShadowCorner(screen, window_rect, corner):
   offset = window.titlebar_height / 2
@@ -90,18 +94,22 @@ def DrawFocusedWindowShadowEdge(screen, window_rect, edge):
   offset = window.titlebar_height / 2
   shadow_width = window.titlebar_height
   if edge == Edge.T:
-    shadow_image = pygame.transform.scale(shadow_focused_t_image, (window_rect.width - shadow_width, shadow_width))
-    shadow_rect = [window_rect.left + offset, window_rect.top - offset, window_rect.width - shadow_width, shadow_width]
+    shadow_size = (window_rect.width - shadow_width, shadow_width)
+    shadow_pos = (window_rect.left + offset, window_rect.top - offset)
+    shadow_image = pygame.transform.scale(shadow_focused_t_image, shadow_size)
   elif edge == Edge.L:
-    shadow_image = pygame.transform.scale(shadow_focused_l_image, (shadow_width, window_rect.height - shadow_width))
-    shadow_rect = [window_rect.left - offset, window_rect.top + offset, shadow_width, window_rect.height - shadow_width]
+    shadow_size = (shadow_width, window_rect.height - shadow_width)
+    shadow_pos = (window_rect.left - offset, window_rect.top + offset)
+    shadow_image = pygame.transform.scale(shadow_focused_l_image, shadow_size)
   elif edge == Edge.R:
-    shadow_image = pygame.transform.scale(shadow_focused_r_image, (shadow_width, window_rect.height - shadow_width))
-    shadow_rect = [window_rect.right - offset, window_rect.top + offset, shadow_width, window_rect.height - shadow_width]
+    shadow_size = (shadow_width, window_rect.height - shadow_width)
+    shadow_pos = (window_rect.right - offset, window_rect.top + offset)
+    shadow_image = pygame.transform.scale(shadow_focused_r_image, shadow_size)
   else:
-    shadow_image = pygame.transform.scale(shadow_focused_b_image, (window_rect.width - shadow_width, shadow_width))
-    shadow_rect = [window_rect.left + offset, window_rect.bottom - offset, window_rect.width - shadow_width, shadow_width]
-  screen.blit(shadow_image, shadow_rect)
+    shadow_size = (window_rect.width - shadow_width, shadow_width)
+    shadow_pos = (window_rect.left + offset, window_rect.bottom - offset)
+    shadow_image = pygame.transform.scale(shadow_focused_b_image, shadow_size)
+  screen.blit(shadow_image, pygame.Rect(shadow_pos, shadow_size))
 
 def DrawWindowShadow(screen, window_rect):
   DrawWindowShadowCorner(screen, window_rect, Corner.TL)
