@@ -19,10 +19,10 @@ system_font = pygame.font.Font(None, 12)
 # Desktop shell setup
 wallpaper = Wallpaper(size)
 launcher = Launcher(width, height)
-wm = WindowManager()
-wm.CreateWindow(48, 0, 400, 300, launcher, "Window 1")
-wm.CreateWindow(200, 200, 500, 250, launcher, "Window 2")
-wm.CreateWindow(300, 100, 600, 400, launcher, "Window 3")
+wm = WindowManager(launcher)
+wm.CreateWindow(48, 0, 400, 300, "Window 1")
+wm.CreateWindow(200, 200, 500, 250, "Window 2")
+wm.CreateWindow(300, 100, 600, 400, "Window 3")
 
 wm.DrawDesktopSurface(desktop_surface, wallpaper)
 if glass.enable_blur:

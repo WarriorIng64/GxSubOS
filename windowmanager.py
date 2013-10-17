@@ -4,15 +4,16 @@ from launcherbutton import Launcherbutton
 import shadow
 
 class WindowManager:
-  def __init__(self):
+  def __init__(self, launcher):
     self.window_list = []
+    self.launcher = launcher
   
-  def CreateWindow(self, x, y, width, height, launcher, titlebar_text=''):
+  def CreateWindow(self, x, y, width, height, titlebar_text=''):
     # Properly create a new application window that the launcher knows about
     for window in self.window_list:
       window.SetFocus(False)
     self.window_list.append(Window(x, y, width, height, titlebar_text))
-    launcher.AddLauncherbutton(self.window_list[-1])
+    self.launcher.AddLauncherbutton(self.window_list[-1])
     return self.window_list[-1]
   
   def FindFocusedWindow(self, mouse_x, mouse_y):
