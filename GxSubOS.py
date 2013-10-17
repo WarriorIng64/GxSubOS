@@ -90,7 +90,7 @@ def RemoveClosedWindows(window_list, mouse_event, mouse_button):
 
 def DrawLauncher(surface, launcher_list, startbutton):
   # Draws the launcher onto the given surface
-  screen.blit(launcher.launcher_surface, (0, 0))
+  screen.blit(launcher.surface, (0, 0))
   for button in launcher_list:
     screen.blit(button.image, button.rect)
   screen.blit(startbutton.image, startbutton.rect)
@@ -103,6 +103,12 @@ def UpdateLauncherButtons(launcher_list, mouse_event, mouse_button):
     button.Update(mouse_event, mouse_button, new_button_number)
     if button.WindowWasClosed():
       launcher_list.remove(button)
+
+def UpdateWholeLauncher(screen, launcher, launcher_list):
+  # Update all components of the launcher except start button
+  for button in launcher_list:
+    button.UpdatePosition()
+  launcher.Update(screen)
 
 launcher = Launcher(width, height)
 window_list = []
@@ -131,6 +137,7 @@ while 1:
         mouse_button = event.button
         if event.type == pygame.MOUSEBUTTONDOWN:
           FindFocusedWindow(window_list, mouse_x, mouse_y)
+          startbutton.Update(mouse_event, mouse_button)
     
     redraw_all_windows = RemoveClosedWindows(window_list, mouse_event, mouse_button)
     UpdateLauncherButtons(launcher_list, mouse_event, mouse_button)
@@ -138,14 +145,11 @@ while 1:
   redraw_all_windows = redraw_all_windows or MaintainWindowOrder(window_list)
   
   # Drawing and game object updates
-  for button in launcher_list:
-    button.UpdatePosition()
   if redraw_all_windows:
     DrawDesktopSurface(window_list)
   screen.blit(desktop_surface, desktop_surface.get_rect())
   DrawTopWindow(screen, window_list)
-  launcher.update(screen)
-  startbutton.update(mouse_event, mouse_button)
+  UpdateWholeLauncher(screen, launcher, launcher_list)
   DrawLauncher(screen, launcher_list, startbutton)
 
   pygame.display.update()

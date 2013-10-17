@@ -14,19 +14,19 @@ class Launcher:
   def __init__(self, screenw, screenh):
     lw = self.launcher_width
     self.rect = pygame.rect.Rect(0, 0, lw, screenh)
-    self.launcher_surface = pygame.Surface((lw, screenh), pygame.SRCALPHA)
+    self.surface = pygame.Surface((lw, screenh), pygame.SRCALPHA)
     if glass.enable_transparency:
-      self.launcher_surface.fill(self.launcher_color)
+      self.surface.fill(self.launcher_color)
       self.color_surface = pygame.Surface((lw, screenh), pygame.SRCALPHA)
       self.color_surface.fill(self.launcher_color)
     else:
-      self.launcher_surface.fill(self.launcher_color_opaque)
+      self.surface.fill(self.launcher_color_opaque)
   
-  def update(self, screen):
+  def Update(self, screen):
     # Blur effect
     if glass.enable_transparency:
-      glass.draw_background(screen, self.launcher_surface, self.rect)
-      self.launcher_surface = glass.glass_blur(self.launcher_surface)
-      self.launcher_surface.blit(self.color_surface, [0, 0, 0, 0])
+      glass.draw_background(screen, self.surface, self.rect)
+      self.surface = glass.glass_blur(self.surface)
+      self.surface.blit(self.color_surface, [0, 0, 0, 0])
     else:
-      self.launcher_surface.fill(self.launcher_color_opaque)
+      self.surface.fill(self.launcher_color_opaque)
