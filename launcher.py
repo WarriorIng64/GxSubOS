@@ -1,4 +1,6 @@
 import sys, pygame
+from launcherbutton import Launcherbutton
+from startbutton import Startbutton
 import glass
 
 class LauncherOrientation:
@@ -13,6 +15,8 @@ class Launcher:
   
   def __init__(self, screenw, screenh):
     lw = self.launcher_width
+    self.launcher_list = []
+    self.startbutton = Startbutton()
     self.rect = pygame.rect.Rect(0, 0, lw, screenh)
     self.surface = pygame.Surface((lw, screenh), pygame.SRCALPHA)
     if glass.enable_transparency:
@@ -30,3 +34,34 @@ class Launcher:
       self.surface.blit(self.color_surface, [0, 0, 0, 0])
     else:
       self.surface.fill(self.launcher_color_opaque)
+
+  def UpdateWholeLauncher(self, screen):
+    # Update all components of the launcher except start button
+    for button in self.launcher_list:
+      button.UpdatePosition()
+    self.Update(screen)
+
+  def UpdateLauncherButtons(self, mouse_event, mouse_button):
+    # Update launcher buttons
+    new_button_number = 0
+    for button in self.launcher_list:
+      new_button_number += 1
+      button.Update(mouse_event, mouse_button, new_button_number)
+      if button.WindowWasClosed():
+        self.launcher_list.remove(button)
+
+  def DrawLauncher(self, screen):
+    # Draws the launcher onto the given surface
+    screen.blit(self.surface, (0, 0))
+    for button in self.launcher_list:
+      screen.blit(button.image, button.rect)
+    screen.blit(self.startbutton.image, self.startbutton.rect)
+
+  def AddLauncherbutton(self, window):
+    # Create a new launcherbutton for the given window
+    lb = Launcherbutton(window, len(self.launcher_list) + 1)
+    self.launcher_list.append(lb)
+
+  def UpdateStartbutton(self, mouse_event, mouse_button):
+    # Update the startbutton based on the provided event
+    self.startbutton.Update(mouse_event, mouse_button)

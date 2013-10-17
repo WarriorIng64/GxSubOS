@@ -25,35 +25,12 @@ wallpaper = wallpaper.convert()
 wallpaper_rect = wallpaper.get_rect()
 wallpaper_rect.topleft = (0, 0)
 
-def DrawLauncher(surface, launcher_list, startbutton):
-  # Draws the launcher onto the given surface
-  screen.blit(launcher.surface, (0, 0))
-  for button in launcher_list:
-    screen.blit(button.image, button.rect)
-  screen.blit(startbutton.image, startbutton.rect)
-
-def UpdateLauncherButtons(launcher_list, mouse_event, mouse_button):
-  # Update launcher buttons
-  new_button_number = 0
-  for button in launcher_list:
-    new_button_number += 1
-    button.Update(mouse_event, mouse_button, new_button_number)
-    if button.WindowWasClosed():
-      launcher_list.remove(button)
-
-def UpdateWholeLauncher(screen, launcher, launcher_list):
-  # Update all components of the launcher except start button
-  for button in launcher_list:
-    button.UpdatePosition()
-  launcher.Update(screen)
-
+# Desktop shell setup
 launcher = Launcher(width, height)
-launcher_list = []
 wm = WindowManager()
-wm.CreateWindow(48, 0, 400, 300, launcher_list, "Window 1")
-wm.CreateWindow(200, 200, 500, 250, launcher_list, "Window 2")
-wm.CreateWindow(300, 100, 600, 400, launcher_list, "Window 3")
-startbutton = Startbutton()
+wm.CreateWindow(48, 0, 400, 300, launcher, "Window 1")
+wm.CreateWindow(200, 200, 500, 250, launcher, "Window 2")
+wm.CreateWindow(300, 100, 600, 400, launcher, "Window 3")
 
 wm.DrawDesktopSurface(desktop_surface, wallpaper, wallpaper_rect)
 if glass.enable_blur:
@@ -78,10 +55,10 @@ while 1:
         mouse_button = event.button
         if event.type == pygame.MOUSEBUTTONDOWN:
           wm.FindFocusedWindow(mouse_x, mouse_y)
-          startbutton.Update(mouse_event, mouse_button)
+          launcher.UpdateStartbutton(mouse_event, mouse_button)
     
     redraw_all_windows = wm.UpdateWindows(mouse_event, mouse_button)
-    UpdateLauncherButtons(launcher_list, mouse_event, mouse_button)
+    launcher.UpdateLauncherButtons(mouse_event, mouse_button)
   
   # Drawing and game object updates
   if redraw_all_windows:
@@ -90,8 +67,8 @@ while 1:
       blurred_desktop_surface = glass.Blur(desktop_surface)
   screen.blit(desktop_surface, desktop_surface.get_rect())
   wm.DrawTopWindow(screen, blurred_desktop_surface)
-  UpdateWholeLauncher(screen, launcher, launcher_list)
-  DrawLauncher(screen, launcher_list, startbutton)
+  launcher.UpdateWholeLauncher(screen)
+  launcher.DrawLauncher(screen)
 
   pygame.display.update()
   fpsClock.tick(60)
