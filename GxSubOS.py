@@ -129,10 +129,10 @@ while 1:
       mouse_event = event
       if event.type in [pygame.MOUSEBUTTONDOWN, pygame.MOUSEBUTTONUP]:
         mouse_button = event.button
+        if event.type == pygame.MOUSEBUTTONDOWN:
+          FindFocusedWindow(window_list, mouse_x, mouse_y)
     
     redraw_all_windows = RemoveClosedWindows(window_list, mouse_event, mouse_button)
-    if event.type == pygame.MOUSEBUTTONDOWN:
-      FindFocusedWindow(window_list, mouse_x, mouse_y)
     UpdateLauncherButtons(launcher_list, mouse_event, mouse_button)
   
   redraw_all_windows = redraw_all_windows or MaintainWindowOrder(window_list)
