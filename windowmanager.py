@@ -49,6 +49,13 @@ class WindowManager:
         order_changed = True
     return order_changed
   
+  def UpdateWindows(self, mouse_event, mouse_button):
+    # General function for updating the state of all windows and the list
+    # Returns true iff a redraw of all windows is required
+    redraw_needed = self.RemoveClosedWindows(mouse_event, mouse_button)
+    redraw_needed = redraw_needed or self.MaintainWindowOrder()
+    return redraw_needed
+  
   def DrawDesktopSurface(self, desktop_surface, wallpaper, wallpaper_rect):
     # Update the surface behind the focused window
     desktop_surface.blit(wallpaper, wallpaper_rect)

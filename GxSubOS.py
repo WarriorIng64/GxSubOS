@@ -80,10 +80,8 @@ while 1:
           wm.FindFocusedWindow(mouse_x, mouse_y)
           startbutton.Update(mouse_event, mouse_button)
     
-    redraw_all_windows = wm.RemoveClosedWindows(mouse_event, mouse_button)
+    redraw_all_windows = wm.UpdateWindows(mouse_event, mouse_button)
     UpdateLauncherButtons(launcher_list, mouse_event, mouse_button)
-  
-  redraw_all_windows = redraw_all_windows or wm.MaintainWindowOrder()
   
   # Drawing and game object updates
   if redraw_all_windows:
