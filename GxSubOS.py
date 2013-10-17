@@ -42,6 +42,19 @@ def FindFocusedWindow(window_list, mouse_x, mouse_y):
     else:
       window.set_focus(False)
 
+def MaintainWindowOrder(window_list):
+  # Maintain proper window order
+  # Returns true iff the order is changed
+  order_changed = False
+  for window in window_list[:-1]:
+    if window.has_focus:
+      # This is always last in the window_list so it's drawn on top
+      focused_window = window
+      window_list.remove(window)
+      window_list.append(focused_window)
+      order_changed = True
+  return order_changed
+
 def DrawDesktopSurface(window_list):
   # Update the surface behind the focused window
   desktop_surface.blit(wallpaper, wallpaper_rect)
@@ -64,6 +77,16 @@ def DrawTopWindow(surface, window_list):
     else:
       shadow.DrawWindowShadow(surface, window.rect)
   surface.blit(window.surface, window.rect)
+
+def RemoveClosedWindows(window_list, mouse_event, mouse_button):
+  # Looks for and removes closed windows, and returns true iff any are found
+  closed_window_found = False
+  for window in window_list:
+    window.update(mouse_event, mouse_button)
+    if window.window_closed:
+      window_list.remove(window)
+      closed_window_found = True
+  return closed_window_found
 
 def DrawLauncher(surface, launcher_list, startbutton):
   # Draws the launcher onto the given surface
@@ -106,30 +129,17 @@ while 1:
       mouse_event = event
       if event.type in [pygame.MOUSEBUTTONDOWN, pygame.MOUSEBUTTONUP]:
         mouse_button = event.button
-    # Manage window events
-    for window in window_list:
-      window.update(mouse_event, mouse_button)
-      if window.window_closed:
-        window_list.remove(window)
-        redraw_all_windows = True
-    # Determine which window gets focus
+    
+    redraw_all_windows = RemoveClosedWindows(window_list, mouse_event, mouse_button)
     if event.type == pygame.MOUSEBUTTONDOWN:
       FindFocusedWindow(window_list, mouse_x, mouse_y)
     UpdateLauncherButtons(launcher_list, mouse_event, mouse_button)
   
-  # Maintain proper window order
-  for window in window_list[:-1]:
-    if window.has_focus:
-      # This is always last in the window_list so it's drawn on top
-      focused_window = window
-      window_list.remove(window)
-      window_list.append(focused_window)
-      redraw_all_windows = True
-  # Update launcher button positions
-  for button in launcher_list:
-    button.UpdatePosition()
+  redraw_all_windows = redraw_all_windows or MaintainWindowOrder(window_list)
   
   # Drawing and game object updates
+  for button in launcher_list:
+    button.UpdatePosition()
   if redraw_all_windows:
     DrawDesktopSurface(window_list)
   screen.blit(desktop_surface, desktop_surface.get_rect())
