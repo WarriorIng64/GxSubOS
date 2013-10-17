@@ -1,4 +1,5 @@
 import sys, pygame
+from wallpaper import Wallpaper
 from launcher import Launcher
 from windowmanager import WindowManager
 import glass
@@ -15,21 +16,15 @@ desktop_surface = pygame.Surface((screen.get_width(), screen.get_height()))
 
 system_font = pygame.font.Font(None, 12)
 
-# Wallpaper setup
-wallpaper = pygame.image.load("graphics/default_wallpaper.png")
-wallpaper = pygame.transform.smoothscale(wallpaper, (width, height))
-wallpaper = wallpaper.convert()
-wallpaper_rect = wallpaper.get_rect()
-wallpaper_rect.topleft = (0, 0)
-
 # Desktop shell setup
+wallpaper = Wallpaper(size)
 launcher = Launcher(width, height)
 wm = WindowManager()
 wm.CreateWindow(48, 0, 400, 300, launcher, "Window 1")
 wm.CreateWindow(200, 200, 500, 250, launcher, "Window 2")
 wm.CreateWindow(300, 100, 600, 400, launcher, "Window 3")
 
-wm.DrawDesktopSurface(desktop_surface, wallpaper, wallpaper_rect)
+wm.DrawDesktopSurface(desktop_surface, wallpaper)
 if glass.enable_blur:
   blurred_desktop_surface = glass.Blur(desktop_surface)
 else:
@@ -59,7 +54,7 @@ while 1:
   
   # Drawing and game object updates
   if redraw_all_windows:
-    wm.DrawDesktopSurface(desktop_surface, wallpaper, wallpaper_rect)
+    wm.DrawDesktopSurface(desktop_surface, wallpaper)
     if glass.enable_blur:
       blurred_desktop_surface = glass.Blur(desktop_surface)
   screen.blit(desktop_surface, desktop_surface.get_rect())

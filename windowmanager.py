@@ -55,9 +55,9 @@ class WindowManager:
     redraw_needed = redraw_needed or self.MaintainWindowOrder()
     return redraw_needed
   
-  def DrawDesktopSurface(self, desktop_surface, wallpaper, wallpaper_rect):
+  def DrawDesktopSurface(self, desktop_surface, wallpaper):
     # Update the surface behind the focused window
-    desktop_surface.blit(wallpaper, wallpaper_rect)
+    desktop_surface.blit(wallpaper.image, wallpaper.rect)
     for window in self.window_list[:-1]:
       window.Redraw(desktop_surface)
       if not window.is_maximized:
