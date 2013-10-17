@@ -101,17 +101,11 @@ while 1:
     if event.type == pygame.QUIT:
       pygame.quit()
       sys.exit()
-    elif event.type == pygame.MOUSEMOTION:
+    elif event.type in [pygame.MOUSEMOTION, pygame.MOUSEBUTTONDOWN, pygame.MOUSEBUTTONUP]:
       mouse_x, mouse_y = event.pos
       mouse_event = event
-    elif event.type == pygame.MOUSEBUTTONDOWN:
-      mouse_x, mouse_y = event.pos
-      mouse_button = event.button
-      mouse_event = event
-    elif event.type == pygame.MOUSEBUTTONUP:
-      mouse_x, mouse_y = event.pos
-      mouse_button = event.button
-      mouse_event = event
+      if event.type in [pygame.MOUSEBUTTONDOWN, pygame.MOUSEBUTTONUP]:
+        mouse_button = event.button
     # Manage window events
     for window in window_list:
       window.update(mouse_event, mouse_button)
