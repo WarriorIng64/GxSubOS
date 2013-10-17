@@ -27,7 +27,7 @@ wallpaper_rect.topleft = (0, 0)
 def CreateWindow(x, y, width, height, titlebar_text=''):
   # Properly create a new application window that the launcher knows about
   for window in window_list:
-    window.set_focus(False)
+    window.SetFocus(False)
   window_list.append(Window(x, y, width, height, titlebar_text))
   launcher_list.append(Launcherbutton(window_list[-1], len(window_list)))
   return window_list[-1]
@@ -36,11 +36,11 @@ def FindFocusedWindow(window_list, mouse_x, mouse_y):
   # Set the correct focused window for a MOUSEBUTTONDOWN event
   focused_window_found = False
   for window in reversed(window_list):
-    if window.window_clicked(mouse_x, mouse_y) and not focused_window_found:
-      window.set_focus(True)
+    if window.WindowClicked(mouse_x, mouse_y) and not focused_window_found:
+      window.SetFocus(True)
       focused_window_found = True
     else:
-      window.set_focus(False)
+      window.SetFocus(False)
 
 def MaintainWindowOrder(window_list):
   # Maintain proper window order
@@ -59,7 +59,7 @@ def DrawDesktopSurface(window_list):
   # Update the surface behind the focused window
   desktop_surface.blit(wallpaper, wallpaper_rect)
   for window in window_list[:-1]:
-    window.redraw(desktop_surface)
+    window.Redraw(desktop_surface)
     if not window.is_maximized:
       shadow.DrawWindowShadow(desktop_surface, window.rect)
     desktop_surface.blit(window.surface, window.rect)
@@ -70,7 +70,7 @@ def DrawTopWindow(surface, window_list):
   if len(window_list) < 1:
     return
   window = window_list[-1]
-  window.redraw(surface)
+  window.Redraw(surface)
   if not window.is_maximized:
     if window.has_focus:
       shadow.DrawFocusedWindowShadow(surface, window.rect)
@@ -82,7 +82,7 @@ def RemoveClosedWindows(window_list, mouse_event, mouse_button):
   # Looks for and removes closed windows, and returns true iff any are found
   closed_window_found = False
   for window in window_list:
-    window.update(mouse_event, mouse_button)
+    window.Update(mouse_event, mouse_button)
     if window.window_closed:
       window_list.remove(window)
       closed_window_found = True

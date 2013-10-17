@@ -9,7 +9,7 @@ accent_color = pygame.color.Color(0, 255, 255)
 enable_blur = False
 enable_transparency = True
 
-def glass_blur(surface):
+def Blur(surface):
   if not enable_blur:
     return surface
   size = surface.get_size()
@@ -20,5 +20,5 @@ def glass_blur(surface):
     surface = pygame.transform.smoothscale(surface2,size)
   return surface
 
-def draw_background(screen, surface, rect):
+def DrawBackground(screen, surface, rect):
   surface.blit(screen, screen.get_rect().move(-rect.x, -rect.y))

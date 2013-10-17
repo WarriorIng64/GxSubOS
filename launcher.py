@@ -25,8 +25,8 @@ class Launcher:
   def Update(self, screen):
     # Blur effect
     if glass.enable_transparency:
-      glass.draw_background(screen, self.surface, self.rect)
-      self.surface = glass.glass_blur(self.surface)
+      glass.DrawBackground(screen, self.surface, self.rect)
+      self.surface = glass.Blur(self.surface)
       self.surface.blit(self.color_surface, [0, 0, 0, 0])
     else:
       self.surface.fill(self.launcher_color_opaque)
