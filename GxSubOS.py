@@ -32,6 +32,16 @@ def CreateWindow(x, y, width, height, titlebar_text=''):
   launcher_list.append(Launcherbutton(window_list[-1], len(window_list)))
   return window_list[-1]
 
+def FindFocusedWindow(window_list, mouse_x, mouse_y):
+  # Set the correct focused window for a MOUSEBUTTONDOWN event
+  focused_window_found = False
+  for window in reversed(window_list):
+    if window.window_clicked(mouse_x, mouse_y) and not focused_window_found:
+      window.set_focus(True)
+      focused_window_found = True
+    else:
+      window.set_focus(False)
+
 def DrawDesktopSurface(window_list):
   # Update the surface behind the focused window
   desktop_surface.blit(wallpaper, wallpaper_rect)
@@ -110,13 +120,7 @@ while 1:
         redraw_all_windows = True
     # Determine which window gets focus
     if event.type == pygame.MOUSEBUTTONDOWN:
-      focused_window_found = False
-      for window in reversed(window_list):
-        if window.window_clicked(mouse_x, mouse_y) and not focused_window_found:
-          window.set_focus(True)
-          focused_window_found = True
-        else:
-          window.set_focus(False)
+      FindFocusedWindow(window_list, mouse_x, mouse_y)
     UpdateLauncherButtons(launcher_list, mouse_event, mouse_button)
   
   # Maintain proper window order
