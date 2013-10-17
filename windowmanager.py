@@ -59,12 +59,13 @@ class WindowManager:
       desktop_surface.blit(window.surface, window.rect)
     desktop_surface.convert()
   
-  def DrawTopWindow(self, surface):
+  def DrawTopWindow(self, surface, blurred_surface=None):
     # Draws the top window onto the given surface
+    # A blurred version of the surface behind the window can be passed in to save time
     if len(self.window_list) < 1:
       return
     window = self.window_list[-1]
-    window.Redraw(surface)
+    window.Redraw(surface, blurred_surface)
     if not window.is_maximized:
       if window.has_focus:
         shadow.DrawFocusedWindowShadow(surface, window.rect)

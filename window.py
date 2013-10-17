@@ -80,10 +80,13 @@ class Window:
           else:
             self.being_resized = False
   
-  def Redraw(self, screen):
+  def Redraw(self, screen, blurred_surface=None):
     if glass.enable_transparency:
-      glass.DrawBackground(screen, self.background_surface, self.rect)
-      self.background_surface = glass.Blur(self.background_surface)
+      if glass.enable_blur and blurred_surface != None:
+        self.background_surface.blit(blurred_surface, blurred_surface.get_rect().move(-self.rect.x, -self.rect.y))
+      else:
+        glass.DrawBackground(screen, self.background_surface, self.rect)
+        self.background_surface = glass.Blur(self.background_surface)
     else:
       self.background_surface.fill(self.window_color_opaque)
     self.surface.blit(self.background_surface, [0, 0, 0, 0])

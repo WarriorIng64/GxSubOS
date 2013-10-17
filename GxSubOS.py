@@ -4,6 +4,7 @@ from startbutton import Startbutton
 from windowmanager import WindowManager
 import shadow
 from launcherbutton import Launcherbutton
+import glass
 pygame.init()
 
 fpsClock = pygame.time.Clock()
@@ -55,6 +56,10 @@ wm.CreateWindow(300, 100, 600, 400, launcher_list, "Window 3")
 startbutton = Startbutton()
 
 wm.DrawDesktopSurface(desktop_surface, wallpaper, wallpaper_rect)
+if glass.enable_blur:
+  blurred_desktop_surface = glass.Blur(desktop_surface)
+else:
+  blurred_desktop_surface = None
 
 # MAIN LOOP
 while 1:
@@ -83,8 +88,10 @@ while 1:
   # Drawing and game object updates
   if redraw_all_windows:
     wm.DrawDesktopSurface(desktop_surface, wallpaper, wallpaper_rect)
+    if glass.enable_blur:
+      blurred_desktop_surface = glass.Blur(desktop_surface)
   screen.blit(desktop_surface, desktop_surface.get_rect())
-  wm.DrawTopWindow(screen)
+  wm.DrawTopWindow(screen, blurred_desktop_surface)
   UpdateWholeLauncher(screen, launcher, launcher_list)
   DrawLauncher(screen, launcher_list, startbutton)
 
