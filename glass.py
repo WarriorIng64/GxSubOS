@@ -22,3 +22,9 @@ def Blur(surface):
 
 def DrawBackground(screen, surface, rect):
   surface.blit(screen, screen.get_rect().move(-rect.x, -rect.y))
+
+def UpdateBlurredDesktopSurface(blurred_desktop_surface, desktop_surface):
+  if enable_blur:
+    blurred_desktop_surface = Blur(desktop_surface)
+  else:
+    blurred_desktop_surface = None

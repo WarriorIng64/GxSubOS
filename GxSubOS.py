@@ -25,10 +25,8 @@ wm.CreateWindow(200, 200, 500, 250, "Window 2")
 wm.CreateWindow(300, 100, 600, 400, "Window 3")
 
 wm.DrawDesktopSurface(desktop_surface, wallpaper)
-if glass.enable_blur:
-  blurred_desktop_surface = glass.Blur(desktop_surface)
-else:
-  blurred_desktop_surface = None
+blurred_desktop_surface = None
+glass.UpdateBlurredDesktopSurface(blurred_desktop_surface, desktop_surface)
 
 # MAIN LOOP
 while 1:
@@ -55,8 +53,7 @@ while 1:
   # Drawing and game object updates
   if redraw_all_windows:
     wm.DrawDesktopSurface(desktop_surface, wallpaper)
-    if glass.enable_blur:
-      blurred_desktop_surface = glass.Blur(desktop_surface)
+    glass.UpdateBlurredDesktopSurface(blurred_desktop_surface, desktop_surface)
   screen.blit(desktop_surface, desktop_surface.get_rect())
   wm.DrawTopWindow(screen, blurred_desktop_surface)
   launcher.UpdateWholeLauncher(screen)
