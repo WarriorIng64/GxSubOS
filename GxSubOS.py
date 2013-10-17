@@ -1,9 +1,6 @@
 import sys, pygame
 from launcher import Launcher
-from startbutton import Startbutton
 from windowmanager import WindowManager
-import shadow
-from launcherbutton import Launcherbutton
 import glass
 pygame.init()
 
