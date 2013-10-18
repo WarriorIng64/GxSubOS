@@ -12,42 +12,45 @@ class WindowManager:
     # Properly create a new application window that the launcher knows about
     for window in self.window_list:
       window.SetFocus(False)
-    self.window_list.append(Window(x, y, width, height, titlebar_text))
-    self.launcher.AddLauncherbutton(self.window_list[-1])
-    return self.window_list[-1]
+    new_window = Window(x, y, width, height, titlebar_text)
+    self.window_list.append(new_window)
+    self.launcher.AddLauncherbutton(new_window)
+    return new_window
   
   def FindFocusedWindow(self, mouse_x, mouse_y):
     # Set the correct focused window for a MOUSEBUTTONDOWN event
-    focused_window_found = False
     for window in reversed(self.window_list):
-      if window.WindowClicked(mouse_x, mouse_y) and not focused_window_found:
+      if window.WindowClicked(mouse_x, mouse_y):
         window.SetFocus(True)
-        focused_window_found = True
+        break
       else:
         window.SetFocus(False)
   
   def RemoveClosedWindows(self, mouse_event, mouse_button):
-    # Looks for and removes closed windows, and returns true iff any are found
-    closed_window_found = False
-    for window in self.window_list:
-      window.Update(mouse_event, mouse_button)
-      if window.window_closed:
-        self.window_list.remove(window)
-        closed_window_found = True
-    return closed_window_found
+    # Looks for and removes windows closed by mouse
+    # Returns true iff any are found
+    mouse_x, mouse_y = mouse_event.pos
+    for window in reversed(self.window_list):
+      if window.WindowClicked(mouse_x, mouse_y):
+        window.Update(mouse_event, mouse_button)
+        if window.window_closed:
+          self.window_list.remove(window)
+          return True
+    return False
   
   def MaintainWindowOrder(self):
     # Maintain proper window order
     # Returns true iff the order is changed
-    order_changed = False
     for window in self.window_list[:-1]:
       if window.has_focus:
         # This is always last in the window_list so it's drawn on top
         focused_window = window
         self.window_list.remove(window)
         self.window_list.append(focused_window)
-        order_changed = True
-    return order_changed
+        for other_window in self.window_list[:-1]:
+          other_window.SetFocus(False)
+        return True
+    return False
   
   def UpdateWindows(self, mouse_event, mouse_button):
     # General function for updating the state of all windows and the list
@@ -82,7 +85,29 @@ class WindowManager:
   
   def MaximizedWindowExists(self):
     # Return true iff there is a maximized window
-    max_exists = False
+    for window in reversed(self.window_list):
+      if window.is_maximized:
+        return True
+    return False
+  
+  def DragWindows(self, mouse_x, mouse_y):
+    # Drags windows which are in the state of being dragged
+    window = self.window_list[-1]
+    if window.has_focus and window.being_dragged:
+      window.Drag(mouse_x, mouse_y)
+  
+  def ResizeWindows(self, mouse_x, mouse_y):
+    # Resizes windows which are in the state of being resized
+    window = self.window_list[-1]
+    if window.has_focus and window.being_resized:
+      window.MouseResize(mouse_x, mouse_y)
+  
+  def StopAllWindowDragging(self):
+    # Stops all window dragging, such as when the user releases the mouse button
     for window in self.window_list:
-      max_exists = max_exists or window.is_maximized
-    return max_exists
+      window.being_dragged = False
+  
+  def StopAllWindowResizing(self):
+    # Stops all window resizing, such as when the user releases the mouse button
+    for window in self.window_list:
+      window.being_resized = False

@@ -60,23 +60,12 @@ class Window:
       if mouse_event.type == pygame.MOUSEMOTION:
         if self.being_dragged:
           if self.has_focus:
-            offset_x, offset_y = mouse_x - self.click_x, mouse_y - self.click_y
-            self.MoveByAmount(offset_x, offset_y)
-            # Dragging limits
-            if self.rect.y < 0:
-              self.rect.y = 0
-            if self.rect.y + titlebar_height > pygame.display.Info().current_h:
-              self.rect.y = pygame.display.Info().current_h - titlebar_height
-            self.click_x = mouse_x
-            self.click_y = mouse_y
+            self.Drag(mouse_x, mouse_y)
           else:
             self.being_dragged = False
         elif self.being_resized:
           if self.has_focus:
-            offset_x, offset_y = mouse_x - self.click_x, mouse_y - self.click_y
-            self.Resize(self.rect.width + offset_x, self.rect.height + offset_y)
-            self.click_x = mouse_x
-            self.click_y = mouse_y
+            self.MouseResize(mouse_x, mouse_y)
           else:
             self.being_resized = False
   
@@ -125,6 +114,7 @@ class Window:
   
   def MoveByAmount(self, x, y):
     self.rect.move_ip(x, y)
+    self.restore_rect = self.rect
   
   def CloseButtonClicked(self, x, y):
     close_x1, close_x2 = self.rect.left, self.rect.left + titlebar_height
@@ -205,3 +195,20 @@ class Window:
       self.Resize(self.restore_rect.width, self.restore_rect.height)
       self.DrawWindowSurface()
       self.is_maximized = False
+  
+  def Drag(self, mouse_x, mouse_y):
+    offset_x, offset_y = mouse_x - self.click_x, mouse_y - self.click_y
+    self.MoveByAmount(offset_x, offset_y)
+    # Dragging limits
+    if self.rect.y < 0:
+      self.rect.y = 0
+    if self.rect.y + titlebar_height > pygame.display.Info().current_h:
+      self.rect.y = pygame.display.Info().current_h - titlebar_height
+    self.click_x = mouse_x
+    self.click_y = mouse_y
+  
+  def MouseResize(self, mouse_x, mouse_y):
+    offset_x, offset_y = mouse_x - self.click_x, mouse_y - self.click_y
+    self.Resize(self.rect.width + offset_x, self.rect.height + offset_y)
+    self.click_x = mouse_x
+    self.click_y = mouse_y

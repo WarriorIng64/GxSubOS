@@ -28,6 +28,9 @@ wm.DrawDesktopSurface(desktop_surface, wallpaper)
 blurred_desktop_surface = None
 glass.UpdateBlurredDesktopSurface(blurred_desktop_surface, desktop_surface)
 
+mouse_list = [pygame.MOUSEMOTION, pygame.MOUSEBUTTONDOWN, pygame.MOUSEBUTTONUP]
+mouse_button_list = [pygame.MOUSEBUTTONDOWN, pygame.MOUSEBUTTONUP]
+
 # MAIN LOOP
 while 1:
   # Check if we quit yet and handle events for windows
@@ -35,17 +38,23 @@ while 1:
   mouse_button = 0
   mouse_event = None;
   for event in pygame.event.get():
-    if event.type == pygame.QUIT:
+    if event.type is pygame.QUIT:
       pygame.quit()
       sys.exit()
-    elif event.type in [pygame.MOUSEMOTION, pygame.MOUSEBUTTONDOWN, pygame.MOUSEBUTTONUP]:
+    elif event.type in mouse_list:
       mouse_x, mouse_y = event.pos
       mouse_event = event
-      if event.type in [pygame.MOUSEBUTTONDOWN, pygame.MOUSEBUTTONUP]:
+      if event.type in mouse_button_list:
         mouse_button = event.button
-        if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type is pygame.MOUSEBUTTONDOWN:
           wm.FindFocusedWindow(mouse_x, mouse_y)
           launcher.UpdateStartbutton(mouse_event, mouse_button)
+        else:
+          wm.StopAllWindowDragging()
+          wm.StopAllWindowResizing()
+      else:
+        wm.DragWindows(mouse_x, mouse_y)
+        wm.ResizeWindows(mouse_x, mouse_y)
     
     redraw_all_windows = wm.UpdateWindows(mouse_event, mouse_button)
     launcher.UpdateLauncherButtons(mouse_event, mouse_button)
