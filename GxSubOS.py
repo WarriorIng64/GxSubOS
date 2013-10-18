@@ -20,6 +20,7 @@ system_font = pygame.font.Font(None, 12)
 wallpaper = Wallpaper(size)
 launcher = Launcher(width, height)
 wm = WindowManager(launcher)
+launcher.SetWindowManager(wm)
 wm.CreateWindow(48, 0, 400, 300, "Window 1")
 wm.CreateWindow(200, 200, 500, 250, "Window 2")
 wm.CreateWindow(300, 100, 600, 400, "Window 3")
@@ -47,20 +48,17 @@ while 1:
       if event.type in mouse_button_list:
         mouse_button = event.button
         if event.type is pygame.MOUSEBUTTONDOWN:
-          wm.FindFocusedWindow(mouse_x, mouse_y)
+          wm.HandleMouseButtonDownEvent(mouse_x, mouse_y, mouse_button)
           launcher.UpdateStartbutton(mouse_event, mouse_button)
         else:
-          wm.StopAllWindowDragging()
-          wm.StopAllWindowResizing()
+          wm.HandleMouseButtonUpEvent(mouse_x, mouse_y, mouse_button)
       else:
-        wm.DragWindows(mouse_x, mouse_y)
-        wm.ResizeWindows(mouse_x, mouse_y)
+        wm.HandleMouseMotionEvent(mouse_x, mouse_y)
     
-    redraw_all_windows = wm.UpdateWindows(mouse_event, mouse_button)
     launcher.UpdateLauncherButtons(mouse_event, mouse_button)
   
   # Drawing and game object updates
-  if redraw_all_windows:
+  if wm.RedrawNeeded():
     wm.DrawDesktopSurface(desktop_surface, wallpaper)
     glass.UpdateBlurredDesktopSurface(blurred_desktop_surface, desktop_surface)
   screen.blit(desktop_surface, desktop_surface.get_rect())

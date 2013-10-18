@@ -33,6 +33,10 @@ class Launcher:
       self.surface.fill(self.launcher_color_opaque)
     self.max_exists = False
     self.buttons_edge = self.surface.get_height()
+    self.wm = None
+  
+  def SetWindowManager(self, windowmanager):
+    self.wm = windowmanager
   
   def Update(self, screen, wm):
     # Redraw the launcher background
@@ -97,7 +101,7 @@ class Launcher:
 
   def AddLauncherbutton(self, window):
     # Create a new launcherbutton for the given window
-    lb = Launcherbutton(window, len(self.launcher_list) + 1)
+    lb = Launcherbutton(window, len(self.launcher_list) + 1, self)
     self.launcher_list.append(lb)
 
   def UpdateStartbutton(self, mouse_event, mouse_button):

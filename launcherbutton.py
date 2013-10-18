@@ -6,13 +6,14 @@ image_active = pygame.image.load("graphics/launcher_button_active.png")
 class Launcherbutton:
   image = None
   
-  def __init__(self, window, number):
+  def __init__(self, window, number, launcher):
     self.image = image_normal
     self.rect = self.image.get_rect()
     self.window = window
     self.number = number
     self.rect.move_ip(0, 48 * number)
     self.new_y = 48 * number
+    self.launcher = launcher
   
   def Update(self, mouse_event, mouse_button, new_number):
     self.UpdateWindowStatus(mouse_event, mouse_button)
@@ -44,5 +45,6 @@ class Launcherbutton:
     if mouse_event != None:
       mouse_x, mouse_y = mouse_event.pos
       if mouse_button == 1 and self.rect.collidepoint(mouse_x, mouse_y):
-        self.window.has_focus = True
+        self.window.SetFocus(True)
+        self.launcher.wm.MaintainWindowOrder()
     

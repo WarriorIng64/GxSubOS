@@ -33,42 +33,6 @@ class Window:
     self.click_x, self.click_y = 0, 0
     self.window_closed = False
   
-  def Update(self, mouse_event, mouse_button):
-    # Process mouse events first
-    if mouse_event != None:
-      mouse_x, mouse_y = mouse_event.pos
-      if mouse_button == 1:
-        if mouse_event.type == pygame.MOUSEBUTTONDOWN:
-          if self.CloseButtonClicked(mouse_x, mouse_y):
-            self.window_closed = True
-          elif self.ResizeButtonClicked(mouse_x, mouse_y):
-            self.being_resized = True
-            self.click_x, self.click_y = mouse_x, mouse_y
-          elif self.TitlebarClicked(mouse_x, mouse_y):
-            self.being_dragged = True
-            self.click_x, self.click_y = mouse_x, mouse_y
-        elif mouse_event.type == pygame.MOUSEBUTTONUP:
-          if self.being_dragged:
-            if mouse_y <= 5 and not self.is_maximized:
-              self.Maximize()
-            else:
-              self.Unmaximize()
-          self.being_dragged = False
-          self.being_resized = False
-      
-      # Window dragging and resizing
-      if mouse_event.type == pygame.MOUSEMOTION:
-        if self.being_dragged:
-          if self.has_focus:
-            self.Drag(mouse_x, mouse_y)
-          else:
-            self.being_dragged = False
-        elif self.being_resized:
-          if self.has_focus:
-            self.MouseResize(mouse_x, mouse_y)
-          else:
-            self.being_resized = False
-  
   def Redraw(self, screen, blurred_surface=None):
     if glass.enable_transparency:
       if glass.enable_blur and blurred_surface != None:
@@ -212,3 +176,13 @@ class Window:
     self.Resize(self.rect.width + offset_x, self.rect.height + offset_y)
     self.click_x = mouse_x
     self.click_y = mouse_y
+  
+  def StartResizing(self, mouse_x, mouse_y):
+    # Puts this window into resize mode
+    self.being_resized = True
+    self.click_x, self.click_y = mouse_x, mouse_y
+  
+  def StartDragging(self, mouse_x, mouse_y):
+    # Puts this window into dragging mode
+    self.being_dragged = True
+    self.click_x, self.click_y = mouse_x, mouse_y
