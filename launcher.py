@@ -28,10 +28,11 @@ class Launcher:
     else:
       self.surface.fill(self.launcher_color_opaque)
   
-  def Update(self, screen):
+  def Update(self, screen, wm):
     # Redraw the launcher background
     lw = self.launcher_width
-    if len(self.launcher_list) > 0:
+    max_exists = wm.MaximizedWindowExists()
+    if len(self.launcher_list) > 0 and not max_exists:
       buttons_edge = self.launcher_list[-1].rect.bottom
     else:
       buttons_edge = lw
@@ -41,18 +42,19 @@ class Launcher:
       self.surface.blit(self.color_surface, [0, 0, 0, 0])
     else:
       self.surface.fill(self.launcher_color_opaque)
-    mid = lw / 2
-    tri_b = buttons_edge + mid
-    triangle_points = [(lw, buttons_edge), (lw, tri_b), (mid, tri_b)]
-    transparent_rect = [mid, tri_b, mid, self.surface.get_height() - buttons_edge]
-    pygame.draw.polygon(self.surface, transparent, triangle_points)
-    pygame.draw.rect(self.surface, transparent, transparent_rect)
+    if not max_exists:
+      mid = lw / 2
+      tri_b = buttons_edge + mid
+      triangle_points = [(lw, buttons_edge), (lw, tri_b), (mid, tri_b)]
+      transparent_rect = [mid, tri_b, mid, self.surface.get_height() - buttons_edge]
+      pygame.draw.polygon(self.surface, transparent, triangle_points)
+      pygame.draw.rect(self.surface, transparent, transparent_rect)
 
-  def UpdateWholeLauncher(self, screen):
+  def UpdateWholeLauncher(self, screen, window_manager):
     # Update all components of the launcher except start button
     for button in self.launcher_list:
       button.UpdatePosition()
-    self.Update(screen)
+    self.Update(screen, window_manager)
 
   def UpdateLauncherButtons(self, mouse_event, mouse_button):
     # Update launcher buttons

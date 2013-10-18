@@ -79,3 +79,10 @@ class WindowManager:
       else:
         shadow.DrawWindowShadow(surface, window.rect)
     surface.blit(window.surface, window.rect)
+  
+  def MaximizedWindowExists(self):
+    # Return true iff there is a maximized window
+    max_exists = False
+    for window in self.window_list:
+      max_exists = max_exists or window.is_maximized
+    return max_exists

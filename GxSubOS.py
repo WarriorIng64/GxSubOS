@@ -56,7 +56,7 @@ while 1:
     glass.UpdateBlurredDesktopSurface(blurred_desktop_surface, desktop_surface)
   screen.blit(desktop_surface, desktop_surface.get_rect())
   wm.DrawTopWindow(screen, blurred_desktop_surface)
-  launcher.UpdateWholeLauncher(screen)
+  launcher.UpdateWholeLauncher(screen, wm)
   launcher.DrawLauncher(screen)
 
   pygame.display.update()
