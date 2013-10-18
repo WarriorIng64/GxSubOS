@@ -3,6 +3,8 @@ from launcherbutton import Launcherbutton
 from startbutton import Startbutton
 import glass
 
+transparent = pygame.color.Color(0, 0, 0, 0)
+
 class LauncherOrientation:
   TL_V, TL_H, TR_H, TR_V, BR_V, BR_H, BL_H, BL_V = range(8)
 
@@ -27,13 +29,24 @@ class Launcher:
       self.surface.fill(self.launcher_color_opaque)
   
   def Update(self, screen):
-    # Blur effect
+    # Redraw the launcher background
+    lw = self.launcher_width
+    if len(self.launcher_list) > 0:
+      buttons_edge = self.launcher_list[-1].rect.bottom
+    else:
+      buttons_edge = lw
     if glass.enable_transparency:
       glass.DrawBackground(screen, self.surface, self.rect)
       self.surface = glass.Blur(self.surface)
       self.surface.blit(self.color_surface, [0, 0, 0, 0])
     else:
       self.surface.fill(self.launcher_color_opaque)
+    mid = lw / 2
+    tri_b = buttons_edge + mid
+    triangle_points = [(lw, buttons_edge), (lw, tri_b), (mid, tri_b)]
+    transparent_rect = [mid, tri_b, mid, self.surface.get_height() - buttons_edge]
+    pygame.draw.polygon(self.surface, transparent, triangle_points)
+    pygame.draw.rect(self.surface, transparent, transparent_rect)
 
   def UpdateWholeLauncher(self, screen):
     # Update all components of the launcher except start button
