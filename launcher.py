@@ -24,13 +24,16 @@ class Launcher:
     self.launcher_list = []
     self.startbutton = Startbutton()
     self.rect = pygame.rect.Rect(0, 0, lw, screenh)
-    self.surface = pygame.Surface((lw, screenh), pygame.SRCALPHA)
     if glass.enable_transparency:
+      self.surface = pygame.Surface((lw, screenh), pygame.SRCALPHA)
       self.surface.fill(self.launcher_color)
       self.color_surface = pygame.Surface((lw, screenh), pygame.SRCALPHA)
       self.color_surface.fill(self.launcher_color)
     else:
+      self.surface = pygame.Surface((lw, screenh), pygame.SRCALPHA)
       self.surface.fill(self.launcher_color_opaque)
+      self.color_surface = pygame.Surface((lw, screenh))
+      self.color_surface.fill(self.launcher_color_opaque)
     self.max_exists = False
     self.buttons_edge = self.surface.get_height()
     self.wm = None
@@ -46,12 +49,10 @@ class Launcher:
       self.buttons_edge = self.launcher_list[-1].rect.bottom
     else:
       self.buttons_edge = lw
+    glass.DrawBackground(screen, self.surface, self.rect)
     if glass.enable_transparency:
-      glass.DrawBackground(screen, self.surface, self.rect)
       self.surface = glass.Blur(self.surface)
-      self.surface.blit(self.color_surface, [0, 0, 0, 0])
-    else:
-      self.surface.fill(self.launcher_color_opaque)
+    self.surface.blit(self.color_surface, [0, 0, 0, 0])
     if not self.max_exists:
       mid = lw / 2
       tri_b = self.buttons_edge + mid
