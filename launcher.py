@@ -108,7 +108,7 @@ class Launcher:
     # Draws the launcher shadow on the given surface
     # Returns a Rect containing the area drawn to.
     if self.max_exists:
-      return
+      return pygame.Rect(0, 0, 0, 0)
     mid = self.launcher_width / 2
     top_pos = (self.launcher_width, 0)
     top_size = (self.shadow_width, self.buttons_edge)
