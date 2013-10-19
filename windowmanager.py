@@ -161,9 +161,13 @@ class WindowManager:
         window = self.window_list[-1]
         if window.being_dragged:
           if mouse_y <= 5 and not window.is_maximized:
+            self.update_rect.union_ip(self.GetEntireWindowArea(window))
             window.Maximize()
+            self.update_rect.union_ip(self.GetEntireWindowArea(window))
           else:
+            self.update_rect.union_ip(self.GetEntireWindowArea(window))
             window.Unmaximize()
+            self.update_rect.union_ip(self.GetEntireWindowArea(window))
       self.StopAllWindowDragging()
       self.StopAllWindowResizing()
   
