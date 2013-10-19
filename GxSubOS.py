@@ -1,4 +1,5 @@
 import sys, pygame
+from pygame.locals import *
 from wallpaper import Wallpaper
 from launcher import Launcher
 from windowmanager import WindowManager
@@ -11,7 +12,9 @@ size = width, height = pygame.display.Info().current_w, pygame.display.Info().cu
 mouse_x, mouse_y = 0, 0
 
 pygame.display.set_caption("GxSubOS 2.0 Garter Snake")
-screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+flags = FULLSCREEN | DOUBLEBUF | HWSURFACE
+screen = pygame.display.set_mode((0, 0), flags)
+screen.set_alpha(None)
 desktop_surface = pygame.Surface((screen.get_width(), screen.get_height()))
 
 system_font = pygame.font.Font(None, 12)
@@ -29,8 +32,9 @@ wm.DrawDesktopSurface(desktop_surface, wallpaper)
 blurred_desktop_surface = None
 glass.UpdateBlurredDesktopSurface(blurred_desktop_surface, desktop_surface)
 
-mouse_list = [pygame.MOUSEMOTION, pygame.MOUSEBUTTONDOWN, pygame.MOUSEBUTTONUP]
-mouse_button_list = [pygame.MOUSEBUTTONDOWN, pygame.MOUSEBUTTONUP]
+mouse_list = [MOUSEMOTION, MOUSEBUTTONDOWN, MOUSEBUTTONUP]
+mouse_button_list = [MOUSEBUTTONDOWN, MOUSEBUTTONUP]
+pygame.event.set_allowed([QUIT, MOUSEMOTION, MOUSEBUTTONDOWN, MOUSEBUTTONUP])
 
 # MAIN LOOP
 while 1:
@@ -39,7 +43,7 @@ while 1:
   mouse_button = 0
   mouse_event = None;
   for event in pygame.event.get():
-    if event.type is pygame.QUIT:
+    if event.type is QUIT:
       pygame.quit()
       sys.exit()
     elif event.type in mouse_list:
@@ -47,7 +51,7 @@ while 1:
       mouse_event = event
       if event.type in mouse_button_list:
         mouse_button = event.button
-        if event.type is pygame.MOUSEBUTTONDOWN:
+        if event.type is MOUSEBUTTONDOWN:
           wm.HandleMouseButtonDownEvent(mouse_x, mouse_y, mouse_button)
           launcher.UpdateStartbutton(mouse_event, mouse_button)
         else:
