@@ -119,15 +119,21 @@ class WindowManager:
     size_increase = shadow.shadow_width * 2
     return window.rect.inflate(size_increase, size_increase)
   
+  def UpdateRectFunction(self, window, f):
+    # Usage: UpdateRectFunction(window, lambda: functioncall(args))
+    # Use when performing a window management operation where the update_rect
+    # itself needs to be updated.
+    self.update_rect.union_ip(self.GetEntireWindowArea(window))
+    f()
+    self.update_rect.union_ip(self.GetEntireWindowArea(window))
+  
   def DragWindows(self, mouse_x, mouse_y):
     # Drags windows which are in the state of being dragged
     if len(self.window_list) < 1:
       return
     window = self.window_list[-1]
     if window.has_focus and window.being_dragged:
-      self.update_rect.union_ip(self.GetEntireWindowArea(window))
-      window.Drag(mouse_x, mouse_y)
-      self.update_rect.union_ip(self.GetEntireWindowArea(window))
+      self.UpdateRectFunction(window, lambda: window.Drag(mouse_x, mouse_y))
   
   def ResizeWindows(self, mouse_x, mouse_y):
     # Resizes windows which are in the state of being resized
@@ -135,9 +141,7 @@ class WindowManager:
       return
     window = self.window_list[-1]
     if window.has_focus and window.being_resized:
-      self.update_rect.union_ip(self.GetEntireWindowArea(window))
-      window.MouseResize(mouse_x, mouse_y)
-      self.update_rect.union_ip(self.GetEntireWindowArea(window))
+      self.UpdateRectFunction(window, lambda: window.MouseResize(mouse_x, mouse_y))
   
   def StopAllWindowDragging(self):
     # Stops all window dragging, such as when the user releases the mouse button
@@ -161,13 +165,9 @@ class WindowManager:
         window = self.window_list[-1]
         if window.being_dragged:
           if mouse_y <= 5 and not window.is_maximized:
-            self.update_rect.union_ip(self.GetEntireWindowArea(window))
-            window.Maximize()
-            self.update_rect.union_ip(self.GetEntireWindowArea(window))
+            self.UpdateRectFunction(window, lambda: window.Maximize())
           else:
-            self.update_rect.union_ip(self.GetEntireWindowArea(window))
-            window.Unmaximize()
-            self.update_rect.union_ip(self.GetEntireWindowArea(window))
+            self.UpdateRectFunction(window, lambda: window.Unmaximize())
       self.StopAllWindowDragging()
       self.StopAllWindowResizing()
   
