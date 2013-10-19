@@ -8,6 +8,7 @@ class WindowManager:
     self.window_list = []
     self.launcher = launcher
     self.redraw_needed = True
+    self.update_rect = pygame.Rect((0, 0), (pygame.display.Info().current_w, pygame.display.Info().current_h))
   
   def CreateWindow(self, x, y, width, height, titlebar_text=''):
     # Properly create a new application window that the launcher knows about
@@ -76,6 +77,7 @@ class WindowManager:
   def DrawTopWindow(self, surface, blurred_surface=None):
     # Draws the top window onto the given surface
     # A blurred version of the surface behind the window can be passed in to save time
+    # Returns a Rect containing the updated area
     if len(self.window_list) < 1:
       return
     window = self.window_list[-1]
@@ -86,6 +88,7 @@ class WindowManager:
       else:
         shadow.DrawWindowShadow(surface, window.rect)
     surface.blit(window.surface, window.rect)
+    return self.update_rect
   
   def MaximizedWindowExists(self):
     # Return true iff there is a maximized window
@@ -94,13 +97,21 @@ class WindowManager:
         return True
     return False
   
+  def GetEntireWindowArea(self, window):
+    # Returns a Rect representing the entire drawable area the window covers,
+    # including the shadow.
+    size_increase = shadow.shadow_width * 2
+    return window.rect.inflate(size_increase, size_increase)
+  
   def DragWindows(self, mouse_x, mouse_y):
     # Drags windows which are in the state of being dragged
     if len(self.window_list) < 1:
       return
     window = self.window_list[-1]
     if window.has_focus and window.being_dragged:
+      self.update_rect.union_ip(self.GetEntireWindowArea(window))
       window.Drag(mouse_x, mouse_y)
+      self.update_rect.union_ip(self.GetEntireWindowArea(window))
   
   def ResizeWindows(self, mouse_x, mouse_y):
     # Resizes windows which are in the state of being resized
@@ -108,7 +119,9 @@ class WindowManager:
       return
     window = self.window_list[-1]
     if window.has_focus and window.being_resized:
+      self.update_rect.union_ip(self.GetEntireWindowArea(window))
       window.MouseResize(mouse_x, mouse_y)
+      self.update_rect.union_ip(self.GetEntireWindowArea(window))
   
   def StopAllWindowDragging(self):
     # Stops all window dragging, such as when the user releases the mouse button
@@ -161,3 +174,7 @@ class WindowManager:
   def RequireRedraw(self):
     # Updates the current state to require a redraw
     self.redraw_needed = True
+  
+  def ResetUpdateRect(self):
+    # Resets the update_rect
+    self.update_rect = pygame.Rect(0, 0, 0, 0)

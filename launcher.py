@@ -79,14 +79,18 @@ class Launcher:
 
   def DrawLauncher(self, screen):
     # Draws the launcher onto the given surface
+    # Returns a Rect containing the area drawn to.
+    update_rect = self.surface.get_rect()
     screen.blit(self.surface, (0, 0))
     for button in self.launcher_list:
       screen.blit(button.image, button.rect)
     screen.blit(self.startbutton.image, self.startbutton.rect)
-    self.DrawLauncherShadow(screen)
+    update_rect.union_ip(self.DrawLauncherShadow(screen))
+    return update_rect
   
   def DrawLauncherShadow(self, screen):
     # Draws the launcher shadow on the given surface
+    # Returns a Rect containing the area drawn to.
     if self.max_exists:
       return
     mid = self.launcher_width / 2
@@ -96,9 +100,16 @@ class Launcher:
     bottom_pos = (mid, self.buttons_edge + mid)
     bottom_size = (self.shadow_width, self.surface.get_height() - self.buttons_edge - mid)
     bottom_shadow = pygame.transform.scale(launcher_shadow, bottom_size)
-    screen.blit(top_shadow, (top_pos, top_size))
-    screen.blit(launcher_shadow_middle, ((mid, self.buttons_edge), launcher_shadow_middle.get_size()))
-    screen.blit(bottom_shadow, (bottom_pos, bottom_size))
+    
+    top_rect = pygame.Rect(top_pos, top_size)
+    middle_rect = pygame.Rect((mid, self.buttons_edge), launcher_shadow_middle.get_size())
+    bottom_rect = bottom_pos, bottom_size
+    
+    screen.blit(top_shadow, top_rect)
+    screen.blit(launcher_shadow_middle, middle_rect)
+    screen.blit(bottom_shadow, bottom_rect)
+    
+    return (top_rect.union(middle_rect)).union(bottom_rect)
 
   def AddLauncherbutton(self, window):
     # Create a new launcherbutton for the given window

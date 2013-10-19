@@ -36,6 +36,8 @@ class Edge():
   T, L, R, B = range(4)
 
 def DrawWindowShadowCorner(screen, window_rect, corner):
+  # Draws the corner of the shadow for a non-focused window.
+  # Returns a Rect for the drawn area.
   offset = window.titlebar_height
   if corner == Corner.TL:
     shadow_image = shadow_tl_image
@@ -51,8 +53,11 @@ def DrawWindowShadowCorner(screen, window_rect, corner):
     pos = (window_rect.right - offset, window_rect.bottom - offset)
   size = shadow_image.get_size()
   screen.blit(shadow_image, (pos, size))
+  return pygame.Rect(pos, size)
 
 def DrawWindowShadowEdge(screen, window_rect, edge):
+  # Draws the edge of the shadow for a non-focused window.
+  # Returns a Rect for the drawn area.
   offset = window.titlebar_height
   if edge == Edge.T:
     shadow_size = (window_rect.width - offset * 2, shadow_width)
@@ -71,8 +76,11 @@ def DrawWindowShadowEdge(screen, window_rect, edge):
     shadow_pos = (window_rect.left + offset, window_rect.bottom)
     shadow_image = pygame.transform.scale(shadow_b_image, shadow_size)
   screen.blit(shadow_image, pygame.Rect(shadow_pos, shadow_size))
+  return pygame.Rect(shadow_pos, shadow_size)
 
 def DrawFocusedWindowShadowCorner(screen, window_rect, corner):
+  # Draws the corner of the shadow for a focused window.
+  # Returns a Rect for the drawn area.
   offset = window.titlebar_height
   if corner == Corner.TL:
     shadow_image = shadow_focused_tl_image
@@ -88,8 +96,11 @@ def DrawFocusedWindowShadowCorner(screen, window_rect, corner):
     pos = (window_rect.right - offset, window_rect.bottom - offset)
   size = shadow_image.get_size()
   screen.blit(shadow_image, (pos, size))
+  return pygame.Rect(pos, size)
 
 def DrawFocusedWindowShadowEdge(screen, window_rect, edge):
+  # Draws the edge of the shadow for a focused window.
+  # Returns a Rect for the drawn area.
   offset = window.titlebar_height
   if edge == Edge.T:
     shadow_size = (window_rect.width - offset * 2, shadow_width)
@@ -108,23 +119,32 @@ def DrawFocusedWindowShadowEdge(screen, window_rect, edge):
     shadow_pos = (window_rect.left + offset, window_rect.bottom)
     shadow_image = pygame.transform.scale(shadow_focused_b_image, shadow_size)
   screen.blit(shadow_image, pygame.Rect(shadow_pos, shadow_size))
+  return pygame.Rect(shadow_pos, shadow_size)
 
 def DrawWindowShadow(screen, window_rect):
-  DrawWindowShadowCorner(screen, window_rect, Corner.TL)
-  DrawWindowShadowCorner(screen, window_rect, Corner.TR)
-  DrawWindowShadowCorner(screen, window_rect, Corner.BL)
-  DrawWindowShadowCorner(screen, window_rect, Corner.BR)
-  DrawWindowShadowEdge(screen, window_rect, Edge.T)
-  DrawWindowShadowEdge(screen, window_rect, Edge.L)
-  DrawWindowShadowEdge(screen, window_rect, Edge.R)
-  DrawWindowShadowEdge(screen, window_rect, Edge.B)
+  # Draws the shadow for a non-focused window.
+  # Returns a Rect containing the whole area drawn.
+  rect_list = []
+  rect_list.append(DrawWindowShadowCorner(screen, window_rect, Corner.TL))
+  rect_list.append(DrawWindowShadowCorner(screen, window_rect, Corner.TR))
+  rect_list.append(DrawWindowShadowCorner(screen, window_rect, Corner.BL))
+  rect_list.append(DrawWindowShadowCorner(screen, window_rect, Corner.BR))
+  rect_list.append(DrawWindowShadowEdge(screen, window_rect, Edge.T))
+  rect_list.append(DrawWindowShadowEdge(screen, window_rect, Edge.L))
+  rect_list.append(DrawWindowShadowEdge(screen, window_rect, Edge.R))
+  rect_list.append(DrawWindowShadowEdge(screen, window_rect, Edge.B))
+  return rect_list[0].unionall(rect_list[1:])
 
 def DrawFocusedWindowShadow(screen, window_rect):
-  DrawFocusedWindowShadowCorner(screen, window_rect, Corner.TL)
-  DrawFocusedWindowShadowCorner(screen, window_rect, Corner.TR)
-  DrawFocusedWindowShadowCorner(screen, window_rect, Corner.BL)
-  DrawFocusedWindowShadowCorner(screen, window_rect, Corner.BR)
-  DrawFocusedWindowShadowEdge(screen, window_rect, Edge.T)
-  DrawFocusedWindowShadowEdge(screen, window_rect, Edge.L)
-  DrawFocusedWindowShadowEdge(screen, window_rect, Edge.R)
-  DrawFocusedWindowShadowEdge(screen, window_rect, Edge.B)
+  # Draws the shadow for a non-focused window.
+  # Returns a Rect containing the whole area drawn.
+  rect_list = []
+  rect_list.append(DrawFocusedWindowShadowCorner(screen, window_rect, Corner.TL))
+  rect_list.append(DrawFocusedWindowShadowCorner(screen, window_rect, Corner.TR))
+  rect_list.append(DrawFocusedWindowShadowCorner(screen, window_rect, Corner.BL))
+  rect_list.append(DrawFocusedWindowShadowCorner(screen, window_rect, Corner.BR))
+  rect_list.append(DrawFocusedWindowShadowEdge(screen, window_rect, Edge.T))
+  rect_list.append(DrawFocusedWindowShadowEdge(screen, window_rect, Edge.L))
+  rect_list.append(DrawFocusedWindowShadowEdge(screen, window_rect, Edge.R))
+  rect_list.append(DrawFocusedWindowShadowEdge(screen, window_rect, Edge.B))
+  return rect_list[0].unionall(rect_list[1:])

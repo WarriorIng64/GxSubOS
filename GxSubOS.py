@@ -62,13 +62,16 @@ while 1:
     launcher.UpdateLauncherButtons(mouse_event, mouse_button)
   
   # Drawing and game object updates
+  update_rects = []
   if wm.RedrawNeeded():
     wm.DrawDesktopSurface(desktop_surface, wallpaper)
     glass.UpdateBlurredDesktopSurface(blurred_desktop_surface, desktop_surface)
+    update_rects.append(desktop_surface.get_rect())
   screen.blit(desktop_surface, desktop_surface.get_rect())
-  wm.DrawTopWindow(screen, blurred_desktop_surface)
+  update_rects.append(wm.DrawTopWindow(screen, blurred_desktop_surface))
   launcher.UpdateWholeLauncher(screen, wm)
-  launcher.DrawLauncher(screen)
+  update_rects.append(launcher.DrawLauncher(screen))
 
-  pygame.display.update()
+  pygame.display.update(update_rects)
+  wm.ResetUpdateRect()
   fpsClock.tick(60)
