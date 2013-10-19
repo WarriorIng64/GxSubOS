@@ -119,13 +119,17 @@ class WindowManager:
     size_increase = shadow.shadow_width * 2
     return window.rect.inflate(size_increase, size_increase)
   
+  def UpdateUpdateRect(self, window):
+    # Updates update_rect based on the current rect for the given window
+    self.update_rect.union_ip(self.GetEntireWindowArea(window))
+  
   def UpdateRectFunction(self, window, f):
     # Usage: UpdateRectFunction(window, lambda: functioncall(args))
     # Use when performing a window management operation where the update_rect
     # itself needs to be updated.
-    self.update_rect.union_ip(self.GetEntireWindowArea(window))
+    self.UpdateUpdateRect(window)
     f()
-    self.update_rect.union_ip(self.GetEntireWindowArea(window))
+    self.UpdateUpdateRect(window)
   
   def DragWindows(self, mouse_x, mouse_y):
     # Drags windows which are in the state of being dragged
