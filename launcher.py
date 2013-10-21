@@ -20,9 +20,12 @@ from startbutton import Startbutton
 import glass
 
 transparent = pygame.color.Color(0, 0, 0, 0)
-shadow_path = "graphics/shadows/launcher/"
-launcher_shadow = pygame.image.load(shadow_path + "vertical_left.png")
-launcher_shadow_middle = pygame.image.load(shadow_path + "vertical_left_middle.png")
+def LoadLauncherShadow(filename):
+  # Loads the given shadow from file and returns the surface
+  shadow_path = "graphics/shadows/launcher/"
+  return pygame.image.load(shadow_path + filename)
+launcher_shadow = LoadLauncherShadow("vertical_left.png")
+launcher_shadow_middle = LoadLauncherShadow("vertical_left_middle.png")
 
 class LauncherOrientation:
   TL_V, TL_H, TR_H, TR_V, BR_V, BR_H, BL_H, BL_V = range(8)
@@ -108,7 +111,7 @@ class Launcher:
     # Draws the launcher shadow on the given surface
     # Returns a Rect containing the area drawn to.
     if self.max_exists:
-      return
+      return pygame.Rect(0, 0, 0, 0)
     mid = self.launcher_width / 2
     top_pos = (self.launcher_width, 0)
     top_size = (self.shadow_width, self.buttons_edge)
