@@ -16,7 +16,7 @@
 
 import sys, pygame
 
-default_path = "graphics/default_wallpaper.png"
+default_path = "graphics/default_wallpaper_2.0.png"
 
 class Wallpaper:
   def __init__(self, screen_size, path=default_path):
