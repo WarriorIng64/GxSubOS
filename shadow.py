@@ -48,6 +48,9 @@ shadow_focused_b_image = LoadFocusedShadowImage("bottom.png")
 shadow_focused_bl_image = LoadFocusedShadowImage("bottomleft.png")
 shadow_focused_l_image = LoadFocusedShadowImage("left.png")
 
+launcher_shadow = LoadLauncherShadow("vertical_left.png")
+launcher_shadow_middle = LoadLauncherShadow("vertical_left_middle.png")
+
 shadow_width = shadow_t_image.get_height()
 
 class Corner():
@@ -169,3 +172,23 @@ def DrawFocusedWindowShadow(screen, window_rect):
   rect_list.append(DrawFocusedWindowShadowEdge(screen, window_rect, Edge.R))
   rect_list.append(DrawFocusedWindowShadowEdge(screen, window_rect, Edge.B))
   return rect_list[0].unionall(rect_list[1:])
+
+def DrawLauncherShadow(launcher):
+  # Draws the launcher shadow on the launcher's surface
+  if launcher.max_exists:
+    return
+  mid = launcher.launcher_width / 2
+  top_pos = (launcher.launcher_width, 0)
+  top_size = (shadow_width, launcher.buttons_edge)
+  top_shadow = pygame.transform.scale(launcher_shadow, top_size)
+  bottom_pos = (mid, launcher.buttons_edge + mid)
+  bottom_size = (shadow_width, launcher.surface.get_height() - launcher.buttons_edge - mid)
+  bottom_shadow = pygame.transform.scale(launcher_shadow, bottom_size)
+  
+  top_rect = pygame.Rect(top_pos, top_size)
+  middle_rect = pygame.Rect((mid, launcher.buttons_edge), launcher_shadow_middle.get_size())
+  bottom_rect = bottom_pos, bottom_size
+  
+  launcher.surface.blit(top_shadow, top_rect)
+  launcher.surface.blit(launcher_shadow_middle, middle_rect)
+  launcher.surface.blit(bottom_shadow, bottom_rect)
