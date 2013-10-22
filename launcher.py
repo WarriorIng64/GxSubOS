@@ -43,13 +43,12 @@ class Launcher:
     self.launcher_list = []
     self.startbutton = Startbutton()
     self.rect = pygame.rect.Rect(0, 0, lw, screenh)
+    self.surface = pygame.Surface((lw, screenh), pygame.SRCALPHA)
     if glass.enable_transparency:
-      self.surface = pygame.Surface((lw, screenh), pygame.SRCALPHA)
       self.surface.fill(self.launcher_color)
       self.color_surface = pygame.Surface((lw, screenh), pygame.SRCALPHA)
       self.color_surface.fill(self.launcher_color)
     else:
-      self.surface = pygame.Surface((lw, screenh), pygame.SRCALPHA)
       self.surface.fill(self.launcher_color_opaque)
       self.color_surface = pygame.Surface((lw, screenh))
       self.color_surface.fill(self.launcher_color_opaque)
