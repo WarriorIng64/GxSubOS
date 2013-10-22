@@ -93,7 +93,6 @@ class Launcher:
     new_button_number = 0
     for button in self.launcher_list:
       new_button_number += 1
-      #button.Update(mouse_event, mouse_button, new_button_number)
       button.UpdateNumber(new_button_number)
       if button.WindowWasClosed():
         self.launcher_list.remove(button)
