@@ -69,13 +69,11 @@ while 1:
         mouse_button = event.button
         if event.type is MOUSEBUTTONDOWN:
           wm.HandleMouseButtonDownEvent(mouse_x, mouse_y, mouse_button)
-          launcher.UpdateStartbutton(mouse_event, mouse_button)
+          launcher.HandleMouseButtonDownEvent(mouse_event, mouse_button)
         else:
           wm.HandleMouseButtonUpEvent(mouse_x, mouse_y, mouse_button)
       else:
         wm.HandleMouseMotionEvent(mouse_x, mouse_y)
-    
-    launcher.UpdateLauncherButtons(mouse_event, mouse_button)
   
   # Drawing and game object updates
   update_rects = []

@@ -86,14 +86,15 @@ class Launcher:
       button.UpdatePosition()
     self.Update(screen, window_manager)
 
-  def UpdateLauncherButtons(self, mouse_event, mouse_button):
-    # Update launcher buttons
+  def HandleMouseButtonDownEvent(self, mouse_event, mouse_button):
+    # Handle the MOUSEBUTTONDOWN event, and update launcher buttons
     new_button_number = 0
     for button in self.launcher_list:
       new_button_number += 1
       button.Update(mouse_event, mouse_button, new_button_number)
       if button.WindowWasClosed():
         self.launcher_list.remove(button)
+    self.UpdateStartbutton(mouse_event, mouse_button)
 
   def DrawLauncher(self, screen):
     # Draws the launcher onto the given surface
