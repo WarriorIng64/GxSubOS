@@ -27,14 +27,10 @@ def LoadLauncherShadow(filename):
 launcher_shadow = LoadLauncherShadow("vertical_left.png")
 launcher_shadow_middle = LoadLauncherShadow("vertical_left_middle.png")
 
-class LauncherOrientation:
-  TL_V, TL_H, TR_H, TR_V, BR_V, BR_H, BL_H, BL_V = range(8)
-
 class Launcher:
   launcher_color = glass.glass_color
   launcher_color_opaque = glass.glass_color
   launcher_color.a = glass.glass_alpha
-  launcher_orientation = LauncherOrientation.TL_V
   launcher_width = 48
   shadow_width = launcher_shadow.get_width()
   
