@@ -48,14 +48,9 @@ class Launcher:
   def SetWindowManager(self, windowmanager):
     self.wm = windowmanager
   
-  def Update(self, screen, wm):
+  def RedrawBackground(self, screen, wm):
     # Redraw the launcher background
     lw = self.launcher_width
-    self.max_exists = wm.MaximizedWindowExists()
-    if len(self.launcher_list) > 0 and not self.max_exists:
-      self.buttons_edge = self.launcher_list[-1].rect.bottom
-    else:
-      self.buttons_edge = lw
     glass.DrawBackground(screen, self.surface, self.rect)
     if glass.enable_transparency:
       self.surface = glass.Blur(self.surface)
@@ -77,7 +72,12 @@ class Launcher:
     # Update all components of the launcher except start button
     for button in self.launcher_list:
       button.UpdatePosition()
-    self.Update(screen, window_manager)
+    self.max_exists = window_manager.MaximizedWindowExists()
+    if len(self.launcher_list) > 0 and not self.max_exists:
+      self.buttons_edge = self.launcher_list[-1].rect.bottom
+    else:
+      self.buttons_edge = self.launcher_width
+    self.RedrawBackground(screen, window_manager)
 
   def HandleMouseButtonDownEvent(self, mouse_event, mouse_button):
     # Handle the MOUSEBUTTONDOWN event, and update launcher buttons
