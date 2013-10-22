@@ -88,4 +88,5 @@ while 1:
 
   pygame.display.update(update_rects)
   wm.ResetUpdateRect()
+  launcher.ResetUpdateRect()
   fpsClock.tick(60)

@@ -44,6 +44,7 @@ class Launcher:
     self.max_exists = False
     self.buttons_edge = self.surface.get_height()
     self.wm = None
+    self.update_rect = pygame.Rect(0, 0, 0, 0)
   
   def SetWindowManager(self, windowmanager):
     self.wm = windowmanager
@@ -55,23 +56,24 @@ class Launcher:
     if glass.enable_transparency:
       self.surface = glass.Blur(self.surface)
     self.surface.blit(self.color_surface, [0, 0, 0, 0])
+    mid = lw / 2
+    sw = shadow.shadow_width
     if not self.max_exists:
-      mid = lw / 2
-      sw = shadow.shadow_width
       tri_b = self.buttons_edge + mid
       triangle_points = [(lw, self.buttons_edge), (lw, tri_b), (mid, tri_b)]
-      transparent_rect_top = [lw, 0, sw, self.buttons_edge + mid]
-      transparent_rect_bottom = [mid, tri_b, mid + sw, self.surface.get_height() - self.buttons_edge]
+      transparent_rect_outer = [lw, 0, sw, self.buttons_edge + mid]
+      transparent_rect_inner = [mid, tri_b, mid, self.surface.get_height() - self.buttons_edge]
       pygame.draw.polygon(self.surface, transparent, triangle_points)
-      pygame.draw.rect(self.surface, transparent, transparent_rect_top)
-      pygame.draw.rect(self.surface, transparent, transparent_rect_bottom)
+      pygame.draw.rect(self.surface, transparent, transparent_rect_inner)
+    transparent_rect_outer = [lw, 0, sw, self.surface.get_height()]
+    pygame.draw.rect(self.surface, transparent, transparent_rect_outer)
     shadow.DrawLauncherShadow(self)
       
 
   def UpdateWholeLauncher(self, screen, window_manager):
     # Update all components of the launcher except start button
     for button in self.launcher_list:
-      button.UpdatePosition()
+      self.update_rect.union_ip(button.UpdatePosition())
     self.max_exists = window_manager.MaximizedWindowExists()
     if len(self.launcher_list) > 0 and not self.max_exists:
       self.buttons_edge = self.launcher_list[-1].rect.bottom
@@ -92,12 +94,13 @@ class Launcher:
   def DrawLauncher(self, screen):
     # Draws the launcher onto the given surface
     # Returns a Rect containing the area drawn to.
-    update_rect = self.surface.get_rect()
+    # update_rect = self.surface.get_rect()
+    # update_rect.height = self.buttons_edge + update_rect.width / 2
     screen.blit(self.surface, (0, 0))
     for button in self.launcher_list:
       screen.blit(button.image, button.rect)
     screen.blit(self.startbutton.image, self.startbutton.rect)
-    return update_rect
+    return self.update_rect
 
   def AddLauncherbutton(self, window):
     # Create a new launcherbutton for the given window
@@ -107,3 +110,6 @@ class Launcher:
   def UpdateStartbutton(self, mouse_event, mouse_button):
     # Update the startbutton based on the provided event
     self.startbutton.Update(mouse_event, mouse_button)
+
+  def ResetUpdateRect(self):
+    self.update_rect = pygame.Rect(0, 0, 0, 0)

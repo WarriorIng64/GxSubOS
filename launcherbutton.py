@@ -43,9 +43,13 @@ class Launcherbutton:
       self.image = image_normal
   
   def UpdatePosition(self):
+    # Returns a Rect covering the area this button was in
+    update_rect = self.rect
     move_amount = -(self.rect.y - self.new_y) / 2
     if move_amount != 0:
       self.rect.move_ip(0, move_amount)
+    update_rect.union_ip(self.rect)
+    return update_rect
 
   def WindowWasClosed(self):
     # Return whether the associated window was closed
