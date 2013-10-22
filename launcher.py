@@ -68,7 +68,13 @@ class Launcher:
     transparent_rect_outer = [lw, 0, sw, self.surface.get_height()]
     pygame.draw.rect(self.surface, transparent, transparent_rect_outer)
     shadow.DrawLauncherShadow(self)
-      
+
+  def SmoothUpdateLauncherBottom(self, new_buttons_edge):
+    # Smoothly advances the bottom of the buttons area to its new location
+    lw = self.launcher_width
+    self.update_rect.union_ip(pygame.Rect(0, self.buttons_edge - lw, self.surface.get_width(), 2 * lw))
+    self.buttons_edge = (self.buttons_edge + new_buttons_edge) / 2
+    self.update_rect.union_ip(pygame.Rect(0, self.buttons_edge - lw, self.surface.get_width(), 2 * lw))
 
   def UpdateWholeLauncher(self, screen, window_manager):
     # Update all components of the launcher except start button
@@ -76,9 +82,9 @@ class Launcher:
       self.update_rect.union_ip(button.UpdatePosition())
     self.max_exists = window_manager.MaximizedWindowExists()
     if len(self.launcher_list) > 0 and not self.max_exists:
-      self.buttons_edge = self.launcher_list[-1].rect.bottom
+      self.SmoothUpdateLauncherBottom(self.launcher_list[-1].rect.bottom)
     else:
-      self.buttons_edge = self.launcher_width
+      self.SmoothUpdateLauncherBottom(self.launcher_width)
     self.RedrawBackground(screen, window_manager)
 
   def HandleMouseButtonDownEvent(self, mouse_event, mouse_button):
@@ -94,8 +100,6 @@ class Launcher:
   def DrawLauncher(self, screen):
     # Draws the launcher onto the given surface
     # Returns a Rect containing the area drawn to.
-    # update_rect = self.surface.get_rect()
-    # update_rect.height = self.buttons_edge + update_rect.width / 2
     screen.blit(self.surface, (0, 0))
     for button in self.launcher_list:
       screen.blit(button.image, button.rect)
