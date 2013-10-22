@@ -25,6 +25,11 @@ def LoadFocusedShadowImage(filename):
   shadow_path = "graphics/shadows/focused/"
   return pygame.image.load(shadow_path + filename)
 
+def LoadLauncherShadow(filename):
+  # Loads the given shadow from file and returns the surface
+  shadow_path = "graphics/shadows/launcher/"
+  return pygame.image.load(shadow_path + filename)
+
 shadow_tl_image = LoadShadowImage("topleft.png")
 shadow_t_image = LoadShadowImage("top.png")
 shadow_tr_image = LoadShadowImage("topright.png")

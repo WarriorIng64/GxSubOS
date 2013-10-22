@@ -17,15 +17,12 @@
 import sys, pygame
 from launcherbutton import Launcherbutton
 from startbutton import Startbutton
-import glass
+import glass, shadow
 
 transparent = pygame.color.Color(0, 0, 0, 0)
-def LoadLauncherShadow(filename):
-  # Loads the given shadow from file and returns the surface
-  shadow_path = "graphics/shadows/launcher/"
-  return pygame.image.load(shadow_path + filename)
-launcher_shadow = LoadLauncherShadow("vertical_left.png")
-launcher_shadow_middle = LoadLauncherShadow("vertical_left_middle.png")
+
+launcher_shadow = shadow.LoadLauncherShadow("vertical_left.png")
+launcher_shadow_middle = shadow.LoadLauncherShadow("vertical_left_middle.png")
 
 class Launcher:
   launcher_color = glass.glass_color
