@@ -52,6 +52,7 @@ class WindowManager:
       if window.window_closed:
         self.window_list.remove(window)
         self.RequireRedraw()
+        self.launcher.UpdateLauncherbuttonList()
         return True
     return False
   

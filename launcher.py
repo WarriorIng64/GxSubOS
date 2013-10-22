@@ -87,6 +87,17 @@ class Launcher:
       self.SmoothUpdateLauncherBottom(self.launcher_width)
     self.RedrawBackground(screen, window_manager)
 
+  def UpdateLauncherbuttonList(self):
+    # Update the Launcherbutton list
+    # Handy when closing windows from the window manager
+    new_button_number = 0
+    for button in self.launcher_list:
+      new_button_number += 1
+      #button.Update(mouse_event, mouse_button, new_button_number)
+      button.UpdateNumber(new_button_number)
+      if button.WindowWasClosed():
+        self.launcher_list.remove(button)
+  
   def HandleMouseButtonDownEvent(self, mouse_event, mouse_button):
     # Handle the MOUSEBUTTONDOWN event, and update launcher buttons
     new_button_number = 0
