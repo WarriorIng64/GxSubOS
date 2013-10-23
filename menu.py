@@ -47,3 +47,6 @@ class Menu:
     menu_height = max_entry_height * len(self.options_list)
     self.surface = self.surface = pygame.Surface((menu_width, menu_height), pygame.SRCALPHA)
     drawingshapes.DrawRoundRect(self.surface, self.menu_color, pygame.Rect(0, 0, menu_width, menu_height), 4)
+    for option in self.options_list:
+      option_surface = menu_font.render(option[0], True, (0, 255, 255))
+      # TODO
