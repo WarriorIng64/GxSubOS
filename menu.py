@@ -15,6 +15,7 @@
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
 import pygame
+import math
 import drawingshapes, glass
 
 pygame.font.init()
@@ -25,10 +26,11 @@ roundness = 4
 class Menu:
   def __init__(self, x=0, y=0):
     self.options_list = []
+    self.rect = pygame.Rect(x, y, 0, 0)
     self.surface = self.surface = pygame.Surface((0, 0), pygame.SRCALPHA)
     self.menu_color = glass.glass_color
     self.menu_color.a = glass.glass_alpha
-    self.x, self.y = x, y
+    self.menu_closed = False
 
   def AddMenuOption(self, option_text, option_code):
     # Adds the given menu option to this menu's options list.
@@ -46,7 +48,30 @@ class Menu:
     menu_width = max_menu_width
     menu_height = max_entry_height * len(self.options_list)
     self.surface = self.surface = pygame.Surface((menu_width, menu_height), pygame.SRCALPHA)
+    self.rect = pygame.Rect(self.rect.x, self.rect.y, menu_width, menu_height)
     drawingshapes.DrawRoundRect(self.surface, self.menu_color, pygame.Rect(0, 0, menu_width, menu_height), 4)
+    i = 0
     for option in self.options_list:
       option_surface = menu_font.render(option[0], True, (0, 255, 255))
-      # TODO
+      self.surface.blit(option_surface, (0, i * max_entry_height))
+      i += 1
+  
+  def MenuClicked(self, x, y):
+    # Determines if this point is inside the menu.
+    inside_x = self.rect.x < x < self.rect.x + self.rect.width
+    inside_y = self.rect.y < y < self.rect.y + self.rect.height
+    return inside_x and inside_y
+  
+  def GetOptionClicked(self, y):
+    # Determines which menu option was clicked, assuming the click is within
+    # the menu boundaries.
+    option_height = self.rect.height / len(self.options_list)
+    return int(math.floor(y / option_height))
+  
+  def HandleMouseDownButtonEvent(self, mouse_x, mouse_y, mouse_button):
+    # Handle mouse clicks with respect to the menu.
+    if self.MenuClicked(mouse_x, mouse_y):
+      option_clicked = self.GetOptionClicked(mouse_y)
+      exec self.options_list[option_clicked][1]
+    else:
+      self.menu_closed = True
