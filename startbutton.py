@@ -49,4 +49,9 @@ class Startbutton:
           update_rect = update_rect.union(self.startmenu.rect)
           del self.startmenu
           self.startmenu = None
+      elif self.startmenu != None:
+        # Close the menu
+        update_rect = update_rect.union(self.startmenu.rect)
+        del self.startmenu
+        self.startmenu = None
     return update_rect
