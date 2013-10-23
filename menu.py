@@ -20,7 +20,7 @@ import drawingshapes, glass
 
 pygame.font.init()
 
-menu_font = pygame.font.SysFont("Droid Sans", 20)
+menu_font = pygame.font.Font("fonts/Roboto/Roboto-Regular.ttf", 16)
 roundness = 4
 
 class Menu:

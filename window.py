@@ -20,7 +20,7 @@ import glass
 pygame.font.init()
 
 titlebar_height = 24
-titlebar_font = pygame.font.SysFont("Droid Sans", 20)
+titlebar_font = pygame.font.Font("fonts/Roboto/Roboto-Regular.ttf", 18)
 
 class Window:
   window_color = glass.glass_color
