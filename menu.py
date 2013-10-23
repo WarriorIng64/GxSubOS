@@ -14,17 +14,19 @@
 # You should have received a copy of the GNU General Public License
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
-import pygame
+import sys, pygame
 import math
 import drawingshapes, glass
 
 pygame.font.init()
 
-menu_font = pygame.font.SysFont("Droid Sans", 11)
+menu_font = pygame.font.SysFont("Droid Sans", 20)
 roundness = 4
 
 class Menu:
-  def __init__(self, x=0, y=0):
+  def __init__(self, creator, x=0, y=0):
+    # creator is the object instance this menu references for executing commands
+    self.creator = creator
     self.options_list = []
     self.rect = pygame.Rect(x, y, 0, 0)
     self.surface = self.surface = pygame.Surface((0, 0), pygame.SRCALPHA)
@@ -49,7 +51,8 @@ class Menu:
     menu_height = max_entry_height * len(self.options_list)
     self.surface = self.surface = pygame.Surface((menu_width, menu_height), pygame.SRCALPHA)
     self.rect = pygame.Rect(self.rect.x, self.rect.y, menu_width, menu_height)
-    drawingshapes.DrawRoundRect(self.surface, self.menu_color, pygame.Rect(0, 0, menu_width, menu_height), 4)
+    #drawingshapes.DrawRoundRect(self.surface, self.menu_color, pygame.Rect(0, 0, menu_width, menu_height), 10)
+    pygame.draw.rect(self.surface, self.menu_color, pygame.Rect(0, 0, menu_width, menu_height))
     i = 0
     for option in self.options_list:
       option_surface = menu_font.render(option[0], True, (0, 255, 255))
@@ -62,16 +65,18 @@ class Menu:
     inside_y = self.rect.y < y < self.rect.y + self.rect.height
     return inside_x and inside_y
   
-  def GetOptionClicked(self, y):
+  def GetIndexOfOptionClicked(self, y):
     # Determines which menu option was clicked, assuming the click is within
     # the menu boundaries.
-    option_height = self.rect.height / len(self.options_list)
-    return int(math.floor(y / option_height))
+    option_height = self.surface.get_height() / len(self.options_list)
+    raw_value = (y - self.rect.y) / option_height
+    return int(math.floor(raw_value))
   
-  def HandleMouseDownButtonEvent(self, mouse_x, mouse_y, mouse_button):
+  def HandleMouseButtonDownEvent(self, mouse_event, mouse_button):
     # Handle mouse clicks with respect to the menu.
-    if self.MenuClicked(mouse_x, mouse_y):
-      option_clicked = self.GetOptionClicked(mouse_y)
-      exec self.options_list[option_clicked][1]
+    if mouse_button is 1 and self.MenuClicked(mouse_event.pos[0], mouse_event.pos[1]):
+      option_clicked = self.GetIndexOfOptionClicked(mouse_event.pos[1])
+      option = self.options_list[option_clicked]
+      exec option[1]
     else:
       self.menu_closed = True

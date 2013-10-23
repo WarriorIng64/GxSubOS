@@ -32,9 +32,9 @@ def DrawRoundRect(surface, color, rect, corner_radius, width=0):
   pygame.draw.rect(surface, color, middle_rect, width)
   pygame.draw.rect(surface, color, bottom_rect, width)
   if width is 0:
-    arc_width = cr
+    arc_width = cr / 2
   else:
-    arc_width = width
+    arc_width = width / 2
   pygame.draw.arc(surface, color, tl_rect, math.pi / 2, math.pi, arc_width)
   pygame.draw.arc(surface, color, tr_rect, math.pi / 2, 0, arc_width)
   pygame.draw.arc(surface, color, bl_rect, math.pi, 1.5 * math.pi, arc_width)
