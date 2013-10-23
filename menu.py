@@ -34,6 +34,7 @@ class Menu:
     self.menu_color = glass.glass_color
     self.menu_color.a = glass.glass_alpha
     self.menu_closed = False
+    self.option_highlighted = -1
 
   def AddMenuOption(self, option_text, option_code):
     # Adds the given menu option to this menu's options list.
@@ -59,11 +60,13 @@ class Menu:
     for option in self.options_list:
       option_surface = menu_font.render(option[0], True, (0, 255, 255))
       self.surface.blit(option_surface, (padding, i * max_entry_height + padding))
+      if self.option_highlighted is i:
+        pygame.draw.rect(sep_surface, pygame.Color(0, 255, 255, 100), pygame.Rect(0, i * max_entry_height + padding, self.surface.get_width(), max_entry_height))
       drawingshapes.DrawHSeparator(sep_surface, self.rect.width, (i + 1) * max_entry_height + padding)
       i += 1
     self.surface.blit(sep_surface, (0, 0))
   
-  def MenuClicked(self, x, y):
+  def PointInsideMenu(self, x, y):
     # Determines if this point is inside the menu.
     inside_x = self.rect.x < x < self.rect.x + self.rect.width
     inside_y = self.rect.y < y < self.rect.y + self.rect.height
@@ -74,13 +77,30 @@ class Menu:
     # the menu boundaries.
     option_height = (self.surface.get_height() - 2 * padding) / len(self.options_list)
     raw_value = (y - self.rect.y) / option_height
-    return int(math.floor(raw_value))
+    int_value = int(math.floor(raw_value))
+    if 0 > int_value >= len(self.options_list):
+      return -1
+    else:
+      return int(math.floor(raw_value))
   
   def HandleMouseButtonDownEvent(self, mouse_event, mouse_button):
     # Handle mouse clicks with respect to the menu.
-    if mouse_button is 1 and self.MenuClicked(mouse_event.pos[0], mouse_event.pos[1]):
-      option_clicked = self.GetIndexOfOptionClicked(mouse_event.pos[1])
-      option = self.options_list[option_clicked]
-      exec option[1]
-    else:
-      self.menu_closed = True
+    mouse_x, mouse_y = mouse_event.pos
+    if mouse_button is 1 and self.PointInsideMenu(mouse_x, mouse_y):
+      option_clicked = self.GetIndexOfOptionClicked(mouse_y)
+      if option_clicked != -1:
+        option = self.options_list[option_clicked]
+        exec option[1]
+    self.menu_closed = True
+  
+  def HandleMouseMotionEvent(self, mouse_event):
+    # Handle mouse motion events with respect to the menu.
+    update_rect = self.rect
+    mouse_x, mouse_y = mouse_event.pos
+    if self.PointInsideMenu(mouse_x, mouse_y):
+      option_h = self.GetIndexOfOptionClicked(mouse_y)
+      if option_h != self.option_highlighted:
+        update_rect = self.rect
+        self.option_highlighted = option_h
+        self.UpdateSurface()
+    return update_rect

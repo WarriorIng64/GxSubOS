@@ -75,6 +75,7 @@ while 1:
           wm.HandleMouseButtonUpEvent(mouse_x, mouse_y, mouse_button)
       else:
         wm.HandleMouseMotionEvent(mouse_x, mouse_y)
+        launcher.HandleMouseMotionEvent(mouse_event)
   
   # Drawing and game object updates
   update_rects = []

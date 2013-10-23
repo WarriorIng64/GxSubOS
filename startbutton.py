@@ -29,7 +29,7 @@ class Startbutton:
   def SetWindowManager(self, wm):
     self.wm = wm
   
-  def Update(self, mouse_event, mouse_button):
+  def HandleMouseButtonDownEvent(self, mouse_event, mouse_button):
     update_rect = self.rect
     if mouse_event != None:
       mouse_x, mouse_y = mouse_event.pos
@@ -54,4 +54,12 @@ class Startbutton:
         update_rect = update_rect.union(self.startmenu.rect)
         del self.startmenu
         self.startmenu = None
+    return update_rect
+  
+  def HandleMouseMotionEvent(self, mouse_event):
+    update_rect = pygame.Rect(0, 0, 0, 0)
+    if mouse_event != None:
+      mouse_x, mouse_y = mouse_event.pos
+      if self.startmenu != None:
+        update_rect = self.startmenu.HandleMouseMotionEvent(mouse_event)
     return update_rect

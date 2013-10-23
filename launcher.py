@@ -107,6 +107,10 @@ class Launcher:
       if button.WindowWasClosed():
         self.launcher_list.remove(button)
     self.UpdateStartbutton(mouse_event, mouse_button)
+  
+  def HandleMouseMotionEvent(self, mouse_event):
+    # Handle the MOUSEMOTION event
+    self.UpdateStartbuttonMouseButtonMotion(mouse_event)
 
   def DrawLauncher(self, screen):
     # Draws the launcher onto the given surface
@@ -125,8 +129,11 @@ class Launcher:
     self.launcher_list.append(lb)
 
   def UpdateStartbutton(self, mouse_event, mouse_button):
-    # Update the startbutton based on the provided event
-    self.update_rect.union_ip(self.startbutton.Update(mouse_event, mouse_button))
+    # Update the startbutton based on the provided MOUSEBUTTONDOWN event
+    self.update_rect.union_ip(self.startbutton.HandleMouseButtonDownEvent(mouse_event, mouse_button))
+  
+  def UpdateStartbuttonMouseButtonMotion(self, mouse_event):
+    self.update_rect.union_ip(self.startbutton.HandleMouseMotionEvent(mouse_event))
 
   def ResetUpdateRect(self):
     self.update_rect = pygame.Rect(0, 0, 0, 0)
