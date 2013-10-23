@@ -76,7 +76,7 @@ class Menu:
     # Determines which menu option was clicked, assuming the click is within
     # the menu boundaries.
     option_height = (self.surface.get_height() - 2 * padding) / len(self.options_list)
-    raw_value = (y - self.rect.y) / option_height
+    raw_value = (y - self.rect.y - padding) / option_height
     int_value = int(math.floor(raw_value))
     if 0 > int_value >= len(self.options_list):
       return -1
