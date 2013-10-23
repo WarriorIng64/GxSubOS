@@ -53,11 +53,6 @@ mouse_list = [MOUSEMOTION, MOUSEBUTTONDOWN, MOUSEBUTTONUP]
 mouse_button_list = [MOUSEBUTTONDOWN, MOUSEBUTTONUP]
 pygame.event.set_allowed([QUIT, MOUSEMOTION, MOUSEBUTTONDOWN, MOUSEBUTTONUP])
 
-# Temporary menu testing code
-test_menu = Menu(wm, 64, 64)
-test_menu.AddMenuOption("Create new window", "self.creator.CreateWindow(48, 0, 200, 200, 'Menu-created window')")
-test_menu.AddMenuOption("Shutdown GxSubOS", "pygame.quit();sys.exit()")
-
 # MAIN LOOP
 while 1:
   # Check if we quit yet and handle events for windows
@@ -76,7 +71,6 @@ while 1:
         if event.type is MOUSEBUTTONDOWN:
           wm.HandleMouseButtonDownEvent(mouse_x, mouse_y, mouse_button)
           launcher.HandleMouseButtonDownEvent(mouse_event, mouse_button)
-          test_menu.HandleMouseButtonDownEvent(mouse_event, mouse_button)
         else:
           wm.HandleMouseButtonUpEvent(mouse_x, mouse_y, mouse_button)
       else:
@@ -92,8 +86,6 @@ while 1:
   update_rects.append(wm.DrawTopWindow(screen, blurred_desktop_surface))
   launcher.UpdateWholeLauncher(screen, wm)
   update_rects.append(launcher.DrawLauncher(screen))
-  screen.blit(test_menu.surface, test_menu.rect)
-  update_rects.append(test_menu.rect)
 
   pygame.display.update(update_rects)
   wm.ResetUpdateRect()

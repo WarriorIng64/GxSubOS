@@ -30,7 +30,7 @@ class Launcher:
   def __init__(self, screenw, screenh):
     lsw = self.launcher_width + shadow.shadow_width
     self.launcher_list = []
-    self.startbutton = Startbutton()
+    self.startbutton = Startbutton(self)
     self.rect = pygame.rect.Rect(0, 0, lsw, screenh)
     self.surface = pygame.Surface((lsw, screenh), pygame.SRCALPHA)
     if glass.enable_transparency:
@@ -48,6 +48,7 @@ class Launcher:
   
   def SetWindowManager(self, windowmanager):
     self.wm = windowmanager
+    self.startbutton.SetWindowManager(windowmanager)
   
   def RedrawBackground(self, screen, wm):
     # Redraw the launcher background
@@ -114,6 +115,8 @@ class Launcher:
     for button in self.launcher_list:
       screen.blit(button.image, button.rect)
     screen.blit(self.startbutton.image, self.startbutton.rect)
+    if self.startbutton.startmenu != None:
+      screen.blit(self.startbutton.startmenu.surface, self.startbutton.startmenu.rect)
     return self.update_rect
 
   def AddLauncherbutton(self, window):
@@ -123,7 +126,7 @@ class Launcher:
 
   def UpdateStartbutton(self, mouse_event, mouse_button):
     # Update the startbutton based on the provided event
-    self.startbutton.Update(mouse_event, mouse_button)
+    self.update_rect.union_ip(self.startbutton.Update(mouse_event, mouse_button))
 
   def ResetUpdateRect(self):
     self.update_rect = pygame.Rect(0, 0, 0, 0)

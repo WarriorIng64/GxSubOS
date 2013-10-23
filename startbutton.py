@@ -15,17 +15,38 @@
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
 import sys, pygame
+from menu import Menu
 
 class Startbutton:
   image = pygame.image.load("graphics/start.png")
   
-  def __init__(self):
+  def __init__(self, launcher):
     self.rect = self.image.get_rect()
+    self.startmenu = None
+    self.launcher = launcher
+    self.wm = None
+
+  def SetWindowManager(self, wm):
+    self.wm = wm
   
   def Update(self, mouse_event, mouse_button):
+    update_rect = self.rect
     if mouse_event != None:
       mouse_x, mouse_y = mouse_event.pos
+      if self.startmenu != None:
+        # Execute a menu option (if clicked)
+        self.startmenu.HandleMouseButtonDownEvent(mouse_event, mouse_button)
+        update_rect = update_rect.union(self.startmenu.rect)
       if mouse_button == 1 and self.rect.collidepoint(mouse_x, mouse_y):
-        # Act as a quit button for now
-        pygame.quit()
-        sys.exit()
+        if self.startmenu is None:
+          # Open the start menu
+          self.startmenu = Menu(self.launcher.wm, self.launcher.surface.get_width(), 0)
+          self.startmenu.AddMenuOption("Create new window", "self.creator.CreateWindow(48, 0, 200, 200, 'Menu-created window')")
+          self.startmenu.AddMenuOption("Shutdown GxSubOS", "pygame.quit();sys.exit()")
+          update_rect = update_rect.union(self.startmenu.rect)
+        else:
+          # Close the menu
+          update_rect = update_rect.union(self.startmenu.rect)
+          del self.startmenu
+          self.startmenu = None
+    return update_rect
