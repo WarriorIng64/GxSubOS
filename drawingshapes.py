@@ -39,3 +39,11 @@ def DrawRoundRect(surface, color, rect, corner_radius, width=0):
   pygame.draw.arc(surface, color, tr_rect, math.pi / 2, 0, arc_width)
   pygame.draw.arc(surface, color, bl_rect, math.pi, 1.5 * math.pi, arc_width)
   pygame.draw.arc(surface, color, br_rect, 1.5 * math.pi, 0, arc_width)
+
+def DrawHSeparator(surface, width, height):
+  sep_color_top = pygame.Color(0, 0, 0, 20)
+  sep_color_bottom = pygame.Color(255, 255, 255, 20)
+  start_top, end_top = [0, height], [width, height]
+  start_bottom, end_bottom = [0, height + 1], [width, height + 1]
+  pygame.draw.line(surface, sep_color_top, start_top, end_top, 1)
+  pygame.draw.line(surface, sep_color_bottom, start_bottom, end_bottom, 1)

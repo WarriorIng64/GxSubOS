@@ -21,7 +21,8 @@ import drawingshapes, glass
 pygame.font.init()
 
 menu_font = pygame.font.Font("fonts/Roboto/Roboto-Regular.ttf", 16)
-roundness = 4
+roundness = 10
+padding = 10
 
 class Menu:
   def __init__(self, creator, x=0, y=0):
@@ -47,17 +48,20 @@ class Menu:
     for option in self.options_list:
       max_menu_width = max(max_menu_width, menu_font.size(option[0])[0])
       max_entry_height = max(max_entry_height, menu_font.size(option[0])[1])
-    menu_width = max_menu_width
-    menu_height = max_entry_height * len(self.options_list)
+    menu_width = max_menu_width + 2 * padding
+    menu_height = max_entry_height * len(self.options_list) + 2 * padding
     self.surface = self.surface = pygame.Surface((menu_width, menu_height), pygame.SRCALPHA)
+    sep_surface = pygame.Surface((menu_width, menu_height), pygame.SRCALPHA)
     self.rect = pygame.Rect(self.rect.x, self.rect.y, menu_width, menu_height)
-    #drawingshapes.DrawRoundRect(self.surface, self.menu_color, pygame.Rect(0, 0, menu_width, menu_height), 10)
+    #drawingshapes.DrawRoundRect(self.surface, self.menu_color, pygame.Rect(0, 0, menu_width, menu_height), roundness)
     pygame.draw.rect(self.surface, self.menu_color, pygame.Rect(0, 0, menu_width, menu_height))
     i = 0
     for option in self.options_list:
       option_surface = menu_font.render(option[0], True, (0, 255, 255))
-      self.surface.blit(option_surface, (0, i * max_entry_height))
+      self.surface.blit(option_surface, (padding, i * max_entry_height + padding))
+      drawingshapes.DrawHSeparator(sep_surface, self.rect.width, (i + 1) * max_entry_height + padding)
       i += 1
+    self.surface.blit(sep_surface, (0, 0))
   
   def MenuClicked(self, x, y):
     # Determines if this point is inside the menu.
@@ -68,7 +72,7 @@ class Menu:
   def GetIndexOfOptionClicked(self, y):
     # Determines which menu option was clicked, assuming the click is within
     # the menu boundaries.
-    option_height = self.surface.get_height() / len(self.options_list)
+    option_height = (self.surface.get_height() - 2 * padding) / len(self.options_list)
     raw_value = (y - self.rect.y) / option_height
     return int(math.floor(raw_value))
   

@@ -15,7 +15,7 @@
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
 import sys, pygame
-import glass
+import glass, drawingshapes
 
 pygame.font.init()
 
@@ -66,13 +66,7 @@ class Window:
       height = titlebar_height
     else:
       height = self.rect.height - titlebar_height
-    sep_color_top = pygame.Color(0, 0, 0, 20)
-    sep_color_bottom = pygame.Color(255, 255, 255, 20)
-    start_top, end_top = [0, height], [self.rect.width, height]
-    start_bottom, end_bottom = [0, height + 1], [self.rect.width, height + 1]
-    
-    pygame.draw.line(surface, sep_color_top, start_top, end_top, 1)
-    pygame.draw.line(surface, sep_color_bottom, start_bottom, end_bottom, 1)
+    drawingshapes.DrawHSeparator(surface, self.rect.width, height)
   
   def DrawTitlebarSeparators(self):
     separator_surface = pygame.Surface((self.rect.width, self.rect.height), pygame.SRCALPHA)
