@@ -25,9 +25,9 @@ def DrawRoundRect(surface, color, rect, corner_radius, width=0):
   tr_rect = pygame.Rect(rect.width - cr, 0, cr, cr)
   bl_rect = pygame.Rect(0, rect.height - cr, cr, cr)
   br_rect = pygame.Rect(rect.width - cr, rect.height - cr, cr, cr)
-  top_rect = pygame.Rect(cr, 0, rect.width - 2 * cr, cr)
-  middle_rect = pygame.Rect(0, cr, rect.width, rect.height - 2 * cr)
-  bottom_rect = pygame.Rect(cr, rect.height - cr, rect.width - 2 * cr, cr)
+  top_rect = pygame.Rect(cr / 2, 0, rect.width - cr, cr)
+  middle_rect = pygame.Rect(0, cr / 2, rect.width, rect.height - cr)
+  bottom_rect = pygame.Rect(cr / 2, rect.height - cr, rect.width - cr, cr)
   pygame.draw.rect(surface, color, top_rect, width)
   pygame.draw.rect(surface, color, middle_rect, width)
   pygame.draw.rect(surface, color, bottom_rect, width)
@@ -36,9 +36,9 @@ def DrawRoundRect(surface, color, rect, corner_radius, width=0):
   else:
     arc_width = width / 2
   pygame.draw.arc(surface, color, tl_rect, math.pi / 2, math.pi, arc_width)
-  pygame.draw.arc(surface, color, tr_rect, math.pi / 2, 0, arc_width)
+  pygame.draw.arc(surface, color, tr_rect, 0, math.pi / 2, arc_width)
   pygame.draw.arc(surface, color, bl_rect, math.pi, 1.5 * math.pi, arc_width)
-  pygame.draw.arc(surface, color, br_rect, 1.5 * math.pi, 0, arc_width)
+  pygame.draw.arc(surface, color, br_rect, 1.5 * math.pi, 2 * math.pi, arc_width)
 
 def DrawHSeparator(surface, width, height):
   sep_color_top = pygame.Color(0, 0, 0, 20)
