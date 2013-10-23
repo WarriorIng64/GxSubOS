@@ -15,13 +15,35 @@
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
 import pygame
-import glass
+import drawingshapes, glass
+
+pygame.font.init()
+
+menu_font = pygame.font.SysFont("Droid Sans", 11)
+roundness = 4
 
 class Menu:
-  def __init__(self):
+  def __init__(self, x=0, y=0):
     self.options_list = []
+    self.surface = self.surface = pygame.Surface((0, 0), pygame.SRCALPHA)
+    self.menu_color = glass.glass_color
+    self.menu_color.a = glass.glass_alpha
+    self.x, self.y = x, y
 
   def AddMenuOption(self, option_text, option_code):
     # Adds the given menu option to this menu's options list.
     new_option = (option_text, option_code)
     self.options_list.append(new_option)
+    self.UpdateSurface()
+
+  def UpdateSurface(self):
+    # Update this menu's surface based on its current state.
+    max_menu_width = 1
+    max_entry_height = 2
+    for option in self.options_list:
+      max_menu_width = max(max_menu_width, menu_font.size(option[0])[0])
+      max_entry_height = max(max_entry_height, menu_font.size(option[0])[1])
+    menu_width = max_menu_width
+    menu_height = max_entry_height * len(self.options_list)
+    self.surface = self.surface = pygame.Surface((menu_width, menu_height), pygame.SRCALPHA)
+    drawingshapes.DrawRoundRect(self.surface, self.menu_color, pygame.Rect(0, 0, menu_width, menu_height), 4)
