@@ -41,9 +41,6 @@ wallpaper = Wallpaper(size)
 launcher = Launcher(width, height)
 wm = WindowManager(launcher)
 launcher.SetWindowManager(wm)
-wm.CreateWindow(48, 0, 400, 300, "Window 1")
-wm.CreateWindow(200, 200, 500, 250, "Window 2")
-wm.CreateWindow(300, 100, 600, 400, "Window 3")
 
 wm.DrawDesktopSurface(desktop_surface, wallpaper)
 blurred_desktop_surface = None
@@ -52,6 +49,8 @@ glass.UpdateBlurredDesktopSurface(blurred_desktop_surface, desktop_surface)
 mouse_list = [MOUSEMOTION, MOUSEBUTTONDOWN, MOUSEBUTTONUP]
 mouse_button_list = [MOUSEBUTTONDOWN, MOUSEBUTTONUP]
 pygame.event.set_allowed([QUIT, MOUSEMOTION, MOUSEBUTTONDOWN, MOUSEBUTTONUP])
+
+update_rects = [screen.get_rect()]
 
 # MAIN LOOP
 while 1:
@@ -78,7 +77,6 @@ while 1:
         launcher.HandleMouseMotionEvent(mouse_event)
   
   # Drawing and game object updates
-  update_rects = []
   if wm.RedrawNeeded():
     wm.DrawDesktopSurface(desktop_surface, wallpaper)
     glass.UpdateBlurredDesktopSurface(blurred_desktop_surface, desktop_surface)
@@ -91,4 +89,5 @@ while 1:
   pygame.display.update(update_rects)
   wm.ResetUpdateRect()
   launcher.ResetUpdateRect()
+  update_rects = []
   fpsClock.tick(60)
