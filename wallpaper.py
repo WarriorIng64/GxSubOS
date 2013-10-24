@@ -16,10 +16,19 @@
 
 import sys, pygame
 
-default_path = "graphics/wallpapers/default_wallpaper_2.0.png"
+wallpaper_path = "graphics/wallpapers/"
+default_path = wallpaper_path + "default_wallpaper_2.0.png"
 
 class Wallpaper:
   def __init__(self, screen_size, path=default_path):
+    self.image = pygame.image.load(path)
+    self.image = pygame.transform.smoothscale(self.image, screen_size)
+    self.image = self.image.convert()
+    self.rect = self.image.get_rect()
+    self.rect.topleft = (0, 0)
+  
+  def LoadWallpaper(self, path):
+    del self.image
     self.image = pygame.image.load(path)
     self.image = pygame.transform.smoothscale(self.image, screen_size)
     self.image = self.image.convert()
