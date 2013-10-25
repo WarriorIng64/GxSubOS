@@ -14,7 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
-import sys, pygame
+import os, pygame
+from os import listdir
+from os.path import isfile, join
 
 wallpaper_path = "graphics/wallpapers/"
 default_path = wallpaper_path + "default_wallpaper_2.0.png"
@@ -26,6 +28,8 @@ class Wallpaper:
     self.image = self.image.convert()
     self.rect = self.image.get_rect()
     self.rect.topleft = (0, 0)
+    self.wallpaper_list = []
+    self.UpdateWallpaperList()
   
   def LoadWallpaper(self, path):
     del self.image
@@ -34,3 +38,6 @@ class Wallpaper:
     self.image = self.image.convert()
     self.rect = self.image.get_rect()
     self.rect.topleft = (0, 0)
+  
+  def UpdateWallpaperList(self):
+    self.wallpaper_list = [wf for wf in listdir(wallpaper_path) if isfile(join(wallpaper_path, wf))]
