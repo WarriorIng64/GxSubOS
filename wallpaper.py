@@ -41,3 +41,9 @@ class Wallpaper:
   
   def UpdateWallpaperList(self):
     self.wallpaper_list = [wf for wf in listdir(wallpaper_path) if isfile(join(wallpaper_path, wf))]
+  
+  def GetNumWallpapers(self):
+    return len(self.wallpaper_list)
+  
+  def SwitchToWallpaperInList(self, index):
+    self.LoadWallpaper(wallpaper_path + wallpaper_list[index])
