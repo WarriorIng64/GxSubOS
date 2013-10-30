@@ -39,7 +39,7 @@ system_font = pygame.font.Font(None, 12)
 # Desktop shell setup
 wallpaper = Wallpaper(size)
 launcher = Launcher(width, height)
-wm = WindowManager(launcher)
+wm = WindowManager(launcher, wallpaper)
 launcher.SetWindowManager(wm)
 
 wm.DrawDesktopSurface(desktop_surface, wallpaper)

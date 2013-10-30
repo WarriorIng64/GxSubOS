@@ -20,11 +20,22 @@ from launcherbutton import Launcherbutton
 import shadow
 
 class WindowManager:
-  def __init__(self, launcher):
+  def __init__(self, launcher=None, wallpaper=None):
     self.window_list = []
     self.launcher = launcher
+    self.wallpaper = wallpaper
     self.redraw_needed = True
     self.update_rect = pygame.Rect((0, 0), (pygame.display.Info().current_w, pygame.display.Info().current_h))
+
+  def SetLauncher(self, launcher):
+    # Assigns a Launcher instance to this WindowManager for drawing and
+    # manipulation purposes.
+    self.launcher = launcher
+  
+  def SetWallpaper(self, wp):
+    # Assigns a Wallpaper instance to this WindowManager for drawing and
+    # manipulation purposes.
+    self.wallpaper = wp
   
   def CreateWindow(self, x, y, width, height, titlebar_text=''):
     # Properly create a new application window that the launcher knows about
@@ -81,7 +92,7 @@ class WindowManager:
   def DrawDesktopSurface(self, desktop_surface, wallpaper):
     # Update the surface behind the focused window
     if self.RedrawNeeded():
-      desktop_surface.blit(wallpaper.image, wallpaper.rect)
+      desktop_surface.blit(self.wallpaper.image, self.wallpaper.rect)
       for window in self.window_list[:-1]:
         window.Redraw(desktop_surface)
         if not window.is_maximized:
