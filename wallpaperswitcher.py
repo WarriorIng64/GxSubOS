@@ -22,6 +22,7 @@ class WallpaperSwitcher:
     self.wallpaper = wallpaper
     self.preview_list = []
     self.current_selection = 0
+    self.closed = False
 
   def SetWallpaper(self, wp):
     self.wallpaper = wp
@@ -39,3 +40,15 @@ class WallpaperSwitcher:
     self.current_selection -= 1
     if self.current_selection < 0:
       self.current_selection = len(self.preview_list) - 1
+  
+  def HandleKeyDownEvent(self, event):
+    # Wallpaper scrolling and selection
+    if event.key is pygame.key.K_UP:
+      self.IncrementCurrentSelection()
+    elif event.key is pygame.key.K_DOWN:
+      self.DecrementCurrentSelection()
+    elif event.key is pygame.key.K_RETURN:
+      self.wallpaper.SwitchToWallpaperInList(self.current_selection)
+      self.closed = True
+    elif event.key is pygame.key.K_ESCAPE:
+      self.closed = True
