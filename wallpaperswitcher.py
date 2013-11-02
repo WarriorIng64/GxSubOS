@@ -16,13 +16,21 @@
 
 import pygame
 from wallpaper import Wallpaper
+import glass
 
 class WallpaperSwitcher:
   def __init__(self, wallpaper=None):
+    switcher_color = glass.glass_color
+    switcher_color_opaque = glass.glass_color
+    switcher_color.a = glass.glass_alpha
+    w, h = pygame.display.Info().current_w, pygame.display.Info().current_h
     self.wallpaper = wallpaper
     self.preview_list = []
     self.current_selection = 0
     self.closed = False
+    self.surface = pygame.Surface((w / 3, h), pygame.SRCALPHA)
+    self.rect = pygame.Rect((w * (2.0/3.0), h), (w / 3, h))
+    self.background_surface = pygame.Surface((w / 3, h), pygame.SRCALPHA)
 
   def SetWallpaper(self, wp):
     self.wallpaper = wp
@@ -52,3 +60,15 @@ class WallpaperSwitcher:
       self.closed = True
     elif event.key is pygame.key.K_ESCAPE:
       self.closed = True
+  
+  def Redraw(self, screen, blurred_surface=None):
+    # Redraw the appearance of the wallpaper switcher.
+    if glass.enable_transparency:
+      if glass.enable_blur and blurred_surface != None:
+        self.background_surface.blit(blurred_surface, blurred_surface.get_rect().move(-self.rect.x, -self.rect.y))
+      else:
+        glass.DrawBackground(screen, self.background_surface, self.rect)
+        self.background_surface = glass.Blur(self.background_surface)
+    else:
+      self.background_surface.fill(self.switcher_color_opaque)
+    self.surface.blit(self.background_surface, [0, 0, 0, 0])

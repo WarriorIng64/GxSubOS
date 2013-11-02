@@ -75,6 +75,8 @@ while 1:
       else:
         wm.HandleMouseMotionEvent(mouse_x, mouse_y)
         launcher.HandleMouseMotionEvent(mouse_event)
+    elif event.type is KEYDOWN:
+      wm.HandleKeyDownEvent(event)
   
   # Drawing and game object updates
   if wm.RedrawNeeded():
@@ -85,6 +87,7 @@ while 1:
   update_rects.append(wm.DrawTopWindow(screen, blurred_desktop_surface))
   launcher.UpdateWholeLauncher(screen, wm)
   update_rects.append(launcher.DrawLauncher(screen))
+  update_rects.append(wm.DrawWallpaperSwitcher(screen))
 
   pygame.display.update(update_rects)
   wm.ResetUpdateRect()

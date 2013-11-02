@@ -17,6 +17,7 @@
 import pygame
 from window import Window
 from launcherbutton import Launcherbutton
+from wallpaperswitcher import WallpaperSwitcher
 import shadow
 
 class WindowManager:
@@ -24,6 +25,7 @@ class WindowManager:
     self.window_list = []
     self.launcher = launcher
     self.wallpaper = wallpaper
+    self.wallpaper_switcher = None
     self.redraw_needed = True
     self.update_rect = pygame.Rect((0, 0), (pygame.display.Info().current_w, pygame.display.Info().current_h))
 
@@ -107,7 +109,7 @@ class WindowManager:
     # A blurred version of the surface behind the window can be passed in to save time
     # Returns a Rect containing the updated area
     if len(self.window_list) < 1:
-      return
+      return self.update_rect
     window = self.window_list[-1]
     window.Redraw(surface, blurred_surface)
     if not window.is_maximized:
@@ -203,6 +205,12 @@ class WindowManager:
       self.FindFocusedWindow(mouse_x, mouse_y)
       self.MaintainWindowOrder()
   
+  def HandleKeyDownEvent(self, event):
+    # General function for handling a keyboard key down event.
+    if self.wallpaper_switcher is not None:
+      self.wallpaper_switcher.HandleKeyDownEvent(event)
+      DeleteWallpaperSwitcherIfClosed()
+  
   def RedrawNeeded(self):
     # Returns true iff a redraw of the nonfocused windows is needed
     return self.redraw_needed
@@ -214,3 +222,25 @@ class WindowManager:
   def ResetUpdateRect(self):
     # Resets the update_rect
     self.update_rect = pygame.Rect(0, 0, 0, 0)
+  
+  def InitializeWallpaperSwitcher(self):
+    # Start up the wallpaper switcher.
+    self.wallpaper_switcher = WallpaperSwitcher(self.wallpaper)
+    print "WallpaperSwitcher initialized."
+  
+  def DeleteWallpaperSwitcherIfClosed(self):
+    # Get rid of a wallpaper switcher that's marked as closed.
+    if self.wallpaper_switcher is not None:
+      if self.wallpaper_switcher.closed:
+        del self.wallpaper_switcher
+        self.wallpaper_switcher = None
+  
+  def DrawWallpaperSwitcher(self, surface, blurred_surface=None):
+    # Draws the wallpaper switcher onto the given surface
+    # A blurred version of the surface behind the switcher can be passed in to save time
+    # Returns a Rect containing the updated area
+    if self.wallpaper_switcher is None:
+      return self.update_rect
+    self.wallpaper_switcher.Redraw(surface, blurred_surface)
+    surface.blit(self.wallpaper_switcher.surface, self.wallpaper_switcher.rect)
+    return self.update_rect
