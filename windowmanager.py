@@ -209,7 +209,7 @@ class WindowManager:
     # General function for handling a keyboard key down event.
     if self.wallpaper_switcher is not None:
       self.wallpaper_switcher.HandleKeyDownEvent(event)
-      DeleteWallpaperSwitcherIfClosed()
+      self.DeleteWallpaperSwitcherIfClosed()
   
   def RedrawNeeded(self):
     # Returns true iff a redraw of the nonfocused windows is needed
@@ -226,7 +226,6 @@ class WindowManager:
   def InitializeWallpaperSwitcher(self):
     # Start up the wallpaper switcher.
     self.wallpaper_switcher = WallpaperSwitcher(self.wallpaper)
-    print "WallpaperSwitcher initialized."
   
   def DeleteWallpaperSwitcherIfClosed(self):
     # Get rid of a wallpaper switcher that's marked as closed.

@@ -23,6 +23,7 @@ default_path = wallpaper_path + "default_wallpaper_2.0.png"
 
 class Wallpaper:
   def __init__(self, screen_size, path=default_path):
+    self.screen_size = screen_size
     self.image = pygame.image.load(path)
     self.image = pygame.transform.smoothscale(self.image, screen_size)
     self.image = self.image.convert()
@@ -34,7 +35,7 @@ class Wallpaper:
   def LoadWallpaper(self, path):
     del self.image
     self.image = pygame.image.load(path)
-    self.image = pygame.transform.smoothscale(self.image, screen_size)
+    self.image = pygame.transform.smoothscale(self.image, self.screen_size)
     self.image = self.image.convert()
     self.rect = self.image.get_rect()
     self.rect.topleft = (0, 0)
@@ -50,10 +51,10 @@ class Wallpaper:
     return len(self.wallpaper_list)
   
   def SwitchToWallpaperInList(self, index):
-    self.LoadWallpaper(wallpaper_path + wallpaper_list[index])
+    self.LoadWallpaper(wallpaper_path + self.wallpaper_list[index])
   
   def GetWallpaperPreview(self, index):
     # Returns a surface showing the requested wallpaper at full size
-    preview = pygame.image.load(wallpaper_path + wallpaper_list[index])
+    preview = pygame.image.load(wallpaper_path + self.wallpaper_list[index])
     preview = preview.convert()
     return preview
