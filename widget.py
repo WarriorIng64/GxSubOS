@@ -17,5 +17,7 @@
 import sys, pygame
 
 class Widget:
-  def __init__(self):
-    # Stuff goes here
+  def __init__(self, parent_widget=None, parent_window=None):
+    self.parent_widget = parent_widget
+    self.parent_window = parent_window
+    self.rect = None

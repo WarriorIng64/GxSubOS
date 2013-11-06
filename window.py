@@ -15,7 +15,7 @@
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
 import sys, pygame
-import glass, drawingshapes
+import glass, drawingshapes, container
 
 pygame.font.init()
 
@@ -37,6 +37,7 @@ class Window:
     self.close_rect = self.close_image.get_rect()
     self.resize_rect = self.resize_image.get_rect()
     self.resize_rect.move_ip(width - titlebar_height, height - titlebar_height)
+    self.content_area_rect = pygame.Rect(0, titlebar_height, self.rect.width, self.rect.height - 2 * titlebar_height)
     
     self.CreateSurfaces(width, height)
     self.titlebar_text = titlebar_text
@@ -48,6 +49,8 @@ class Window:
     self.DrawWindowSurface()
     self.click_x, self.click_y = 0, 0
     self.window_closed = False
+    
+    self.top_level_container = container.Container(None, self)
   
   def Redraw(self, screen, blurred_surface=None):
     if glass.enable_transparency:
@@ -123,7 +126,7 @@ class Window:
     w, h = self.rect.width, self.rect.height
     window_rect = self.window_surface.get_rect()
     self.window_surface = pygame.Surface((w, h), pygame.SRCALPHA)
-    pygame.draw.rect(self.window_surface, glass.content_area_color, [0, titlebar_height, self.rect.width, self.rect.height - 2 * titlebar_height])
+    pygame.draw.rect(self.window_surface, glass.content_area_color, self.content_area_rect)
     self.DrawTitlebar()
     self.window_surface.blit(self.close_image, self.close_rect)
     if not self.is_maximized:
@@ -146,6 +149,14 @@ class Window:
     self.DrawWindowSurface()
     self.resize_rect = self.resize_image.get_rect()
     self.resize_rect.move_ip(correct_width - titlebar_height, correct_height - titlebar_height)
+    self.UpdateContentAreaRect()
+  
+  def UpdateContentAreaRect(self):
+    """Updates the Rect denoting the area Widgets occupy."""
+    t_h = titlebar_height
+    w = self.rect.width
+    h = self.rect.height
+    self.content_area_rect = pygame.Rect(0, t_h, w, h - 2 * t_h)
   
   def CreateSurfaces(self, w, h):
     self.surface = pygame.Surface((w, h), pygame.SRCALPHA)
