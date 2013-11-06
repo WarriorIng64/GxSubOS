@@ -29,8 +29,10 @@ class WallpaperSwitcher:
     self.current_selection = 0
     self.closed = False
     self.surface = pygame.Surface((w / 3, h), pygame.SRCALPHA)
-    self.rect = pygame.Rect((w * (2.0/3.0), h), (w / 3, h))
+    self.rect = pygame.Rect((w * 2 / 3, 0), (w / 3, h))
     self.background_surface = pygame.Surface((w / 3, h), pygame.SRCALPHA)
+    self.pane_surface = pygame.Surface((w / 3, h), pygame.SRCALPHA)
+    self.pane_surface.fill(switcher_color)
 
   def SetWallpaper(self, wp):
     self.wallpaper = wp
@@ -72,3 +74,4 @@ class WallpaperSwitcher:
     else:
       self.background_surface.fill(self.switcher_color_opaque)
     self.surface.blit(self.background_surface, [0, 0, 0, 0])
+    self.surface.blit(self.pane_surface, [0, 0, 0, 0])

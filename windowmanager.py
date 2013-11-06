@@ -242,4 +242,5 @@ class WindowManager:
       return self.update_rect
     self.wallpaper_switcher.Redraw(surface, blurred_surface)
     surface.blit(self.wallpaper_switcher.surface, self.wallpaper_switcher.rect)
+    self.update_rect.union_ip(self.wallpaper_switcher.rect)
     return self.update_rect
