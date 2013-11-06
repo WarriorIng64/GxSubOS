@@ -38,6 +38,7 @@ class WallpaperSwitcher:
     self.pane_surface.fill(switcher_color)
 
     self.preview_size = (w / 3 - 2 * padding, h / 3 - 2 * padding)
+    self.top_drawn = 0
 
     self.UpdatePreviewList()
 
@@ -54,11 +55,19 @@ class WallpaperSwitcher:
     self.current_selection += 1
     if self.current_selection >= len(self.preview_list):
       self.current_selection = 0
+    self.UpdateTopDrawn()
 
   def DecrementCurrentSelection(self):
     self.current_selection -= 1
     if self.current_selection < 0:
       self.current_selection = len(self.preview_list) - 1
+    self.UpdateTopDrawn()
+
+  def UpdateTopDrawn(self):
+    if self.current_selection < self.top_drawn:
+      self.top_drawn = self.current_selection
+    if self.current_selection >= self.top_drawn + 3:
+      self.top_drawn = self.current_selection - 2
   
   def HandleKeyDownEvent(self, event):
     # Wallpaper scrolling and selection
