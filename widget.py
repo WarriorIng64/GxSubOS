@@ -17,6 +17,8 @@
 import sys, pygame
 
 class Widget:
+  """A base class for implementing various widgets in windows. This is where
+  the building blocks for windows' content area GUIs come from."""
   def __init__(self, parent_widget=None, parent_window=None):
     self.parent_widget = parent_widget
     self.parent_window = parent_window

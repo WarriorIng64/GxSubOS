@@ -36,8 +36,9 @@ class Container(widget.Widget):
     self.child_widgets.append(widget)
   
   def IsTopLevel(self):
-    """Returns true iff this Container is contains all other Widgets in this
-    window."""
+    """Returns true iff this Container contains all other Widgets in this
+    window. Every Window should contain a top-level Container widget which
+    holds all the other Widgets, including other Containers."""
     return self.parent_widget is None
   
   def UpdateChildWidgetSizes(self):
