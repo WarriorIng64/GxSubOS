@@ -93,7 +93,7 @@ class WallpaperSwitcher:
       self.background_surface.fill(self.switcher_color_opaque)
     self.surface.blit(self.background_surface, [0, 0, 0, 0])
     self.surface.blit(self.pane_surface, [0, 0, 0, 0])
-    for i in range(len(self.preview_list)):
-      self.surface.blit(self.preview_list[i], self.preview_list_rects[i])
+    for i in range(len(self.preview_list))[self.top_drawn:]:
+      self.surface.blit(self.preview_list[i], self.preview_list_rects[i - self.top_drawn])
       if self.current_selection == i:
-        pygame.draw.rect(self.surface, glass.highlight_color, self.preview_list_rects[i], 4)
+        pygame.draw.rect(self.surface, glass.highlight_color, self.preview_list_rects[i - self.top_drawn], 4)
