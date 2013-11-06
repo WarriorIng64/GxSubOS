@@ -62,18 +62,22 @@ class WallpaperSwitcher:
   
   def HandleKeyDownEvent(self, event):
     # Wallpaper scrolling and selection
-    if event.key is pygame.K_UP:
+    print "WallpaperSwitcher handling KEYDOWN event..."
+    if event.key == pygame.K_UP:
       self.IncrementCurrentSelection()
       print "Current selection on K_UP: " + str(self.current_selection)
-    elif event.key is pygame.K_DOWN:
+    elif event.key == pygame.K_DOWN:
       self.DecrementCurrentSelection()
       print "Current selection on K_DOWN: " + str(self.current_selection)
-    elif event.key is pygame.K_RETURN:
+    elif event.key == pygame.K_RETURN:
       self.wallpaper.SwitchToWallpaperInList(self.current_selection)
       print "Switched to wallpaper with index = " + str(self.current_selection)
       self.closed = True
-    elif event.key is pygame.K_ESCAPE:
+    elif event.key == pygame.K_ESCAPE:
+      print "Wallpaper switcher canceled."
       self.closed = True
+    else:
+      print "Unrecognized key pressed: unicode = " + str(event.unicode) + ", key = " + str(event.key) + ", mod = " + str(event.mod)
   
   def Redraw(self, screen, blurred_surface=None):
     # Redraw the appearance of the wallpaper switcher.
@@ -89,3 +93,5 @@ class WallpaperSwitcher:
     self.surface.blit(self.pane_surface, [0, 0, 0, 0])
     for i in range(len(self.preview_list)):
       self.surface.blit(self.preview_list[i], self.preview_list_rects[i])
+      if self.current_selection == i:
+        pygame.draw.rect(self.surface, glass.highlight_color, self.preview_list_rects[i], 4)

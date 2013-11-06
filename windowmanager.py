@@ -209,7 +209,7 @@ class WindowManager:
     # General function for handling a keyboard key down event.
     if self.wallpaper_switcher is not None:
       self.wallpaper_switcher.HandleKeyDownEvent(event)
-      if event.key is pygame.K_RETURN:
+      if event.key == pygame.K_RETURN:
         self.redraw_needed = True
       self.DeleteWallpaperSwitcherIfClosed()
   
