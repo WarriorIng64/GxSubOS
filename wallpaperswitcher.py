@@ -18,6 +18,8 @@ import pygame
 from wallpaper import Wallpaper
 import glass
 
+padding = 16
+
 class WallpaperSwitcher:
   def __init__(self, wallpaper=None):
     switcher_color = glass.glass_color
@@ -26,6 +28,7 @@ class WallpaperSwitcher:
     w, h = pygame.display.Info().current_w, pygame.display.Info().current_h
     self.wallpaper = wallpaper
     self.preview_list = []
+    self.preview_list_rects = []
     self.current_selection = 0
     self.closed = False
     self.surface = pygame.Surface((w / 3, h), pygame.SRCALPHA)
@@ -34,12 +37,15 @@ class WallpaperSwitcher:
     self.pane_surface = pygame.Surface((w / 3, h), pygame.SRCALPHA)
     self.pane_surface.fill(switcher_color)
 
+    self.preview_size = (w / 3 - 2 * padding, h / 3 - 2 * padding)
+
   def SetWallpaper(self, wp):
     self.wallpaper = wp
 
   def UpdatePreviewList(self):
     for i in range(self.wallpaper.GetNumWallpapers()):
       self.preview_list.append(self.wallpaper.GetWallpaperPreview(i))
+      self.preview_list_rects.append(pygame.Rect((padding, padding + (padding * self.preview_size[1]) * i), self.preview_size))
 
   def IncrementCurrentSelection(self):
     self.current_selection += 1
@@ -75,3 +81,5 @@ class WallpaperSwitcher:
       self.background_surface.fill(self.switcher_color_opaque)
     self.surface.blit(self.background_surface, [0, 0, 0, 0])
     self.surface.blit(self.pane_surface, [0, 0, 0, 0])
+    for i in range(len(self.preview_list)):
+      self.surface.blit(self.preview_list[i], self.preview_list_rects[i])

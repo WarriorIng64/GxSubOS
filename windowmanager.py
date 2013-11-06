@@ -209,6 +209,8 @@ class WindowManager:
     # General function for handling a keyboard key down event.
     if self.wallpaper_switcher is not None:
       self.wallpaper_switcher.HandleKeyDownEvent(event)
+      if event.key is pygame.K_RETURN:
+        self.redraw_needed = True
       self.DeleteWallpaperSwitcherIfClosed()
   
   def RedrawNeeded(self):
@@ -231,6 +233,7 @@ class WindowManager:
     # Get rid of a wallpaper switcher that's marked as closed.
     if self.wallpaper_switcher is not None:
       if self.wallpaper_switcher.closed:
+        self.update_rect.union_ip(self.wallpaper_switcher.rect)
         del self.wallpaper_switcher
         self.wallpaper_switcher = None
   

@@ -53,8 +53,11 @@ class Wallpaper:
   def SwitchToWallpaperInList(self, index):
     self.LoadWallpaper(wallpaper_path + self.wallpaper_list[index])
   
-  def GetWallpaperPreview(self, index):
+  def GetWallpaperPreview(self, index, rect=None):
     # Returns a surface showing the requested wallpaper at full size
+    # Optionally, a Rect can be passed to scale the preview returned
     preview = pygame.image.load(wallpaper_path + self.wallpaper_list[index])
     preview = preview.convert()
+    if rect is not None:
+      preview = pygame.transform.smoothscale(preview, (rect.width, rect.height))
     return preview
