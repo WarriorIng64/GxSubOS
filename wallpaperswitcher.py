@@ -21,6 +21,7 @@ import glass
 padding = 16
 
 class WallpaperSwitcher:
+  """A class for implementing a wallpaper switcher."""
   def __init__(self, wallpaper=None):
     switcher_color = glass.glass_color
     switcher_color_opaque = glass.glass_color
@@ -43,34 +44,39 @@ class WallpaperSwitcher:
     self.UpdatePreviewList()
 
   def SetWallpaper(self, wp):
+    """Assigns a Wallpaper instance to this WallpaperSwitcher."""
     self.wallpaper = wp
 
   def UpdatePreviewList(self):
+    """Updates the list of previews this WallpaperSwitcher will display."""
     for i in range(self.wallpaper.GetNumWallpapers()):
       preview_rect = pygame.Rect((padding, padding + (padding + self.preview_size[1]) * i), self.preview_size)
       self.preview_list.append(self.wallpaper.GetWallpaperPreview(i, preview_rect))
       self.preview_list_rects.append(preview_rect)
 
   def IncrementCurrentSelection(self):
+    """Moves the selection rectangle up one."""
     self.current_selection += 1
     if self.current_selection >= len(self.preview_list):
       self.current_selection = 0
     self.UpdateTopDrawn()
 
   def DecrementCurrentSelection(self):
+    """Moves the selection rectangle down one."""
     self.current_selection -= 1
     if self.current_selection < 0:
       self.current_selection = len(self.preview_list) - 1
     self.UpdateTopDrawn()
 
   def UpdateTopDrawn(self):
+    """Updates which preview will be drawn at the top of the switcher."""
     if self.current_selection < self.top_drawn:
       self.top_drawn = self.current_selection
     if self.current_selection >= self.top_drawn + 3:
       self.top_drawn = self.current_selection - 2
   
   def HandleKeyDownEvent(self, event):
-    # Wallpaper scrolling and selection
+    """Handles a KEYDOWN event for wallpaper scrolling and selection."""
     if event.key == pygame.K_DOWN:
       self.IncrementCurrentSelection()
     elif event.key == pygame.K_UP:
@@ -82,7 +88,7 @@ class WallpaperSwitcher:
       self.closed = True
   
   def Redraw(self, screen, blurred_surface=None):
-    # Redraw the appearance of the wallpaper switcher.
+    """Redraws the appearance of this WallpaperSwitcher."""
     if glass.enable_transparency:
       if glass.enable_blur and blurred_surface != None:
         self.background_surface.blit(blurred_surface, blurred_surface.get_rect().move(-self.rect.x, -self.rect.y))
