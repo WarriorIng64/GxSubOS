@@ -41,7 +41,7 @@ class Wallpaper:
     self.rect.topleft = (0, 0)
   
   def UpdateWallpaperList(self):
-    allowed_filetypes = ["png", "bmp", "jpg"]
+    allowed_filetypes = ["png", "bmp", "jpg", "PNG", "BMP", "JPG"]
     self.wallpaper_list = [wf for wf in listdir(wallpaper_path) if isfile(join(wallpaper_path, wf))]
     for wf in self.wallpaper_list:
       if wf[-3:] not in allowed_filetypes:
