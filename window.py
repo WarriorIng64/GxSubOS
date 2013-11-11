@@ -228,6 +228,10 @@ class Window:
     self.click_x, self.click_y = mouse_x, mouse_y
   
   def StartDragging(self, mouse_x, mouse_y):
-    """"Puts this Window into dragging mode."""
+    """Puts this Window into dragging mode."""
     self.being_dragged = True
     self.click_x, self.click_y = mouse_x, mouse_y
+  
+  def AddWidget(self, widget):
+    """Adds a new Widget to this window."""
+    self.top_level_container.AddWidget(widget)

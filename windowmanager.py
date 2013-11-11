@@ -19,6 +19,8 @@ from window import Window
 from launcherbutton import Launcherbutton
 from wallpaperswitcher import WallpaperSwitcher
 import shadow
+from container import VBox
+from button import Button
 
 class WindowManager:
   def __init__(self, launcher=None, wallpaper=None):
@@ -247,3 +249,10 @@ class WindowManager:
     surface.blit(self.wallpaper_switcher.surface, self.wallpaper_switcher.rect)
     self.update_rect.union_ip(self.wallpaper_switcher.rect)
     return self.update_rect
+  
+  def InitializeWidgetTest(self):
+    """Debug function for creating a test app for checking out Widget functionality."""
+    widget_test = self.CreateWindow(48, 0, 450, 250, 'Widget Test')
+    vbox1 = VBox(widget_test.top_level_container, widget_test)
+    widget_test.AddWidget(vbox1)
+    widget_test.AddWidget(Button(vbox1, widget_test, "Test button", "print 'Test button clicked!'"))
