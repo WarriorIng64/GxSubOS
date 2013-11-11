@@ -15,21 +15,23 @@
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
 import sys, pygame
+from widget import Widget
 
-class Widget:
-  """A base class for implementing various widgets in windows. This is where
-  the building blocks for windows' content area GUIs come from."""
-  def __init__(self, parent_widget=None, parent_window=None):
+class Button(Widget):
+  """A Widget subclass which represents a clickable button within a window."""
+  def __init__(self, parent_widget=None, parent_window=None, click_code=None):
     self.parent_widget = parent_widget
     self.parent_window = parent_window
     self.rect = None
+    self.click_code = click_code
   
-  def PointInsideWidget(self, x, y):
-    """Returns True if the given point is inside this Widget's rect."""
-    x1, x2 = self.rect.left, self.rect.right
-    y1, y2 = self.rect.top, self.rect.bottom
-    return x1 < x < x2 and y1 < y < y2
+  def SetClickCode(self, click_code):
+    """Sets the Python code which will be executed when this Button is
+    left-clicked."""
+    self.click_code = click_code
   
   def HandleMouseButtonDownEvent(self, mouse_x, mouse_y, mouse_button):
     """Handle a MOUSEDOWN event."""
-    print "Widget base class: HandleMouseButtonDownEvent() called."
+    if PointInsideWidget(mouse_x, mouse_y):
+      if mouse_button == 1:
+        exec self.click_code
