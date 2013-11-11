@@ -35,7 +35,7 @@ class Container(Widget):
     """Adds a new Widget to the child widget list."""
     if isinstance(widget, Widget):
       self.child_widgets.append(widget)
-    else
+    else:
       print "Warning: Attempt to add non-Widget to container widget list."
   
   def IsTopLevel(self):
