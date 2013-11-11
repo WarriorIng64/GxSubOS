@@ -30,6 +30,7 @@ class Container(Widget):
         self.rect = parent_window.content_area_rect.copy()
     else:
       self.rect = None
+    self.surface = None
   
   def AddWidget(self, widget):
     """Adds a new Widget to the child widget list."""
@@ -48,6 +49,21 @@ class Container(Widget):
     """Updates the sizes of the child widgets."""
     for child in self.child_widgets:
       child.rect = self.rect.copy()
+  
+  def RedrawChildWidgets(self):
+    """Tells all child widgets to redraw themselves, such as after a resizing."""
+    for child in self.child_widgets:
+      child.Redraw()
+  
+  def Redraw(self):
+    """Redraw this Container. This is done by telling all child widgets to
+    redraw themselves."""
+    self.RedrawChildWidgets()
+    if self.rect == None:
+      return;
+    self.surface = pygame.Surface((self.rect.width, self.rect.height), pygame.SRCALPHA)
+    for child in child_widgets:
+      self.surface.blit(child.surface, child.rect.topleft)
 
   def HandleMouseButtonDownEvent(self, mouse_x, mouse_y, mouse_button):
     """Handle a MOUSEDOWN event. In the case of a Container, just pass it on to

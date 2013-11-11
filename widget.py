@@ -23,6 +23,7 @@ class Widget:
     self.parent_widget = parent_widget
     self.parent_window = parent_window
     self.rect = None
+    self.surface = None
   
   def PointInsideWidget(self, x, y):
     """Returns True if the given point is inside this Widget's rect."""
@@ -33,3 +34,7 @@ class Widget:
   def HandleMouseButtonDownEvent(self, mouse_x, mouse_y, mouse_button):
     """Handle a MOUSEDOWN event."""
     print "Widget base class: HandleMouseButtonDownEvent() called."
+  
+  def Redraw(self):
+    """Redraw this Widget."""
+    print "Widget base class: Redraw() called."
