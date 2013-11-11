@@ -15,9 +15,9 @@
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
 import pygame
-import widget
+from widget import Widget
 
-class Container(widget.Widget):
+class Container(Widget):
   """A special type of Widget which holds other widgets."""
   def __init__(self, parent_widget=None, parent_window=None, child_widgets=[]):
     self.parent_widget = parent_widget
@@ -33,7 +33,10 @@ class Container(widget.Widget):
   
   def AddWidget(self, widget):
     """Adds a new Widget to the child widget list."""
-    self.child_widgets.append(widget)
+    if isinstance(widget, Widget):
+      self.child_widgets.append(widget)
+    else
+      print "Warning: Attempt to add non-Widget to container widget list."
   
   def IsTopLevel(self):
     """Returns true iff this Container contains all other Widgets in this
