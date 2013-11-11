@@ -45,3 +45,9 @@ class Container(widget.Widget):
     """Updates the sizes of the child widgets."""
     for child in self.child_widgets:
       child.rect = self.rect.copy()
+
+  def HandleMouseButtonDownEvent(self, mouse_x, mouse_y, mouse_button):
+    """Handle a MOUSEDOWN event. In the case of a Container, just pass it on to
+    the child widgets."""
+    for child in self.child_widgets:
+      child.HandleMouseDownEvent(mouse_x, mouse_y, mouse_button)
