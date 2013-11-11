@@ -51,3 +51,21 @@ class Container(widget.Widget):
     the child widgets."""
     for child in self.child_widgets:
       child.HandleMouseDownEvent(mouse_x, mouse_y, mouse_button)
+
+class HBox(Container):
+  def UpdateChildWidgetSizes(self):
+    """Updates the sizes and positions of the child widgets so they are
+    arranged from left to right, filling the vertical space of the HBox."""
+    child_width = self.rect.width / len(self.child_widgets)
+    child_height = self.rect.height
+    for i in range(len(self.child_widgets)):
+      child.rect = pygame.Rect(self.rect.x + i * child_width, self.rect.y, child_width, child_height)
+
+class VBox(Container):
+  def UpdateChildWidgetSizes(self):
+    """Updates the sizes and positions of the child widgets so they are
+    arranged from top to bottom, filling the horizontal space of the VBox."""
+    child_width = self.rect.width
+    child_height = self.rect.height / len(self.child_widgets)
+    for i in range(len(self.child_widgets)):
+      child.rect = pygame.Rect(self.rect.x, self.rect.y + i * child_height, child_width, child_height)
