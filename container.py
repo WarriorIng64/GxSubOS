@@ -61,7 +61,11 @@ class Container(Widget):
   def RedrawChildWidgets(self):
     """Tells all child widgets to redraw themselves, such as after a resizing."""
     for child in self.child_widgets:
-      child.Redraw()
+      if child is not self:
+        child.Redraw()
+      else:
+        self.child_widgets.remove(child)
+        print "Warning: self in widgets list. This has been removed."
   
   def Redraw(self):
     """Redraw this Container. This is done by telling all child widgets to
