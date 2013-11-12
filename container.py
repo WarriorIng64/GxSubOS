@@ -88,7 +88,7 @@ class Container(Widget):
     """Handle a MOUSEDOWN event. In the case of a Container, just pass it on to
     the child widgets."""
     for child in self.child_widgets:
-      child.HandleMouseDownEvent(mouse_x, mouse_y, mouse_button)
+      child.HandleMouseButtonDownEvent(mouse_x, mouse_y, mouse_button)
 
 class HBox(Container):
   def UpdateChildWidgetSizes(self):
