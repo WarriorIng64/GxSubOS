@@ -255,4 +255,4 @@ class WindowManager:
     widget_test = self.CreateWindow(48, 0, 450, 250, 'Widget Test')
     vbox1 = VBox(widget_test.top_level_container, widget_test)
     widget_test.AddWidget(vbox1)
-    widget_test.AddWidget(Button(vbox1, widget_test, "Test button", "print 'Test button clicked!'"))
+    vbox1.AddWidget(Button(vbox1, widget_test, "Test button", "print 'Test button clicked!'"))

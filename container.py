@@ -38,6 +38,7 @@ class Container(Widget):
       self.child_widgets.append(widget)
     else:
       print "Warning: Attempt to add non-Widget to container widget list."
+    self.UpdateChildWidgetSizes()
   
   def IsTopLevel(self):
     """Returns true iff this Container contains all other Widgets in this
@@ -62,7 +63,7 @@ class Container(Widget):
     if self.rect == None:
       return;
     self.surface = pygame.Surface((self.rect.width, self.rect.height), pygame.SRCALPHA)
-    for child in child_widgets:
+    for child in self.child_widgets:
       self.surface.blit(child.surface, child.rect.topleft)
 
   def HandleMouseButtonDownEvent(self, mouse_x, mouse_y, mouse_button):
@@ -78,7 +79,7 @@ class HBox(Container):
     child_width = self.rect.width / len(self.child_widgets)
     child_height = self.rect.height
     for i in range(len(self.child_widgets)):
-      child.rect = pygame.Rect(self.rect.x + i * child_width, self.rect.y, child_width, child_height)
+      self.child_widgets[i].rect = pygame.Rect(self.rect.x + i * child_width, self.rect.y, child_width, child_height)
 
 class VBox(Container):
   def UpdateChildWidgetSizes(self):
@@ -87,4 +88,4 @@ class VBox(Container):
     child_width = self.rect.width
     child_height = self.rect.height / len(self.child_widgets)
     for i in range(len(self.child_widgets)):
-      child.rect = pygame.Rect(self.rect.x, self.rect.y + i * child_height, child_width, child_height)
+      self.child_widgets[i].rect = pygame.Rect(self.rect.x, self.rect.y + i * child_height, child_width, child_height)

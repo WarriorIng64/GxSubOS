@@ -47,11 +47,10 @@ class Window:
     self.is_maximized = False
     self.restore_rect = self.rect
     self.has_focus = True
+    self.top_level_container = container.Container(None, self)
     self.DrawWindowSurface()
     self.click_x, self.click_y = 0, 0
     self.window_closed = False
-    
-    self.top_level_container = container.Container(None, self)
   
   def Redraw(self, screen, blurred_surface=None):
     """Redraws this Window's surface in preparation for the next blitting."""
@@ -147,6 +146,8 @@ class Window:
     if not self.is_maximized:
       self.window_surface.blit(self.resize_image, self.resize_rect)
     self.window_surface.convert_alpha()
+    self.top_level_container.Redraw()
+    self.window_surface.blit(self.top_level_container.surface, self.top_level_container.rect)
   
   def SetFocus(self, focus):
     """Sets the focused state of this Window."""
