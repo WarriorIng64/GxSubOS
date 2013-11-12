@@ -99,7 +99,7 @@ class HBox(Container):
     cw = self.rect.width / len(self.child_widgets)
     ch = self.rect.height
     for i in range(len(self.child_widgets)):
-      rect = pygame.Rect(self.rect.x + i * cw, self.rect.y, cw, ch)
+      rect = pygame.Rect(i * cw, 0, cw, ch)
       self.child_widgets[i].rect = rect
     self.RedrawChildWidgets()
 
@@ -112,6 +112,6 @@ class VBox(Container):
     cw = self.rect.width
     ch = self.rect.height / len(self.child_widgets)
     for i in range(len(self.child_widgets)):
-      rect = pygame.Rect(self.rect.x, self.rect.y + i * ch, cw, ch)
+      rect = pygame.Rect(0, i * ch, cw, ch)
       self.child_widgets[i].rect = rect
     self.RedrawChildWidgets()
