@@ -34,10 +34,17 @@ class Container(Widget):
   
   def AddWidget(self, widget):
     """Adds a new Widget to the child widget list."""
+    if widget is self:
+      print "Warning: Attempt to add a Container to its own widget list."
+      return
+    if widget is self.parent_widget:
+      print "Warning: Attempt to add a parent widget to a widget list."
+      return
     if isinstance(widget, Widget):
       self.child_widgets.append(widget)
     else:
       print "Warning: Attempt to add non-Widget to container widget list."
+      return
     self.UpdateChildWidgetSizes()
   
   def IsTopLevel(self):
