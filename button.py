@@ -50,7 +50,9 @@ class Button(Widget):
     if self.rect == None:
       return;
     self.surface = pygame.Surface((self.rect.width, self.rect.height), pygame.SRCALPHA)
-    pygame.draw.rect(self.surface, glass.accent_color, self.rect.inflate(-2, -2), 2)
+    pygame.draw.rect(self.surface, glass.accent_color, self.rect.inflate(-3, -3), 2)
     text_surface = button_font.render(self.button_text, True, glass.accent_color)
-    self.surface.blit(text_surface, (0, 0))
+    text_left_align = self.surface.get_width() / 2 - text_surface.get_width() / 2
+    text_top_align = self.surface.get_height() / 2 - text_surface.get_height() / 2
+    self.surface.blit(text_surface, (text_left_align, text_top_align))
     
