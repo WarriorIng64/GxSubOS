@@ -168,6 +168,7 @@ class Window:
     self.resize_rect = self.resize_image.get_rect()
     self.resize_rect.move_ip(correct_width - titlebar_height, correct_height - titlebar_height)
     self.UpdateContentAreaRect()
+    self.top_level_container.Redraw()
   
   def UpdateContentAreaRect(self):
     """Updates the Rect denoting the area Widgets occupy."""

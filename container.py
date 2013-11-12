@@ -23,14 +23,20 @@ class Container(Widget):
     self.parent_widget = parent_widget
     self.parent_window = parent_window
     self.child_widgets = child_widgets
-    if parent_window != None:
-      if parent_widget != None:
-        self.rect = parent_widget.rect.copy()
+    self.rect = None
+    self.UpdateRect()
+    self.surface = None
+  
+  def UpdateRect(self):
+    """Updates this Container's rect."""
+    if self.parent_window != None:
+      if self.parent_widget != None:
+        self.rect = self.parent_widget.rect.copy()
       else:
-        self.rect = parent_window.content_area_rect.copy()
+        self.rect = self.parent_window.content_area_rect.copy()
     else:
       self.rect = None
-    self.surface = None
+    self.UpdateChildWidgetSizes()
   
   def AddWidget(self, widget):
     """Adds a new Widget to the child widget list."""
@@ -56,7 +62,8 @@ class Container(Widget):
   def UpdateChildWidgetSizes(self):
     """Updates the sizes of the child widgets."""
     for child in self.child_widgets:
-      child.rect = self.rect.copy()
+      child.rect = pygame.Rect(0, 0, self.rect.width, self.rect.height)
+    self.RedrawChildWidgets()
   
   def RedrawChildWidgets(self):
     """Tells all child widgets to redraw themselves, such as after a resizing."""
@@ -70,7 +77,7 @@ class Container(Widget):
   def Redraw(self):
     """Redraw this Container. This is done by telling all child widgets to
     redraw themselves."""
-    self.RedrawChildWidgets()
+    self.UpdateRect()
     if self.rect == None:
       return;
     self.surface = pygame.Surface((self.rect.width, self.rect.height), pygame.SRCALPHA)
@@ -87,16 +94,24 @@ class HBox(Container):
   def UpdateChildWidgetSizes(self):
     """Updates the sizes and positions of the child widgets so they are
     arranged from left to right, filling the vertical space of the HBox."""
-    child_width = self.rect.width / len(self.child_widgets)
-    child_height = self.rect.height
+    if len(self.child_widgets) == 0:
+      return
+    cw = self.rect.width / len(self.child_widgets)
+    ch = self.rect.height
     for i in range(len(self.child_widgets)):
-      self.child_widgets[i].rect = pygame.Rect(self.rect.x + i * child_width, self.rect.y, child_width, child_height)
+      rect = pygame.Rect(self.rect.x + i * cw, self.rect.y, cw, ch)
+      self.child_widgets[i].rect = rect
+    self.RedrawChildWidgets()
 
 class VBox(Container):
   def UpdateChildWidgetSizes(self):
     """Updates the sizes and positions of the child widgets so they are
     arranged from top to bottom, filling the horizontal space of the VBox."""
-    child_width = self.rect.width
-    child_height = self.rect.height / len(self.child_widgets)
+    if len(self.child_widgets) == 0:
+      return
+    cw = self.rect.width
+    ch = self.rect.height / len(self.child_widgets)
     for i in range(len(self.child_widgets)):
-      self.child_widgets[i].rect = pygame.Rect(self.rect.x, self.rect.y + i * child_height, child_width, child_height)
+      rect = pygame.Rect(self.rect.x, self.rect.y + i * ch, cw, ch)
+      self.child_widgets[i].rect = rect
+    self.RedrawChildWidgets()

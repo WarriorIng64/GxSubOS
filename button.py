@@ -44,6 +44,7 @@ class Button(Widget):
     if PointInsideWidget(mouse_x, mouse_y):
       if mouse_button == 1:
         exec self.click_code
+        print "Button clicked."
   
   def Redraw(self):
     """Redraw this Button."""
