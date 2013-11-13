@@ -259,5 +259,6 @@ class WindowManager:
     widget_test.AddWidget(vbox1)
     hbox1 = HBox(vbox1, widget_test, [])
     vbox1.AddWidget(Button(vbox1, widget_test, "Top test button", "print 'Top test button clicked!'"))
+    vbox1.AddWidget(hbox1)
     hbox1.AddWidget(Button(hbox1, widget_test, "Left test button", "print 'Left test button clicked!'"))
     hbox1.AddWidget(Button(hbox1, widget_test, "Right test button", "print 'Right test button clicked!'"))
