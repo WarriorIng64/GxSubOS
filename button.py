@@ -52,10 +52,12 @@ class Button(Widget):
   
   def Redraw(self):
     """Redraw this Button."""
+    padding = 4
     if self.rect == None:
       return;
     self.surface = pygame.Surface((self.rect.width, self.rect.height), pygame.SRCALPHA)
-    pygame.draw.rect(self.surface, glass.accent_color, self.rect.inflate(-3, -3), 2)
+    border_rect = self.rect.inflate(-padding, -padding).move(padding / 2, padding / 2)
+    pygame.draw.rect(self.surface, glass.accent_color, border_rect, 2)
     if self.text_surface is not None:
       text_left_align = self.surface.get_width() / 2 - self.text_surface.get_width() / 2
       text_top_align = self.surface.get_height() / 2 - self.text_surface.get_height() / 2
