@@ -19,7 +19,7 @@ from window import Window
 from launcherbutton import Launcherbutton
 from wallpaperswitcher import WallpaperSwitcher
 import shadow
-from container import VBox
+from container import VBox, HBox
 from button import Button
 
 class WindowManager:
@@ -257,4 +257,7 @@ class WindowManager:
     widget_test = self.CreateWindow(48, 0, 450, 250, 'Widget Test')
     vbox1 = VBox(widget_test.top_level_container, widget_test, [])
     widget_test.AddWidget(vbox1)
-    vbox1.AddWidget(Button(vbox1, widget_test, "Test button", "print 'Test button clicked!'"))
+    hbox1 = HBox(vbox1, widget_test, [])
+    vbox1.AddWidget(Button(vbox1, widget_test, "Top test button", "print 'Top test button clicked!'"))
+    hbox1.AddWidget(Button(hbox1, widget_test, "Left test button", "print 'Left test button clicked!'"))
+    hbox1.AddWidget(Button(hbox1, widget_test, "Right test button", "print 'Right test button clicked!'"))
