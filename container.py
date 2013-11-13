@@ -48,11 +48,13 @@ class Container(Widget):
       print "Warning: Attempt to add a parent widget to a widget list."
       return
     if isinstance(widget, Widget):
+      # Successfully add the Widget
       self.child_widgets.append(widget)
+      self.UpdateChildWidgetSizes()
+      self.Redraw()
     else:
       print "Warning: Attempt to add non-Widget to container widget list."
       return
-    self.UpdateChildWidgetSizes()
   
   def IsTopLevel(self):
     """Returns true iff this Container contains all other Widgets in this

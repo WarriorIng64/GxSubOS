@@ -234,6 +234,12 @@ class Window:
     self.being_dragged = True
     self.click_x, self.click_y = mouse_x, mouse_y
   
-  def AddWidget(self, widget):
+  def AddWidget(self, widget, parent_widget=None):
     """Adds a new Widget to this window."""
-    self.top_level_container.AddWidget(widget)
+    if parent_widget == None:
+      self.top_level_container.AddWidget(widget)
+    else:
+      if isinstance(parent_widget, container.Container):
+        parent_widget.AddWidget(widget)
+      else:
+        print "Warning: Attempt to add child widget to non-Container."
