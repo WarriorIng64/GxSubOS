@@ -93,6 +93,17 @@ class Container(Widget):
     for child in self.child_widgets:
       child.HandleMouseButtonDownEvent(mouse_x - self.rect.x, mouse_y - self.rect.y, mouse_button)
 
+  def HasDescendantWidget(self, descendant):
+    """Checks whether this Container or any of its child Containers contains the
+    descendant Widget passed in."""
+    for child in self.child_widgets:
+      if isinstance(child, Container):
+        if child.HasDescendantWidget(child):
+          return True
+      elif child is descendant:
+          return True
+    return False
+
 class HBox(Container):
   def UpdateChildWidgetSizes(self):
     """Updates the sizes and positions of the child widgets so they are
