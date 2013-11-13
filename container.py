@@ -98,9 +98,9 @@ class Container(Widget):
     descendant Widget passed in."""
     for child in self.child_widgets:
       if isinstance(child, Container):
-        if child.HasDescendantWidget(child):
+        if child.HasDescendantWidget(descendant):
           return True
-      elif child is descendant:
+      if child is descendant:
           return True
     return False
 
