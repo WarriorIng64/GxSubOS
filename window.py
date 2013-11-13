@@ -241,5 +241,6 @@ class Window:
     else:
       if isinstance(parent_widget, container.Container):
         parent_widget.AddWidget(widget)
+        self.DrawWindowSurface()
       else:
         print "Warning: Attempt to add child widget to non-Container."
