@@ -63,7 +63,7 @@ class Container(Widget):
   def UpdateChildWidgetSizes(self):
     """Updates the sizes of the child widgets."""
     for child in self.child_widgets:
-      child.rect = pygame.Rect(0, 0, self.rect.width, self.rect.height)
+      child.rect = pygame.Rect((0, 0), (self.rect.size))
     self.RedrawChildWidgets()
   
   def RedrawChildWidgets(self):
@@ -81,7 +81,7 @@ class Container(Widget):
     self.UpdateRect()
     if self.rect == None:
       return;
-    self.surface = pygame.Surface((self.rect.width, self.rect.height), pygame.SRCALPHA)
+    self.surface = pygame.Surface(self.rect.size, pygame.SRCALPHA)
     for child in self.child_widgets:
       self.surface.blit(child.surface, child.rect.topleft)
 
