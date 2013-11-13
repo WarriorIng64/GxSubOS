@@ -16,6 +16,7 @@
 
 import pygame
 from widget import Widget
+import window
 
 class Container(Widget):
   """A special type of Widget which holds other widgets."""
@@ -33,7 +34,7 @@ class Container(Widget):
       if self.parent_widget != None:
         self.rect = self.parent_widget.rect.copy()
       else:
-        self.rect = self.parent_window.content_area_rect.copy()
+        self.rect = self.parent_window.content_area_rect.move(0, -window.titlebar_height / 2)
     else:
       self.rect = None
     self.UpdateChildWidgetSizes()
@@ -88,7 +89,7 @@ class Container(Widget):
     """Handle a MOUSEDOWN event. In the case of a Container, just pass it on to
     the child widgets."""
     for child in self.child_widgets:
-      child.HandleMouseButtonDownEvent(mouse_x, mouse_y, mouse_button)
+      child.HandleMouseButtonDownEvent(mouse_x - self.rect.x, mouse_y - self.rect.y, mouse_button)
 
 class HBox(Container):
   def UpdateChildWidgetSizes(self):
@@ -100,7 +101,7 @@ class HBox(Container):
     ch = self.rect.height
     for i in range(len(self.child_widgets)):
       rect = pygame.Rect(i * cw, 0, cw, ch)
-      self.child_widgets[i].rect = rect
+      self.child_widgets[i].rect = rect.copy()
     self.RedrawChildWidgets()
 
 class VBox(Container):
@@ -113,5 +114,5 @@ class VBox(Container):
     ch = self.rect.height / len(self.child_widgets)
     for i in range(len(self.child_widgets)):
       rect = pygame.Rect(0, i * ch, cw, ch)
-      self.child_widgets[i].rect = rect
+      self.child_widgets[i].rect = rect.copy()
     self.RedrawChildWidgets()
