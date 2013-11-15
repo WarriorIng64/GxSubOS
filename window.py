@@ -165,7 +165,6 @@ class Window:
     self.rect = pygame.rect.Rect(x, y, correct_width, correct_height)
     self.CreateSurfaces(correct_width, correct_height)
     self.UpdateContentAreaRect()
-    self.top_level_container.Redraw()
     self.DrawWindowSurface()
     self.resize_rect = self.resize_image.get_rect()
     self.resize_rect.move_ip(correct_width - titlebar_height, correct_height - titlebar_height)
