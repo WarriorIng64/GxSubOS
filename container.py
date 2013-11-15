@@ -91,7 +91,13 @@ class Container(Widget):
     """Handle a MOUSEDOWN event. In the case of a Container, just pass it on to
     the child widgets."""
     for child in self.child_widgets:
-      child.HandleMouseButtonDownEvent(mouse_x - self.rect.x, mouse_y - self.rect.y, mouse_button)
+      child.HandleMouseButtonDownEvent(mouse_x - self.rect.x, mouse_y - self.rect.y)
+  
+  def HandleMouseMotionEvent(self, mouse_x, mouse_y, mouse_button):
+    """Handle a MOUSEMOTION event. In the case of a Container, just pass it on to
+    the child widgets."""
+    for child in self.child_widgets:
+      child.HandleMouseMotionEvent(mouse_x - self.rect.x, mouse_y - self.rect.y)
 
   def HasDescendantWidget(self, descendant):
     """Checks whether this Container or any of its child Containers contains the
