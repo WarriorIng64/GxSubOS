@@ -31,6 +31,7 @@ class Button(Widget):
     self.text_surface = None
     self.SetButtonText(button_text)
     self.click_code = click_code
+    self.hovered = False
   
   def SetClickCode(self, click_code):
     """Sets the Python code which will be executed when this Button is
@@ -50,14 +51,23 @@ class Button(Widget):
       exec self.click_code
       print "Button clicked."
   
+  def HandleMouseMotionEvent(self, mouse_x, mouse_y):
+    """Handle a MOUSEMOTION event."""
+    self.hovered = self.PointInsideWidget(mouse_y, mouse_y)
+  
   def Redraw(self):
     """Redraw this Button."""
     padding = 4
+    button_color = glass.accent_color
+    button_color.a = 100
     if self.rect == None:
       return;
     self.surface = pygame.Surface((self.rect.width, self.rect.height), pygame.SRCALPHA)
     border_rect = self.rect.inflate(-padding, -padding).move(padding / 2, padding / 2)
-    pygame.draw.rect(self.surface, glass.accent_color, border_rect, 2)
+    if self.hovered:
+      pygame.draw.rect(self.surface, button_color, border_rect)
+    else:
+      pygame.draw.rect(self.surface, button_color, border_rect, 2)
     if self.text_surface is not None:
       text_left_align = self.surface.get_width() / 2 - self.text_surface.get_width() / 2
       text_top_align = self.surface.get_height() / 2 - self.text_surface.get_height() / 2
