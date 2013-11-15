@@ -91,7 +91,7 @@ class Window:
     text_surf = titlebar_font.render(self.titlebar_text, True, glass.accent_color)
     text_surf.get_rect().x = self.rect.x + titlebar_height
     text_surf.get_rect().y = self.rect.y
-    self.window_surface.blit(text_surf, [titlebar_height, 1, 0, 0])
+    self.window_surface.blit(text_surf, [titlebar_height + 4, 1, 0, 0])
   
   def MoveByAmount(self, x, y):
     """Moves this Window by the given x and y values."""
