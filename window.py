@@ -78,6 +78,7 @@ class Window:
     separator_surface = pygame.Surface((self.rect.width, self.rect.height), pygame.SRCALPHA)
     self.DrawTitlebarSeparator(separator_surface, True)
     self.DrawTitlebarSeparator(separator_surface, False)
+    drawingshapes.DrawVSeparator(separator_surface, titlebar_height, titlebar_height)
     self.window_surface.blit(separator_surface, [0, 0, 0, 0])
   
   def DrawTitlebar(self):
