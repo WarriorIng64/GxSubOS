@@ -177,6 +177,8 @@ class WindowManager:
     # General function for handling mouse motion events for windows
     self.DragWindows(mouse_x, mouse_y)
     self.ResizeWindows(mouse_x, mouse_y)
+    if len(self.window_list) > 0:
+      self.window_list[-1].HandleMouseMotionEvent(mouse_x, mouse_y)
   
   def HandleMouseButtonUpEvent(self, mouse_x, mouse_y, mouse_button):
     # General function for handling mouse button release events for windows

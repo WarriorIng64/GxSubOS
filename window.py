@@ -247,3 +247,8 @@ class Window:
           print "Warning: Attempt to add child widget to Container not in this Window."
       else:
         print "Warning: Attempt to add child widget to non-Container."
+  
+  def HandleMouseMotionEvent(self, mouse_x, mouse_y):
+    """Handle a MOUSEMOTION event. In the case of a Window, just pass it on to
+    the child widgets."""
+    self.top_level_container.HandleMouseMotionEvent(mouse_x - self.rect.x, mouse_y - self.rect.y)
