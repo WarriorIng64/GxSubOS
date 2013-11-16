@@ -206,7 +206,7 @@ class WindowManager:
           elif window.TitlebarClicked(mouse_x, mouse_y):
             window.StartDragging(mouse_x, mouse_y)
           else:
-            window.top_level_container.HandleMouseButtonDownEvent(mouse_x, mouse_y, mouse_button)
+            window.top_level_container.HandleMouseButtonDownEvent(mouse_x - window.rect.x, mouse_y - window.rect.y, mouse_button)
           break
       self.FindFocusedWindow(mouse_x, mouse_y)
       self.MaintainWindowOrder()
