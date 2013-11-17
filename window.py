@@ -15,7 +15,8 @@
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
 import sys, pygame
-import glass, drawingshapes, container
+import glass, drawingshapes
+from container import Container
 
 pygame.font.init()
 
@@ -47,7 +48,7 @@ class Window:
     self.is_maximized = False
     self.restore_rect = self.rect
     self.has_focus = True
-    self.top_level_container = container.Container(None, self)
+    self.top_level_container = Container(None, self)
     self.DrawWindowSurface()
     self.click_x, self.click_y = 0, 0
     self.window_closed = False
@@ -69,6 +70,7 @@ class Window:
       self.background_surface.fill(self.window_color_opaque)
     self.surface.blit(self.background_surface, [0, 0, 0, 0])
     self.surface.blit(self.window_surface, [0, 0, 0, 0])
+    self.surface.blit(self.content_surface, self.content_area_rect)
   
   def DrawTitlebarSeparator(self, surface, upper):
     """Draws a titlebar separator on the given surface. upper is a Boolean
@@ -153,7 +155,8 @@ class Window:
       self.window_surface.blit(self.resize_image, self.resize_rect)
     self.window_surface.convert_alpha()
     self.top_level_container.Redraw()
-    self.window_surface.blit(self.top_level_container.surface, self.top_level_container.rect)
+    self.content_surface = pygame.Surface(self.content_area_rect.size, pygame.SRCALPHA)
+    self.content_surface.blit(self.top_level_container.surface, self.top_level_container.rect)
   
   def SetFocus(self, focus):
     """Sets the focused state of this Window."""
@@ -187,6 +190,7 @@ class Window:
     layers."""
     self.surface = pygame.Surface((w, h), pygame.SRCALPHA)
     self.window_surface = pygame.Surface((w, h), pygame.SRCALPHA)
+    self.content_surface = pygame.Surface(self.content_area_rect.size, pygame.SRCALPHA)
     self.background_surface = pygame.Surface((w, h), pygame.SRCALPHA)
   
   def Maximize(self):
@@ -244,7 +248,7 @@ class Window:
     if parent_widget == None:
       self.top_level_container.AddWidget(widget)
     else:
-      if isinstance(parent_widget, container.Container):
+      if isinstance(parent_widget, Container):
         if self.top_level_container.HasDescendantWidget(parent_widget):
           parent_widget.AddWidget(widget)
           self.DrawWindowSurface()

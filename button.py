@@ -67,7 +67,7 @@ class Button(Widget):
     if self.rect == None:
       return;
     self.surface = pygame.Surface((self.rect.width, self.rect.height), pygame.SRCALPHA)
-    border_rect = self.rect.inflate(-padding, -padding).move(padding / 2, padding / 2)
+    border_rect = self.surface.get_rect().inflate(-padding, -padding).move(padding / 2, padding / 2)
     if self.hovered:
       pygame.draw.rect(self.surface, button_color, border_rect)
     else:
