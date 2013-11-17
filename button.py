@@ -46,10 +46,6 @@ class Button(Widget):
   
   def HandleMouseButtonDownEvent(self, mouse_x, mouse_y, mouse_button):
     """Handle a MOUSEDOWN event."""
-    print "Checking if button was clicked:"
-    print "  mouse_x: " + str(mouse_x)
-    print "  mouse_y: " + str(mouse_y)
-    print "  self.rect dimensions: (" + str(self.rect.x) + ", " + str(self.rect.y) + ", " + str(self.rect.width) + ", " + str(self.rect.height) + ")"
     if self.PointInsideWidget(mouse_x, mouse_y) and mouse_button == 1:
       exec self.click_code
   
