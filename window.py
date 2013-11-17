@@ -51,6 +51,11 @@ class Window:
     self.DrawWindowSurface()
     self.click_x, self.click_y = 0, 0
     self.window_closed = False
+    self.wm = None
+  
+  def SetWindowManager(self, wm):
+    """Sets this Window's WindowManager."""
+    self.wm = wm
   
   def Redraw(self, screen, blurred_surface=None):
     """Redraws this Window's surface in preparation for the next blitting."""

@@ -49,6 +49,7 @@ class WindowManager:
     self.window_list.append(new_window)
     self.launcher.AddLauncherbutton(new_window)
     self.RequireRedraw()
+    new_window.SetWindowManager(self)
     return new_window
   
   def FindFocusedWindow(self, mouse_x, mouse_y):
@@ -260,7 +261,7 @@ class WindowManager:
     vbox1 = VBox(widget_test.top_level_container, widget_test, [])
     widget_test.AddWidget(vbox1)
     hbox1 = HBox(vbox1, widget_test, [])
-    top_button = Button(vbox1, widget_test, "Top test button", "print 'Top test button clicked!'")
+    top_button = Button(vbox1, widget_test, "Create new window", "self.parent_window.wm.CreateWindow(48, 0, 400, 400, 'Spawned by button')")
     widget_test.AddWidget(top_button, vbox1)
     widget_test.AddWidget(hbox1, vbox1)
     left_button = Button(hbox1, widget_test, "Left test button", "print 'Left test button clicked!'")
