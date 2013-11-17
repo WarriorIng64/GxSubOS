@@ -127,6 +127,7 @@ class HBox(Container):
   
   def UpdateRect(self):
     """Updates this HBox's rect."""
+    self.UpdateChildWidgetSizes()
     return
 
 class VBox(Container):
@@ -144,4 +145,5 @@ class VBox(Container):
   
   def UpdateRect(self):
     """Updates this HBox's rect."""
+    self.UpdateChildWidgetSizes()
     return
