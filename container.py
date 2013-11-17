@@ -124,6 +124,10 @@ class HBox(Container):
       rect = pygame.Rect(i * cw, 0, cw, ch)
       self.child_widgets[i].rect = rect.copy()
     self.RedrawChildWidgets()
+  
+  def UpdateRect(self):
+    """Updates this HBox's rect."""
+    return
 
 class VBox(Container):
   def UpdateChildWidgetSizes(self):
@@ -137,3 +141,7 @@ class VBox(Container):
       rect = pygame.Rect(0, i * ch, cw, ch)
       self.child_widgets[i].rect = rect.copy()
     self.RedrawChildWidgets()
+  
+  def UpdateRect(self):
+    """Updates this HBox's rect."""
+    return
