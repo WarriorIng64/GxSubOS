@@ -22,6 +22,7 @@ pygame.font.init()
 
 titlebar_height = 24
 titlebar_font = pygame.font.Font("fonts/Roboto/Roboto-Regular.ttf", 18)
+focused_titlebar_font = pygame.font.Font("fonts/Roboto/Roboto-Bold.ttf", 18)
 
 class Window:
   """A class for the application windows in the desktop environment of GxSubOS."""
@@ -96,7 +97,10 @@ class Window:
     # Draw separators
     self.DrawTitlebarSeparators()
     # Draw titlebar text
-    text_surf = titlebar_font.render(self.titlebar_text, True, glass.accent_color)
+    if self.has_focus:
+      text_surf = focused_titlebar_font.render(self.titlebar_text, True, glass.accent_color)
+    else:
+      text_surf = titlebar_font.render(self.titlebar_text, True, glass.accent_color)
     text_surf.get_rect().x = self.rect.x + titlebar_height
     text_surf.get_rect().y = self.rect.y
     self.window_surface.blit(text_surf, [titlebar_height + 4, 1, 0, 0])
