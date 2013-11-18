@@ -18,7 +18,7 @@ import sys, pygame
 from widget import Widget
 import glass
 
-label_font = pygame.font.Font("fonts/Roboto/Roboto-Regular.ttf", 16)
+label_font = pygame.font.Font("fonts/Roboto/Roboto-Light.ttf", 16)
 
 class Label(Widget):
   """A Widget subclass which represents a label within a window."""
