@@ -30,11 +30,20 @@ class Widget:
     x1, x2 = self.rect.left, self.rect.right
     y1, y2 = self.rect.top, self.rect.bottom
     return x1 < x < x2 and y1 < y < y2
-  
+
   def HandleMouseButtonDownEvent(self, mouse_x, mouse_y, mouse_button):
     """Handle a MOUSEDOWN event."""
-    print "Widget base class: HandleMouseButtonDownEvent() called."
+    return
   
+  def HandleMouseMotionEvent(self, mouse_x, mouse_y):
+    """Handle a MOUSEMOTION event."""
+    return
+
+class EmptyWidget(Widget):
+  """A class implementing a Widget which is invisible and doesn't do anything.
+  These can be used as dynamically-resizing empty spaces in UIs."""
   def Redraw(self):
-    """Redraw this Widget."""
-    print "Widget base class: Redraw() called."
+    """Redraw this EmptyWidget."""
+    if self.rect == None:
+      return;
+    self.surface = pygame.Surface((self.rect.width, self.rect.height), pygame.SRCALPHA)
