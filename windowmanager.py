@@ -23,7 +23,6 @@ from widget import EmptyWidget
 from container import VBox, HBox
 from button import Button
 from label import Label
-import Tkinter, tkFileDialog
 
 class WindowManager:
   def __init__(self, launcher=None, wallpaper=None):
@@ -261,10 +260,3 @@ class WindowManager:
   def InitializeWidgetTest(self):
     """Debug function for creating a test app for checking out Widget functionality."""
     execfile("apps/default/widget_test.py")
-
-  def LoadAppFromFileDialog(self):
-    """Loads a user-specified GxSubOS app from a file dialog."""
-    root = Tkinter.Tk()
-    root.withdraw()
-    file_path = tkFileDialog.askopenfilename(filetypes=[("GxSubOS 2.0 apps", "*.py")], title="Open app")
-    execfile(file_path)
