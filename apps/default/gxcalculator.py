@@ -71,10 +71,9 @@ window.AddWidget(button_clr, hbox4)
 window.AddWidget(button_divide, hbox4)
 
 # Equals button
-evalulation_code = """
+evaluation_code = """
 try:
-  result = eval(self.parent_window.display_label.GetLabelText())
-  break
+  result = str(eval(self.parent_window.display_label.GetLabelText()))
 except SyntaxError:
   result = 'SYNTAX ERROR'
 self.parent_window.display_label.SetLabelText(result)

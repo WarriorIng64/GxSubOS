@@ -50,6 +50,7 @@ class Window:
     self.restore_rect = self.rect
     self.has_focus = True
     self.top_level_container = copy.deepcopy(Container(None, self))
+    self.top_level_container.parent_window = self
     self.DrawWindowSurface()
     self.click_x, self.click_y = 0, 0
     self.window_closed = False
