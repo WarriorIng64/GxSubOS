@@ -41,9 +41,10 @@ class Startbutton:
         if self.startmenu is None:
           # Open the start menu
           self.startmenu = Menu(self.launcher.wm, self.launcher.surface.get_width(), 0)
-          self.startmenu.AddMenuOption("Create new window", "self.creator.CreateWindow(48, 0, 300, 200, 'Untitled')")
+          self.startmenu.AddMenuOption("Create empty window", "self.creator.CreateWindow(48, 0, 300, 200, 'Untitled')")
+          self.startmenu.AddMenuOption("Start Widget Test...", "self.creator.LoadDefaultApp('widget_test')")
+          self.startmenu.AddMenuOption("Start GxCalculator...", "self.creator.LoadDefaultApp('gxcalculator')")
           self.startmenu.AddMenuOption("Change wallpaper...", "self.creator.InitializeWallpaperSwitcher()")
-          self.startmenu.AddMenuOption("Spawn Widget Test...", "self.creator.InitializeWidgetTest()")
           self.startmenu.AddMenuOption("Shutdown GxSubOS", "pygame.quit();sys.exit()")
           update_rect = update_rect.union(self.startmenu.rect)
         else:

@@ -260,3 +260,8 @@ class WindowManager:
   def InitializeWidgetTest(self):
     """Debug function for creating a test app for checking out Widget functionality."""
     execfile("apps/default/widget_test.py")
+
+  def LoadDefaultApp(self, app_name):
+    """Loads a default app based on the given app name, which must match the
+    file name minus the extension."""
+    execfile("apps/default/" + app_name + ".py")

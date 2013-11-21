@@ -19,7 +19,7 @@ window = self.CreateWindow(48, 0, 450, 250, 'GxCalculator')
 vbox1 = VBox(window.top_level_container, window, [])
 window.AddWidget(vbox1)
 window.display_label = Label(vbox1, window, "");
-window.AddWidget(display_label, vbox1);
+window.AddWidget(window.display_label, vbox1);
 
 hbox1 = HBox(vbox1, window, [])
 hbox2 = HBox(vbox1, window, [])
@@ -70,6 +70,14 @@ window.AddWidget(button_dot, hbox4)
 window.AddWidget(button_clr, hbox4)
 window.AddWidget(button_divide, hbox4)
 
-# Lower HBox widgets
-button_equals = Button(vbox1, window, "=", "self.parent_window.display_label.SetLabelText(eval(self.parent_window.display_label.GetLabelText()))")
+# Equals button
+evalulation_code = """
+try:
+  result = eval(self.parent_window.display_label.GetLabelText())
+  break
+except SyntaxError:
+  result = 'SYNTAX ERROR'
+self.parent_window.display_label.SetLabelText(result)
+"""
+button_equals = Button(vbox1, window, "=", evaluation_code)
 window.AddWidget(button_equals, vbox1)
