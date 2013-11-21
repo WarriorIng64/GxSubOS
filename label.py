@@ -35,9 +35,9 @@ class Label(Widget):
   def SetLabelText(self, label_text):
     """Sets the text displayed on the label."""
     self.label_text = label_text
-    if self.label_text != "":
-      self.text_surface = label_font.render(self.label_text, True, glass.accent_color)
-      self.RedrawParentWindow()
+    render_text = self.label_text if self.label_text != "" else " "
+    self.text_surface = label_font.render(render_text, True, glass.accent_color)
+    self.RedrawParentWindow()
 
   def GetLabelText(self):
     """Gets the text displayed on the label."""
