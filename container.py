@@ -34,7 +34,7 @@ class Container(Widget):
       if self.parent_widget != None:
         self.rect = self.parent_widget.rect.copy()
       else:
-        self.rect = self.parent_window.content_area_rect.move(0, -window.titlebar_height / 2)
+        self.rect = self.parent_window.content_area_rect.move(0, -window.titlebar_height)
     else:
       self.rect = None
     self.UpdateChildWidgetSizes()
