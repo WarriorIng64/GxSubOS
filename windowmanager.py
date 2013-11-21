@@ -25,6 +25,7 @@ from button import Button
 from label import Label
 
 class WindowManager:
+  """This class manages the windows and desktop environment."""
   def __init__(self, launcher=None, wallpaper=None):
     self.window_list = []
     self.launcher = launcher
@@ -34,17 +35,17 @@ class WindowManager:
     self.update_rect = pygame.Rect((0, 0), (pygame.display.Info().current_w, pygame.display.Info().current_h))
 
   def SetLauncher(self, launcher):
-    # Assigns a Launcher instance to this WindowManager for drawing and
-    # manipulation purposes.
+    """Assigns a Launcher instance to this WindowManager for drawing and
+    manipulation purposes."""
     self.launcher = launcher
   
   def SetWallpaper(self, wp):
-    # Assigns a Wallpaper instance to this WindowManager for drawing and
-    # manipulation purposes.
+    """Assigns a Wallpaper instance to this WindowManager for drawing and
+    manipulation purposes."""
     self.wallpaper = wp
   
   def CreateWindow(self, x, y, width, height, titlebar_text=''):
-    # Properly create a new application window that the launcher knows about
+    """Properly create a new application window that the launcher knows about."""
     for window in self.window_list:
       window.SetFocus(False)
     new_window = Window(x, y, width, height, titlebar_text)
@@ -55,7 +56,7 @@ class WindowManager:
     return new_window
   
   def FindFocusedWindow(self, mouse_x, mouse_y):
-    # Set the correct focused window for a MOUSEBUTTONDOWN event
+    """Set the correct focused window for a MOUSEBUTTONDOWN event."""
     for window in reversed(self.window_list):
       if window.WindowClicked(mouse_x, mouse_y):
         window.SetFocus(True)
@@ -64,8 +65,8 @@ class WindowManager:
         window.SetFocus(False)
   
   def RemoveClosedWindows(self):
-    # Looks for and removes windows closed
-    # Returns true iff any closed windows are found
+    """Looks for and removes windows closed.
+    Returns true iff any closed windows are found."""
     for window in reversed(self.window_list):
       if window.window_closed:
         self.window_list.remove(window)
@@ -75,8 +76,8 @@ class WindowManager:
     return False
   
   def MaintainWindowOrder(self):
-    # Maintain proper window order
-    # Returns true iff the order is changed
+    """Maintain proper window order.
+    Returns true iff the order is changed."""
     for window in self.window_list[:-1]:
       if window.has_focus:
         # This is always last in the window_list so it's drawn on top
@@ -90,14 +91,14 @@ class WindowManager:
     return False
   
   def UpdateWindows(self, mouse_event, mouse_button):
-    # General function for updating the state of all windows and the list
-    # Returns true iff a redraw of all windows is required
+    """General function for updating the state of all windows and the list.
+    Returns true iff a redraw of all windows is required."""
     redraw_needed = self.RemoveClosedWindows(mouse_event, mouse_button)
     redraw_needed = redraw_needed or self.MaintainWindowOrder()
     return redraw_needed
   
   def DrawDesktopSurface(self, desktop_surface, wallpaper):
-    # Update the surface behind the focused window
+    """Update the surface behind the focused window."""
     if self.RedrawNeeded():
       desktop_surface.blit(self.wallpaper.image, self.wallpaper.rect)
       for window in self.window_list[:-1]:
@@ -110,9 +111,9 @@ class WindowManager:
       self.redraw_needed = False
   
   def DrawTopWindow(self, surface, blurred_surface=None):
-    # Draws the top window onto the given surface
-    # A blurred version of the surface behind the window can be passed in to save time
-    # Returns a Rect containing the updated area
+    """Draws the top window onto the given surface.
+    A blurred version of the surface behind the window can be passed in to save time.
+    Returns a Rect containing the updated area."""
     if len(self.window_list) < 1:
       return self.update_rect
     window = self.window_list[-1]
@@ -126,32 +127,32 @@ class WindowManager:
     return self.update_rect
   
   def MaximizedWindowExists(self):
-    # Return true iff there is a maximized window
+    """Returns true iff there is a maximized window."""
     for window in reversed(self.window_list):
       if window.is_maximized:
         return True
     return False
   
   def GetEntireWindowArea(self, window):
-    # Returns a Rect representing the entire drawable area the window covers,
-    # including the shadow.
+    """Returns a Rect representing the entire drawable area the window covers,
+    including the shadow."""
     size_increase = shadow.shadow_width * 2
     return window.rect.inflate(size_increase, size_increase)
   
   def UpdateUpdateRect(self, window):
-    # Updates update_rect based on the current rect for the given window
+    """Updates update_rect based on the current rect for the given window."""
     self.update_rect.union_ip(self.GetEntireWindowArea(window))
   
   def UpdateRectFunction(self, window, f):
-    # Usage: UpdateRectFunction(window, lambda: functioncall(args))
-    # Use when performing a window management operation where the update_rect
-    # itself needs to be updated.
+    """Usage: UpdateRectFunction(window, lambda: functioncall(args))
+    Use when performing a window management operation where the update_rect
+    itself needs to be updated."""
     self.UpdateUpdateRect(window)
     f()
     self.UpdateUpdateRect(window)
   
   def DragWindows(self, mouse_x, mouse_y):
-    # Drags windows which are in the state of being dragged
+    """Drags windows which are in the state of being dragged."""
     if len(self.window_list) < 1:
       return
     window = self.window_list[-1]
@@ -159,7 +160,7 @@ class WindowManager:
       self.UpdateRectFunction(window, lambda: window.Drag(mouse_x, mouse_y))
   
   def ResizeWindows(self, mouse_x, mouse_y):
-    # Resizes windows which are in the state of being resized
+    """Resizes windows which are in the state of being resized."""
     if len(self.window_list) < 1:
       return
     window = self.window_list[-1]
@@ -167,24 +168,24 @@ class WindowManager:
       self.UpdateRectFunction(window, lambda: window.MouseResize(mouse_x, mouse_y))
   
   def StopAllWindowDragging(self):
-    # Stops all window dragging, such as when the user releases the mouse button
+    """Stops all window dragging, such as when the user releases the mouse button."""
     for window in self.window_list:
       window.being_dragged = False
   
   def StopAllWindowResizing(self):
-    # Stops all window resizing, such as when the user releases the mouse button
+    """Stops all window resizing, such as when the user releases the mouse button."""
     for window in self.window_list:
       window.being_resized = False
   
   def HandleMouseMotionEvent(self, mouse_x, mouse_y):
-    # General function for handling mouse motion events for windows
+    """General function for handling mouse motion events for windows."""
     self.DragWindows(mouse_x, mouse_y)
     self.ResizeWindows(mouse_x, mouse_y)
     if len(self.window_list) > 0:
       self.window_list[-1].HandleMouseMotionEvent(mouse_x, mouse_y)
   
   def HandleMouseButtonUpEvent(self, mouse_x, mouse_y, mouse_button):
-    # General function for handling mouse button release events for windows
+    """General function for handling mouse button release events for windows."""
     if mouse_button == 1:
       if len(self.window_list) > 0:
         window = self.window_list[-1]
@@ -197,7 +198,7 @@ class WindowManager:
       self.StopAllWindowResizing()
   
   def HandleMouseButtonDownEvent(self, mouse_x, mouse_y, mouse_button):
-    # General function for handling mouse button press events for windows
+    """General function for handling mouse button press events for windows."""
     if mouse_button == 1:
       for window in reversed(self.window_list):
         if window.WindowClicked(mouse_x, mouse_y):
@@ -207,7 +208,7 @@ class WindowManager:
       self.MaintainWindowOrder()
   
   def HandleKeyDownEvent(self, event):
-    # General function for handling a keyboard key down event.
+    """General function for handling a keyboard key down event."""
     if self.wallpaper_switcher is not None:
       self.wallpaper_switcher.HandleKeyDownEvent(event)
       if event.key == pygame.K_RETURN:
@@ -215,23 +216,23 @@ class WindowManager:
       self.DeleteWallpaperSwitcherIfClosed()
   
   def RedrawNeeded(self):
-    # Returns true iff a redraw of the nonfocused windows is needed
+    """Returns true iff a redraw of the nonfocused windows is needed."""
     return self.redraw_needed
   
   def RequireRedraw(self):
-    # Updates the current state to require a redraw
+    """Updates the current state to require a redraw."""
     self.redraw_needed = True
   
   def ResetUpdateRect(self):
-    # Resets the update_rect
+    """Resets the update_rect."""
     self.update_rect = pygame.Rect(0, 0, 0, 0)
   
   def InitializeWallpaperSwitcher(self):
-    # Start up the wallpaper switcher.
+    """Start up the wallpaper switcher."""
     self.wallpaper_switcher = WallpaperSwitcher(self.wallpaper)
   
   def DeleteWallpaperSwitcherIfClosed(self):
-    # Get rid of a wallpaper switcher that's marked as closed.
+    """Get rid of a wallpaper switcher that's marked as closed."""
     if self.wallpaper_switcher is not None:
       if self.wallpaper_switcher.closed:
         self.update_rect.union_ip(self.wallpaper_switcher.rect)
@@ -239,9 +240,9 @@ class WindowManager:
         self.wallpaper_switcher = None
   
   def DrawWallpaperSwitcher(self, surface, blurred_surface=None):
-    # Draws the wallpaper switcher onto the given surface
-    # A blurred version of the surface behind the switcher can be passed in to save time
-    # Returns a Rect containing the updated area
+    """Draws the wallpaper switcher onto the given surface.
+    A blurred version of the surface behind the switcher can be passed in to save time.
+    Returns a Rect containing the updated area."""
     if self.wallpaper_switcher is None:
       return self.update_rect
     self.wallpaper_switcher.Redraw(surface, blurred_surface)
