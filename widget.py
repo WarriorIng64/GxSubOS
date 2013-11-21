@@ -39,6 +39,12 @@ class Widget:
     """Handle a MOUSEMOTION event."""
     return
 
+  def RedrawParentWindow(self):
+    """Force the parent window to redraw and reflect app changes."""
+    self.parent_window.top_level_container.Redraw()
+    self.parent_window.DrawWindowSurface()
+    self.parent_window.wm.UpdateUpdateRect(self.parent_window)
+
 class EmptyWidget(Widget):
   """A class implementing a Widget which is invisible and doesn't do anything.
   These can be used as dynamically-resizing empty spaces in UIs."""
