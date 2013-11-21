@@ -206,8 +206,8 @@ class Window:
     self.rect.x = 48 # Replace this later with a variable for desktop size
     self.rect.y = 0
     self.Resize(maximized_width, maximized_height)
-    self.DrawWindowSurface()
     self.is_maximized = True
+    self.DrawWindowSurface()
   
   def Unmaximize(self):
     """Unmaximizes this Window."""
@@ -215,8 +215,8 @@ class Window:
       self.rect.x = self.restore_rect.x
       self.rect.y = self.restore_rect.y
       self.Resize(self.restore_rect.width, self.restore_rect.height)
-      self.DrawWindowSurface()
       self.is_maximized = False
+      self.DrawWindowSurface()
   
   def Drag(self, mouse_x, mouse_y):
     """Drags this Window using the given mouse coordinates and comparing them
