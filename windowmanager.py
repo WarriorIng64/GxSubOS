@@ -201,15 +201,7 @@ class WindowManager:
     if mouse_button == 1:
       for window in reversed(self.window_list):
         if window.WindowClicked(mouse_x, mouse_y):
-          if window.CloseButtonClicked(mouse_x, mouse_y):
-            window.window_closed = True
-            self.RemoveClosedWindows()
-          elif window.ResizeButtonClicked(mouse_x, mouse_y):
-            window.StartResizing(mouse_x, mouse_y)
-          elif window.TitlebarClicked(mouse_x, mouse_y):
-            window.StartDragging(mouse_x, mouse_y)
-          else:
-            window.top_level_container.HandleMouseButtonDownEvent(mouse_x - window.rect.x, mouse_y - window.rect.y, mouse_button)
+          window.HandleMouseButtonDownEvent(mouse_x, mouse_y, mouse_button)
           break
       self.FindFocusedWindow(mouse_x, mouse_y)
       self.MaintainWindowOrder()

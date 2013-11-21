@@ -265,4 +265,19 @@ class Window:
   def HandleMouseMotionEvent(self, mouse_x, mouse_y):
     """Handle a MOUSEMOTION event. In the case of a Window, just pass it on to
     the child widgets."""
-    self.top_level_container.HandleMouseMotionEvent(mouse_x - self.rect.x, mouse_y - self.rect.y)
+    tlc = self.top_level_container
+    tlc.HandleMouseMotionEvent(mouse_x - self.rect.x, mouse_y - self.rect.y - titlebar_height)
+  
+  def HandleMouseButtonDownEvent(self, mouse_x, mouse_y, mouse_button):
+    """Handle a MOUSEDOWN event."""
+    tlc = self.top_level_container
+    if self.WindowClicked(mouse_x, mouse_y):
+      if self.CloseButtonClicked(mouse_x, mouse_y):
+        self.window_closed = True
+        self.wm.RemoveClosedWindows()
+      elif self.ResizeButtonClicked(mouse_x, mouse_y):
+        self.StartResizing(mouse_x, mouse_y)
+      elif self.TitlebarClicked(mouse_x, mouse_y):
+        self.StartDragging(mouse_x, mouse_y)
+      else:
+        tlc.HandleMouseButtonDownEvent(mouse_x - self.rect.x, mouse_y - self.rect.y - titlebar_height, mouse_button)
