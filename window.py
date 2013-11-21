@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
-import sys, pygame
+import sys, pygame, copy
 import glass, drawingshapes
 from container import Container
 
@@ -49,7 +49,7 @@ class Window:
     self.is_maximized = False
     self.restore_rect = self.rect
     self.has_focus = True
-    self.top_level_container = Container(None, self)
+    self.top_level_container = copy.deepcopy(Container(None, self))
     self.DrawWindowSurface()
     self.click_x, self.click_y = 0, 0
     self.window_closed = False
