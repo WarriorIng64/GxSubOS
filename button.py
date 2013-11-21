@@ -51,7 +51,7 @@ class Button(Widget):
   
   def HandleMouseMotionEvent(self, mouse_x, mouse_y):
     """Handle a MOUSEMOTION event."""
-    is_hovered = self.PointInsideWidget(mouse_y, mouse_y)
+    is_hovered = self.PointInsideWidget(mouse_x, mouse_y)
     if self.hovered != is_hovered:
       self.hovered = is_hovered
       self.Redraw()
