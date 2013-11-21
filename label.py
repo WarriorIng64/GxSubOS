@@ -33,10 +33,14 @@ class Label(Widget):
     self.hovered = False
   
   def SetLabelText(self, label_text):
-    """Sets the text displayed on the button."""
+    """Sets the text displayed on the label."""
     self.label_text = label_text
     if self.label_text != "":
       self.text_surface = label_font.render(self.label_text, True, glass.accent_color)
+
+  def GetLabelText(self):
+    """Gets the text displayed on the label."""
+    return self.label_text
   
   def Redraw(self):
     """Redraw this Label."""
