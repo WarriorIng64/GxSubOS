@@ -76,6 +76,8 @@ try:
   result = str(eval(self.parent_window.display_label.GetLabelText()))
 except SyntaxError:
   result = 'SYNTAX ERROR'
+except ZeroDivisionError:
+  result = 'DIVISION BY ZERO ERROR'
 self.parent_window.display_label.SetLabelText(result)
 """
 button_equals = Button(vbox1, window, "=", evaluation_code)
