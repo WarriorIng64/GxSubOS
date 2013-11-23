@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
-window = self.CreateWindow(48, 0, 450, 250, 'GxCalculator')
+window = self.CreateWindow(48, 0, 200, 300, 'GxCalculator')
 
 vbox1 = VBox(window.top_level_container, window, [])
 window.AddWidget(vbox1)
