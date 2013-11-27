@@ -206,6 +206,8 @@ class WindowManager:
           break
       self.FindFocusedWindow(mouse_x, mouse_y)
       self.MaintainWindowOrder()
+    elif self.wallpaper_switcher is not None:
+      self.wallpaper_switcher.HandleMouseButtonDownEvent(mouse_x, mouse_y, mouse_button)
   
   def HandleKeyDownEvent(self, event):
     """General function for handling a keyboard key down event."""

@@ -86,6 +86,16 @@ class WallpaperSwitcher:
       self.closed = True
     elif event.key == pygame.K_ESCAPE:
       self.closed = True
+
+  def HandleMouseButtonDownEvent(self, mouse_x, mouse_y, mouse_button):
+    """Handles a MOUSEDOWN event for wallpaper scrolling with the scroll wheel."""
+    if mouse_x > self.rect.left:
+      if mouse_button == 4:
+        # Scroll up
+        self.DecrementCurrentSelection()
+      elif mouse_button == 5:
+        # Scroll down
+        self.IncrementCurrentSelection()
   
   def Redraw(self, screen, blurred_surface=None):
     """Redraws the appearance of this WallpaperSwitcher."""
