@@ -15,6 +15,24 @@
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
 import pygame, sys
+import MySQLdb as mdb
+
+# This module was constructed with the help of this online tutorial:
+# http://zetcode.com/db/mysqlpython/
+
+con = mdb.connect('localhost', 'localuser', 'gxappdbcon', 'gxappdb')
 
 class AppDB:
-  # Stuff goes here, YEAH!
+  def __init__(self):
+    with con:
+      cur = con.cursor()
+      cur.execute("DROP TABLE IF EXISTS Apps")
+      cur.execute("CREATE TABLE Apps(AppId INT PRIMARY KEY AUTO_INCREMENT, \
+                   AppName VARCHAR(20), \
+                   DirName VARCHAR(20), \
+                   CurVersion VARCHAR(3), \
+                   UpdateVersion VARCHAR(3))")
+  
+  def RetrieveAppNames():
+    '''Retrieves a list of the names of all apps in the database.'''
+    # TODO
