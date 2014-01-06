@@ -31,7 +31,9 @@ class AppDB:
                    AppName VARCHAR(20), \
                    DirName VARCHAR(20), \
                    CurVersion VARCHAR(3), \
-                   UpdateVersion VARCHAR(3))")
+                   UpdateVersion VARCHAR(3), \
+                   WebsiteUrl VARCHAR(2083), \
+                   RepoUrl VARCHAR(2083))")
   
   def RetrieveAppNames():
     '''Retrieves a list of the names of all apps in the database.'''
