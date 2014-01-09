@@ -259,4 +259,4 @@ class WindowManager:
   def LoadDefaultApp(self, app_name):
     """Loads a default app based on the given app name, which must match the
     file name minus the extension."""
-    execfile("apps/default/" + app_name + ".py")
+    execfile("apps/default/" + app_name + "/" + app_name + ".py")
