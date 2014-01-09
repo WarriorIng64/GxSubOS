@@ -29,6 +29,7 @@ class AppDB:
       cur.execute("DROP TABLE IF EXISTS Apps")
       cur.execute("CREATE TABLE Apps(AppId INT PRIMARY KEY AUTO_INCREMENT, \
                    AppName VARCHAR(20), \
+                   Default BOOLEAN, \
                    DirName VARCHAR(20), \
                    CurVersion VARCHAR(3), \
                    UpdateVersion VARCHAR(3), \
