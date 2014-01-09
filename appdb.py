@@ -37,4 +37,10 @@ class AppDB:
   
   def RetrieveAppNames():
     '''Retrieves a list of the names of all apps in the database.'''
-    # TODO
+    appslist = []
+    cur = con.cursor()
+    cur.execute("SELECT AppName FROM Apps")
+    rows = cur.fetchall()
+    for row in rows:
+      appslist.append(rows[1])
+    return appslist
