@@ -20,27 +20,21 @@ import MySQLdb as mdb
 # This module was constructed with the help of this online tutorial:
 # http://zetcode.com/db/mysqlpython/
 
-con = mdb.connect('localhost', 'GxSubOSUser', 'GxSubOSPassword', 'GxSubOS')
-
 class AppDB:
   def __init__(self):
-    with con:
-      cur = con.cursor()
+    self.con = None
+    self.Connect()
+    with self.con:
+      cur = self.con.cursor()
       cur.execute("USE GxSubOS")
-      cur.execute("DROP TABLE IF EXISTS Apps")
-      cur.execute("CREATE TABLE Apps(AppId INT PRIMARY KEY AUTO_INCREMENT, \
-                   AppName VARCHAR(20), \
-                   DefaultApp BOOLEAN, \
-                   DirName VARCHAR(20), \
-                   CurVersion VARCHAR(3), \
-                   UpdateVersion VARCHAR(3), \
-                   WebsiteUrl VARCHAR(2083), \
-                   RepoUrl VARCHAR(2083))")
+  
+  def __del__(self):
+    self.Disconnect()
   
   def RetrieveAppNames(self):
     '''Retrieves a list of the names of all apps in the database.'''
     appslist = []
-    cur = con.cursor(mdb.cursors.DictCursor)
+    cur = self.con.cursor(mdb.cursors.DictCursor)
     cur.execute("SELECT AppName FROM Apps")
     rows = cur.fetchall()
     for row in rows:
@@ -49,7 +43,18 @@ class AppDB:
   
   def InsertDefaultApps(self):
     '''Inserts the info for the default apps into the database.'''
-    cur = con.cursor()
+    cur = self.con.cursor()
+    # Initial database setup
+    cur.execute("USE GxSubOS")
+    cur.execute("DROP TABLE IF EXISTS Apps")
+    cur.execute("CREATE TABLE Apps(AppId INT PRIMARY KEY AUTO_INCREMENT, \
+                 AppName VARCHAR(20), \
+                 DefaultApp BOOLEAN, \
+                 DirName VARCHAR(20), \
+                 CurVersion VARCHAR(3), \
+                 UpdateVersion VARCHAR(3), \
+                 WebsiteUrl VARCHAR(2083), \
+                 RepoUrl VARCHAR(2083))")
     # The default apps are currently hard-coded here
     fields = "AppName,DefaultApp,DirName,CurVersion,UpdateVersion,WebsiteUrl,RepoURL"
     values = "'GxCalculator',true,'GxCalculator','0.1','0.1','https://github.com/WarriorIng64/GxCalculator','https://github.com/WarriorIng64/GxCalculator.git'"
@@ -57,7 +62,15 @@ class AppDB:
   
   def GetAppInfo(self, appname):
     '''Gets the info for the given app name as a dictionary.'''
-    cur = con.cursor(mdb.cursors.DictCursor)
+    cur = self.con.cursor(mdb.cursors.DictCursor)
     cur.execute("SELECT * FROM Apps WHERE AppName = '" + appname + "'")
     rows = cur.fetchall()
     return rows[0]
+  
+  def Connect(self):
+    '''Connects to the database.'''
+    self.con = mdb.connect('localhost', 'GxSubOSUser', 'GxSubOSPassword', 'GxSubOS')
+  
+  def Disconnect(self):
+    '''Disconnects from the database.'''
+    self.con.close()
