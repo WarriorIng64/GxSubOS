@@ -50,14 +50,13 @@ class AppDB:
     cur.execute("CREATE TABLE Apps(AppId INT PRIMARY KEY AUTO_INCREMENT, \
                  AppName VARCHAR(20), \
                  DefaultApp BOOLEAN, \
-                 DirName VARCHAR(20), \
                  CurVersion VARCHAR(3), \
                  UpdateVersion VARCHAR(3), \
                  WebsiteUrl VARCHAR(2083), \
                  RepoUrl VARCHAR(2083))")
     # The default apps are currently hard-coded here
     fields = "AppName,DefaultApp,DirName,CurVersion,UpdateVersion,WebsiteUrl,RepoURL"
-    values = "'GxCalculator',true,'GxCalculator','0.1','0.1','https://github.com/WarriorIng64/GxCalculator','https://github.com/WarriorIng64/GxCalculator.git'"
+    values = "'GxCalculator',true,'0.1','0.1','https://github.com/WarriorIng64/GxCalculator','https://github.com/WarriorIng64/GxCalculator.git'"
     cur.execute("INSERT INTO Apps(" + fields + ") VALUES(" + values + ")")
   
   def GetAppInfo(self, appname):
