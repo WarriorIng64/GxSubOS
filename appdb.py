@@ -26,6 +26,9 @@ class AppDB:
   def __init__(self):
     with con:
       cur = con.cursor()
+      cur.execute("DROP DATABASE IF EXISTS GxSubOS")
+      cur.execute("CREATE DATABASE GxSubOS")
+      cur.execute("USE GxSubOS")
       cur.execute("DROP TABLE IF EXISTS Apps")
       cur.execute("CREATE TABLE Apps(AppId INT PRIMARY KEY AUTO_INCREMENT, \
                    AppName VARCHAR(20), \
@@ -36,7 +39,7 @@ class AppDB:
                    WebsiteUrl VARCHAR(2083), \
                    RepoUrl VARCHAR(2083))")
   
-  def RetrieveAppNames():
+  def RetrieveAppNames(self):
     '''Retrieves a list of the names of all apps in the database.'''
     appslist = []
     cur = con.cursor()
@@ -46,10 +49,17 @@ class AppDB:
       appslist.append(rows[1])
     return appslist
   
-  def InsertDefaultApps():
+  def InsertDefaultApps(self):
     '''Inserts the info for the default apps into the database.'''
     cur = con.cursor()
     # The default apps are currently hard-coded here
     fields = "AppName,Default,DirName,CurVersion,UpdateVersion,WebsiteUrl,RepoURL"
     values = "'GxCalculator',True,'GxCalculator','0.1','0.1','https://github.com/WarriorIng64/GxCalculator','https://github.com/WarriorIng64/GxCalculator.git'"
     cur.execute("INSERT INTO Apps(" + fields + ") VALUES(" + values + ")")
+  
+  def GetAppInfo(self, appname):
+    '''Gets the info for the given app name as a dictionary.'''
+    cur = con.cursor(mdb.cursors.DictCursor)
+    cur.execute("SELECT * FROM Apps WHERE AppName = " + appname)
+    rows = cur.fetchall()
+    return rows[0]
