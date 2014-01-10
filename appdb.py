@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
-import pygame, sys
+import sys
 import MySQLdb as mdb
 
 # This module was constructed with the help of this online tutorial:
