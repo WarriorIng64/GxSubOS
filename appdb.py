@@ -55,7 +55,7 @@ class AppDB:
                  WebsiteUrl VARCHAR(2083), \
                  RepoUrl VARCHAR(2083))")
     # The default apps are currently hard-coded here
-    fields = "AppName,DefaultApp,DirName,CurVersion,UpdateVersion,WebsiteUrl,RepoURL"
+    fields = "AppName,DefaultApp,CurVersion,UpdateVersion,WebsiteUrl,RepoURL"
     values = "'GxCalculator',true,'0.1','0.1','https://github.com/WarriorIng64/GxCalculator','https://github.com/WarriorIng64/GxCalculator.git'"
     cur.execute("INSERT INTO Apps(" + fields + ") VALUES(" + values + ")")
   

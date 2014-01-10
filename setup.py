@@ -19,10 +19,10 @@ from appdb import AppDB
 
 def Setup():
   # Sets up the necessary data for the SubOS if this is the first run.
+  database = AppDB()
   if not os.path.isdir(os.getcwd() + "/apps"):
     print "First run; setting up app database."
     # App database setup
-    database = AppDB()
     database.InsertDefaultApps()
     initialwd = os.getcwd()
     # Create directories and retrieve default apps from Git repos
@@ -36,3 +36,4 @@ def Setup():
       os.chdir(appswd)
       appinfo = database.GetAppInfo(appname)
       os.system("git clone " + appinfo["RepoUrl"])
+    os.chdir(initialwd)

@@ -14,13 +14,15 @@
 # You should have received a copy of the GNU General Public License
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
-import sys, pygame
+import sys, pygame, setup
 from pygame.locals import *
+from appdb import AppDB
 from wallpaper import Wallpaper
 from launcher import Launcher
 from windowmanager import WindowManager
 from menu import Menu
 import glass
+
 pygame.init()
 
 fpsClock = pygame.time.Clock()
@@ -35,6 +37,9 @@ screen.set_alpha(None)
 desktop_surface = pygame.Surface((screen.get_width(), screen.get_height()))
 
 system_font = pygame.font.Font(None, 12)
+
+# First-time setup of database and settings
+setup.Setup()
 
 # Desktop shell setup
 wallpaper = Wallpaper(size)
