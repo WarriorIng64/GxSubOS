@@ -26,16 +26,13 @@ def Setup():
     database.InsertDefaultApps()
     initialwd = os.getcwd()
     # Create directories and retrieve default apps from Git repos
-    #os.makedirs(os.getcwd() + "/apps")
     os.makedirs(os.getcwd() + "/apps/default")
     os.chdir(os.getcwd() + "/apps/default")
     appswd = os.getcwd()
     applist = database.RetrieveAppNames()
+    print "Need to clone " + str(len(applist)) + " default apps."
     for appname in applist:
       # Create each repo and pull
       os.chdir(appswd)
       appinfo = database.GetAppInfo(appname)
-      #appdir = appinfo["DirName"]
-      #os.makedirs(appdir)
-      #os.chdir(appdir)
       os.system("git clone " + appinfo["RepoUrl"])
