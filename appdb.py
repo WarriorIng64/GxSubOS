@@ -45,3 +45,11 @@ class AppDB:
     for row in rows:
       appslist.append(rows[1])
     return appslist
+  
+  def InsertDefaultApps():
+    '''Inserts the info for the default apps into the database.'''
+    cur = con.cursor()
+    # The default apps are currently hard-coded here
+    fields = "AppName,Default,DirName,CurVersion,UpdateVersion,WebsiteUrl,RepoURL"
+    values = "'GxCalculator',True,'GxCalculator','0.1','0.1','https://github.com/WarriorIng64/GxCalculator','https://github.com/WarriorIng64/GxCalculator.git'"
+    cur.execute("INSERT INTO Apps(" + fields + ") VALUES(" + values + ")")
