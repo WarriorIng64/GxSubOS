@@ -26,7 +26,6 @@ class AppDB:
     self.Connect()
     with self.con:
       cur = self.con.cursor()
-      cur.execute("USE GxSubOS")
   
   def __del__(self):
     self.Disconnect()
