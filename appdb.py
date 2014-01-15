@@ -15,10 +15,10 @@
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
 import sys
-import MySQLdb as mdb
+import sqlite3
 
 # This module was constructed with the help of this online tutorial:
-# http://zetcode.com/db/mysqlpython/
+# http://zetcode.com/db/sqlitepythontutorial/
 
 class AppDB:
   def __init__(self):
@@ -33,7 +33,7 @@ class AppDB:
   def RetrieveAppNames(self):
     '''Retrieves a list of the names of all apps in the database.'''
     appslist = []
-    cur = self.con.cursor(mdb.cursors.DictCursor)
+    cur = self.con.cursor(sqlite3.cursors.DictCursor)
     cur.execute("SELECT AppName FROM Apps")
     rows = cur.fetchall()
     for row in rows:
@@ -60,14 +60,14 @@ class AppDB:
   
   def GetAppInfo(self, appname):
     '''Gets the info for the given app name as a dictionary.'''
-    cur = self.con.cursor(mdb.cursors.DictCursor)
+    cur = self.con.cursor(sqlite3.cursors.DictCursor)
     cur.execute("SELECT * FROM Apps WHERE AppName = '" + appname + "'")
     rows = cur.fetchall()
     return rows[0]
   
   def Connect(self):
     '''Connects to the database.'''
-    self.con = mdb.connect('localhost', 'GxSubOSUser', 'GxSubOSPassword', 'GxSubOS')
+    self.con = sqlite3.connect('apps.db')
   
   def Disconnect(self):
     '''Disconnects from the database.'''
