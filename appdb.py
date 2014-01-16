@@ -43,17 +43,18 @@ class AppDB:
       cur.execute("DROP TABLE IF EXISTS Apps")
       cur.execute("CREATE TABLE Apps(AppId INT PRIMARY KEY, \
                    AppName TEXT, \
-                   DefaultApp BOOLEAN, \
+                   DefaultApp INTEGER, \
                    CurVersion TEXT, \
                    UpdateVersion TEXT, \
                    WebsiteUrl TEXT, \
-                   RepoUrl TEXT")
+                   RepoUrl TEXT)")
       # The default apps are currently hard-coded here
       values = (
-        ('GxCalculator',true,'0.1','0.1','https://github.com/WarriorIng64/GxCalculator','https://github.com/WarriorIng64/GxCalculator.git')
+        ('GxCalculator',True,'0.1','0.1','https://github.com/WarriorIng64/GxCalculator','https://github.com/WarriorIng64/GxCalculator.git')
       )
       fields = "AppName,DefaultApp,CurVersion,UpdateVersion,WebsiteUrl,RepoURL"
-      cur.executemany("INSERT INTO Apps(" + fields + ") VALUES(?, ?, ?, ?, ?, ?)", values)
+      cur.executemany("INSERT INTO Apps(" + fields + ") VALUES(?, ?, ?, ?, ?, ?)", (values,))
+      con.commit()
   
   def GetAppInfo(self, appname):
     '''Gets the info for the given app name as a dictionary.'''
