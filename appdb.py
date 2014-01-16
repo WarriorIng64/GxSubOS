@@ -42,21 +42,24 @@ class AppDB:
   
   def InsertDefaultApps(self):
     '''Inserts the info for the default apps into the database.'''
-    cur = self.con.cursor()
-    # Initial database setup
-    cur.execute("USE GxSubOS")
-    cur.execute("DROP TABLE IF EXISTS Apps")
-    cur.execute("CREATE TABLE Apps(AppId INT PRIMARY KEY AUTO_INCREMENT, \
-                 AppName VARCHAR(20), \
-                 DefaultApp BOOLEAN, \
-                 CurVersion VARCHAR(3), \
-                 UpdateVersion VARCHAR(3), \
-                 WebsiteUrl VARCHAR(2083), \
-                 RepoUrl VARCHAR(2083))")
-    # The default apps are currently hard-coded here
-    fields = "AppName,DefaultApp,CurVersion,UpdateVersion,WebsiteUrl,RepoURL"
-    values = "'GxCalculator',true,'0.1','0.1','https://github.com/WarriorIng64/GxCalculator','https://github.com/WarriorIng64/GxCalculator.git'"
-    cur.execute("INSERT INTO Apps(" + fields + ") VALUES(" + values + ")")
+    con = self.Connect()
+    with con:
+      cur = con.cursor()
+      # Initial database setup
+      cur.execute("DROP TABLE IF EXISTS Apps")
+      cur.execute("CREATE TABLE Apps(AppId INT PRIMARY KEY, \
+                   AppName TEXT, \
+                   DefaultApp BOOLEAN, \
+                   CurVersion TEXT, \
+                   UpdateVersion TEXT, \
+                   WebsiteUrl TEXT, \
+                   RepoUrl TEXT")
+      # The default apps are currently hard-coded here
+      values = (
+        ('GxCalculator',true,'0.1','0.1','https://github.com/WarriorIng64/GxCalculator','https://github.com/WarriorIng64/GxCalculator.git')
+      )
+      fields = "AppName,DefaultApp,CurVersion,UpdateVersion,WebsiteUrl,RepoURL"
+      cur.executemany("INSERT INTO Apps(" + fields + ") VALUES(?, ?, ?, ?, ?, ?)", values)
   
   def GetAppInfo(self, appname):
     '''Gets the info for the given app name as a dictionary.'''
@@ -66,8 +69,8 @@ class AppDB:
     return rows[0]
   
   def Connect(self):
-    '''Connects to the database.'''
-    self.con = sqlite3.connect('apps.db')
+    '''Connects to the database, returning the connection to it.'''
+    return sqlite3.connect('apps.db')
   
   def Disconnect(self):
     '''Disconnects from the database.'''
