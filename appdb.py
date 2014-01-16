@@ -21,24 +21,18 @@ import sqlite3
 # http://zetcode.com/db/sqlitepythontutorial/
 
 class AppDB:
-  def __init__(self):
-    self.con = None
-    self.Connect()
-    with self.con:
-      cur = self.con.cursor()
-  
-  def __del__(self):
-    self.Disconnect()
-  
   def RetrieveAppNames(self):
     '''Retrieves a list of the names of all apps in the database.'''
     appslist = []
-    cur = self.con.cursor(sqlite3.cursors.DictCursor)
-    cur.execute("SELECT AppName FROM Apps")
-    rows = cur.fetchall()
-    for row in rows:
-      appslist.append(row["AppName"])
-    return appslist
+    con = self.Connect()
+    with con:
+      con.row_factory = sqlite3.Row
+      cur = con.cursor()
+      cur.execute("SELECT AppName FROM Apps")
+      rows = cur.fetchall()
+      for row in rows:
+        appslist.append(row["AppName"])
+      return appslist
   
   def InsertDefaultApps(self):
     '''Inserts the info for the default apps into the database.'''
@@ -74,7 +68,3 @@ class AppDB:
   def Connect(self):
     '''Connects to the database, returning the connection to it.'''
     return sqlite3.connect('apps.db')
-  
-  def Disconnect(self):
-    '''Disconnects from the database.'''
-    self.con.close()
