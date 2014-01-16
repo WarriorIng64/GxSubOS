@@ -63,10 +63,13 @@ class AppDB:
   
   def GetAppInfo(self, appname):
     '''Gets the info for the given app name as a dictionary.'''
-    cur = self.con.cursor(sqlite3.cursors.DictCursor)
-    cur.execute("SELECT * FROM Apps WHERE AppName = '" + appname + "'")
-    rows = cur.fetchall()
-    return rows[0]
+    con = self.Connect()
+    with con:
+      con.row_factory = sqlite3.Row
+      cur = con.cursor()
+      cur.execute("SELECT * FROM Apps WHERE AppName = '" + appname + "'")
+      rows = cur.fetchall()
+      return rows[0]
   
   def Connect(self):
     '''Connects to the database, returning the connection to it.'''
