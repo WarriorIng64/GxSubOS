@@ -50,7 +50,8 @@ class AppDB:
                    RepoUrl TEXT)")
       # The default apps are currently hard-coded here
       values = (
-        ('GxCalculator',True,'0.1','0.1','https://github.com/WarriorIng64/GxCalculator','https://github.com/WarriorIng64/GxCalculator.git')
+        ('GxCalculator',True,'0.1','0.1','https://github.com/WarriorIng64/GxCalculator','https://github.com/WarriorIng64/GxCalculator.git'),
+        ('GxWidgetTest',True,'0.1','0.1','https://github.com/WarriorIng64/GxWidgetTest','https://github.com/WarriorIng64/GxWidgetTest.git')
       )
       fields = "AppName,DefaultApp,CurVersion,UpdateVersion,WebsiteUrl,RepoURL"
       cur.executemany("INSERT INTO Apps(" + fields + ") VALUES(?, ?, ?, ?, ?, ?)", (values,))
