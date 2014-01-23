@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
-import sys, pygame, setup
+import sys, pygame, setup, pygame.mixer
 from pygame.locals import *
 from appdb import AppDB
 from wallpaper import Wallpaper
@@ -56,6 +56,10 @@ mouse_button_list = [MOUSEBUTTONDOWN, MOUSEBUTTONUP]
 pygame.event.set_allowed([QUIT, MOUSEMOTION, MOUSEBUTTONDOWN, MOUSEBUTTONUP])
 
 update_rects = [screen.get_rect()]
+
+pygame.mixer.init()
+startup_sound = pygame.mixer.Sound("sounds/startup.ogg")
+startup_sound.play()
 
 # MAIN LOOP
 while 1:

@@ -54,7 +54,8 @@ class AppDB:
         ('GxWidgetTest',True,'0.1','0.1','https://github.com/WarriorIng64/GxWidgetTest','https://github.com/WarriorIng64/GxWidgetTest.git')
       )
       fields = "AppName,DefaultApp,CurVersion,UpdateVersion,WebsiteUrl,RepoURL"
-      cur.executemany("INSERT INTO Apps(" + fields + ") VALUES(?, ?, ?, ?, ?, ?)", (values,))
+      for app in values:
+        cur.executemany("INSERT INTO Apps(" + fields + ") VALUES(?, ?, ?, ?, ?, ?)", (app,))
       con.commit()
   
   def GetAppInfo(self, appname):
