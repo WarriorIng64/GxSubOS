@@ -127,6 +127,12 @@ class Launcher:
     # Create a new launcherbutton for the given window
     lb = Launcherbutton(window, len(self.launcher_list) + 1, self)
     self.launcher_list.append(lb)
+  
+  def UpdateLauncherIcon(self, window):
+    """Update the icon for the given Window."""
+    for lb in self.launcher_list:
+      if lb.window is window:
+        lb.UpdateIcon()
 
   def UpdateStartbutton(self, mouse_event, mouse_button):
     # Update the startbutton based on the provided MOUSEBUTTONDOWN event

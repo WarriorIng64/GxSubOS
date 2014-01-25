@@ -37,10 +37,14 @@ class Launcherbutton:
     self.UpdateNumber(new_number)
   
   def UpdateImage(self):
+    """Updates the image drawn for this Launcherbutton."""
     if self.window.has_focus:
-      self.image = image_active
+      self.image = image_active.copy()
     else:
-      self.image = image_normal
+      self.image = image_normal.copy()
+    
+    if self.window.icon_image != None:
+      self.image.blit(self.window.icon_image, [0, 0, 0, 0])
   
   def UpdatePosition(self):
     # Returns a Rect covering the area this button was in
@@ -67,4 +71,8 @@ class Launcherbutton:
       if mouse_button == 1 and self.rect.collidepoint(mouse_x, mouse_y):
         self.window.SetFocus(True)
         self.launcher.wm.MaintainWindowOrder()
+  
+  def UpdateIcon(self):
+    """Updates the icon displayed on this Launcherbutton."""
+    self.icon_image = self.window.icon_image
     

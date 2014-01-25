@@ -55,6 +55,10 @@ class WindowManager:
     new_window.SetWindowManager(self)
     return new_window
   
+  def UpdateLauncherIcon(self, window):
+    """Updates the launcher icon for the given Window."""
+    self.launcher.UpdateLauncherIcon(window)
+  
   def FindFocusedWindow(self, mouse_x, mouse_y):
     """Set the correct focused window for a MOUSEBUTTONDOWN event."""
     for window in reversed(self.window_list):
