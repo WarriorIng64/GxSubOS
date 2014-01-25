@@ -55,10 +55,15 @@ class Window:
     self.click_x, self.click_y = 0, 0
     self.window_closed = False
     self.wm = None
+    self.icon_image = None
   
   def SetWindowManager(self, wm):
     """Sets this Window's WindowManager."""
     self.wm = wm
+  
+  def SetIcon(self, iconpath):
+    """Sets this Window's icon from the given path, minus the icon.png at the end."""
+    self.icon_image = pygame.image.load(iconpath + "icon.png")
   
   def Redraw(self, screen, blurred_surface=None):
     """Redraws this Window's surface in preparation for the next blitting."""
