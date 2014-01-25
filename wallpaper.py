@@ -34,7 +34,11 @@ class Wallpaper:
   
   def LoadWallpaper(self, path):
     del self.image
-    self.image = pygame.image.load(path)
+    try:
+      self.image = pygame.image.load(path)
+    except pygame.error:
+      print "Warning: " + path + " could not be loaded."
+      self.image = pygame.image.load("graphics/wallpaper_error.png")
     self.image = pygame.transform.smoothscale(self.image, self.screen_size)
     self.image = self.image.convert()
     self.rect = self.image.get_rect()
@@ -56,7 +60,11 @@ class Wallpaper:
   def GetWallpaperPreview(self, index, rect=None):
     # Returns a surface showing the requested wallpaper at full size
     # Optionally, a Rect can be passed to scale the preview returned
-    preview = pygame.image.load(wallpaper_path + self.wallpaper_list[index])
+    try:
+      preview = pygame.image.load(wallpaper_path + self.wallpaper_list[index])
+    except pygame.error:
+      print "Warning: " + self.wallpaper_list[index] + " preview could not be loaded."
+      preview = pygame.image.load("graphics/wallpaper_error.png")
     preview = preview.convert()
     if rect is not None:
       preview = pygame.transform.smoothscale(preview, (rect.width, rect.height))
