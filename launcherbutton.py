@@ -24,10 +24,10 @@ class Launcherbutton:
   image = None
   
   def __init__(self, window, number, launcher):
-    self.image = image_normal
-    self.rect = self.image.get_rect()
     self.window = window
     self.number = number
+    self.UpdateImage()
+    self.rect = self.image.get_rect()
     self.rect.move_ip(0, 48 * number)
     self.new_y = 48 * number
     self.launcher = launcher
