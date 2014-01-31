@@ -18,6 +18,7 @@ import sys, pygame
 
 image_normal = pygame.image.load("graphics/launcher_button.png")
 image_active = pygame.image.load("graphics/launcher_button_active.png")
+icon_unknown = pygame.image.load("graphics/launcher_icon_unknown.png")
 
 class Launcherbutton:
   image = None
@@ -45,6 +46,8 @@ class Launcherbutton:
     
     if self.window.icon_image != None:
       self.image.blit(self.window.icon_image, [0, 0, 0, 0])
+    else:
+      self.image.blit(icon_unknown, [0, 0, 0, 0])
   
   def UpdatePosition(self):
     # Returns a Rect covering the area this button was in
