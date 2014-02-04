@@ -19,9 +19,6 @@ from appdb import AppDB
 
 def Setup():
   # Sets up the necessary data for the SubOS if this is the first run.
-  if platform.system() != "Linux":
-    print "Host OS is not Linux. Default apps cannot be currently installed from GitHub."
-    return
   database = AppDB()
   if not os.path.isdir(os.getcwd() + "/apps"):
     print "First run; setting up app database."
@@ -37,7 +34,12 @@ def Setup():
       # Create each repo and pull
       appinfo = database.GetAppInfo(appname)
       os.chdir(appswd)
-      clone_success = os.system("git clone " + appinfo["RepoUrl"])
+      # If we're on Windows, use Git for Windows from https://code.google.com/p/msysgit/
+      # Otherwise, assume Linux 
+      if platform.system() == "Windows":
+        clone_success = os.system('"C:\Program Files (x86)\Git\cmd\git.exe" clone ' + appinfo["RepoUrl"])
+      else: #
+        clone_success = os.system("git clone " + appinfo["RepoUrl"])
       if clone_success != 0:
         print "ERROR: Could not clone " + appname
       os.chdir(initialwd)
