@@ -34,5 +34,7 @@ def Setup():
       # Create each repo and pull
       appinfo = database.GetAppInfo(appname)
       os.chdir(appswd)
-      os.system("git clone " + appinfo["RepoUrl"])
+      clone_success = os.system("git clone " + appinfo["RepoUrl"])
+      if clone_success != 0:
+        print "ERROR: Could not clone " + appname
       os.chdir(initialwd)
