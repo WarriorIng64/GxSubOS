@@ -9,6 +9,22 @@ You can read more about GxSubOS on the [SubOS Wiki] [3].
 
 There is also a [development blog] [4] for this project.
 
+# Installation
+
+To use GxSubOS on an Ubuntu-based system, you will need the following packages installed:
+* python-pygame
+* git
+
+On Windows, you will need Pygame and [Git for Windows][1] installed.
+
+In either case, you will need Python 2.7 to actually run GxSubOS, done by running the `GxSubOS.py` file.
+
+# License
+
+GxSubOS is provided under the GNU GPLv3.
+
+[1]: https://code.google.com/p/msysgit/
+
   [1]: http://pygame.org/news.html  "Pygame"
   [2]: https://sites.google.com/site/gimixsubos/ "Gimix SubOS"
   [3]: http://gmsubos.wikia.com/wiki/Gimix_SubOS "GxSubOS page on SubOS Wiki"
