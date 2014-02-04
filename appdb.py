@@ -28,11 +28,15 @@ class AppDB:
     with con:
       con.row_factory = sqlite3.Row
       cur = con.cursor()
-      cur.execute("SELECT AppName FROM Apps")
-      rows = cur.fetchall()
-      for row in rows:
-        appslist.append(row["AppName"])
-      return appslist
+      try:
+        cur.execute("SELECT AppName FROM Apps")
+        rows = cur.fetchall()
+        for row in rows:
+          appslist.append(row["AppName"])
+        return appslist
+      except sqlite3.OperationalError:
+        print "ERROR: AppDB.RetrieveAppNames() failed due to operational error."
+        return []
   
   def InsertDefaultApps(self):
     '''Inserts the info for the default apps into the database.'''

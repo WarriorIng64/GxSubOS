@@ -14,11 +14,14 @@
 # You should have received a copy of the GNU General Public License
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
-import os
+import os, platform
 from appdb import AppDB
 
 def Setup():
   # Sets up the necessary data for the SubOS if this is the first run.
+  if platform.system() != "Linux":
+    print "Host OS is not Linux. Default apps cannot be currently installed from GitHub."
+    return
   database = AppDB()
   if not os.path.isdir(os.getcwd() + "/apps"):
     print "First run; setting up app database."
