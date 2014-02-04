@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
-import pygame
+import pygame, os
 from window import Window
 from launcherbutton import Launcherbutton
 from wallpaperswitcher import WallpaperSwitcher
@@ -263,4 +263,7 @@ class WindowManager:
   def LoadDefaultApp(self, app_name):
     """Loads a default app based on the given app name, which must match the
     file name minus the extension."""
-    execfile("apps/default/" + app_name + "/" + app_name + ".py")
+    if os.path.isdir("apps/default/" + app_name + "/"):
+      execfile("apps/default/" + app_name + "/" + app_name + ".py")
+    else:
+      print "ERROR: Could not load default app " + app_name + "; non-existent directory."
