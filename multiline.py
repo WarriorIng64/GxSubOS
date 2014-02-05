@@ -17,8 +17,40 @@
 import pygame
 
 class Multiline:
-  def __init__(self, text, width, height):
-    '''Initialize with text within the given dimensions.'''
+  def __init__(self, text, font, width):
+    '''Initialize with text of the given font within the given width.'''
     self.text = text
+    self.font = font
     self.width = width
-    self.height = height
+    self.lines = []
+    self.UpdateLines()
+
+  def UpdateLines(self):
+    '''Split the current text up according to size requirements.'''
+    self.lines = []
+    text_copy = self.text.copy()
+    
+    next_line = ""
+    for x in self.text:
+      if self.font.size(next_line + x)[0] > self.width:
+        self.lines.append(next_line + x)
+        next_line = ""
+  
+  def GetLines(self):
+    '''Return the current list of lines.'''
+    return self.lines
+
+  def SetText(self, text):
+    '''Change the current text and update.'''
+    self.text = text
+    self.UpdateLines()
+
+  def SetFont(self, font):
+    '''Change the current font and update.'''
+    self.font = font
+    self.UpdateLines()
+
+  def SetWidth(self, width):
+    '''Change the current width and update.'''
+    self.width = width
+    self.UpdateLines()
