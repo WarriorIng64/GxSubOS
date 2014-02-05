@@ -72,7 +72,7 @@ class Multiline:
     # For more than one line, render with proper spacing
     line_surfaces = []
     render_height = 0
-    space_height = self.font.size(" ")[1]
+    space_height = self.font.size(" ")[0]
     for line in self.lines:
       line_surfaces.append(self.font.render(line, True, glass.accent_color))
       render_height += self.font.size(line)[1] + space_height
