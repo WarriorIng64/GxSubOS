@@ -73,7 +73,7 @@ class Multiline:
     render_height = 0
     space_height = self.font.size(" ")[1]
     for line in self.lines:
-      line_surfaces.append(self.font.render(line, True, glass.accent_color)
+      line_surfaces.append(self.font.render(line, True, glass.accent_color))
       render_height += self.font.size(line) + space_height
     render_height -= space_height
     render_surface = pygame.Surface((self.width, render_height), pygame.SRCALPHA)
