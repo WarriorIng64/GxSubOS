@@ -20,14 +20,14 @@ from appdb import AppDB
 def Setup():
   # Sets up the necessary data for the SubOS if this is the first run.
   database = AppDB()
+  initialwd = os.getcwd()
+  appswd = os.getcwd() + "/apps/default"
   if not os.path.isdir(os.getcwd() + "/apps"):
     print "First run; setting up app database."
     # App database setup
     database.InsertDefaultApps()
     applist = database.RetrieveAppNames()
-    initialwd = os.getcwd()
     # Create directories and retrieve default apps from Git repos
-    appswd = os.getcwd() + "/apps/default"
     os.makedirs(appswd)
     print "Need to clone " + str(len(applist)) + " default apps."
     for appname in applist:
@@ -38,8 +38,22 @@ def Setup():
       # Otherwise, assume Linux 
       if platform.system() == "Windows":
         clone_success = os.system('"C:\Program Files (x86)\Git\cmd\git.exe" clone ' + appinfo["RepoUrl"])
-      else: #
+      else:
         clone_success = os.system("git clone " + appinfo["RepoUrl"])
       if clone_success != 0:
-        print "ERROR: Could not clone " + appname
+        print "ERROR: Could not clone " + appname + "."
+      os.chdir(initialwd)
+  else:
+    # Apps set up from previous run; check for updates
+    applist = database.RetrieveAppNames()
+    print "Checking for updates to " + str(len(applist)) + " apps..."
+    for appname in applist:
+      appinfo = database.GetAppInfo(appname)
+      os.chdir(appswd + "/" + appname)
+      if platform.system() == "Windows":
+        pull_success = os.system('"C:\Program Files (x86)\Git\cmd\git.exe" pull')
+      else:
+        pull_success = os.system("git pull")
+      if pull_success != 0:
+        print "ERROR: Could not update " + appname + "."
       os.chdir(initialwd)
