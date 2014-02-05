@@ -37,7 +37,7 @@ class TextBox(Widget):
   def SetText(self, text):
     """Sets the text displayed in the textbox."""
     self.text = text
-    self.multiline = text
+    self.multiline.SetText(text)
   
   def HandleMouseMotionEvent(self, mouse_x, mouse_y):
     """Handle a MOUSEMOTION event."""
