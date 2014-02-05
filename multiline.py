@@ -29,8 +29,6 @@ class Multiline:
   def UpdateLines(self):
     '''Split the current text up according to size requirements.'''
     self.lines = []
-    text_copy = self.text.copy()
-    
     next_line = ""
     for x in self.text:
       if self.font.size(next_line + x)[0] > self.width:
