@@ -15,6 +15,7 @@
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
 import pygame
+import glass
 
 class Multiline:
   def __init__(self, text, font, width):
@@ -54,3 +55,27 @@ class Multiline:
     '''Change the current width and update.'''
     self.width = width
     self.UpdateLines()
+
+  def Render(self):
+    '''Return a Surface with the Multiline text properly rendered.'''
+    # Trivial cases
+    if self.lines.empty():
+      return self.font.render(" ", True, glass.accent_color)
+    if len(self.lines) == 1:
+      return self.font.render(self.lines[0], True, glass.accent_color)
+
+    # For more than one line, render with proper spacing
+    line_surfaces = []
+    render_height = 0
+    space_height = self.font.size(" ")[1]
+    for line in self.lines:
+      line_surfaces.append(self.font.render(line, True, glass.accent_color)
+      render_height += self.font.size(line) + space_height
+    render_height -= space_height
+    render_surface = pygame.Surface((self.width, render_height), pygame.SRCALPHA)
+    # The following is a rush job; fix it later
+    x = 0
+    for line_surface in line_surfaces:
+      render_surface.blit(line_surface, (0, (self.font.size(self.text) + space_height) * x))
+      x += 1
+    return render_surface
