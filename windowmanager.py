@@ -23,6 +23,7 @@ from widget import EmptyWidget
 from container import VBox, HBox
 from button import Button
 from label import Label
+from textbox import TextBox
 
 class WindowManager:
   """This class manages the windows and desktop environment."""

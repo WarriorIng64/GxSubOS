@@ -23,7 +23,7 @@ textbox_font = pygame.font.Font("fonts/Roboto/Roboto-Regular.ttf", 16)
 
 class TextBox(Widget):
   """A Widget subclass which represents a TextBox within a window."""
-  def __init__(self, parent_widget=None, parent_window=None, initial_text=None, click_code=None):
+  def __init__(self, parent_widget=None, parent_window=None, initial_text=None):
     self.parent_widget = parent_widget
     self.parent_window = parent_window
     self.rect = None
