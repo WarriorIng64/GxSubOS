@@ -29,7 +29,7 @@ class TextBox(Widget):
     self.rect = None
     self.surface = None
     self.text = ""
-    self.multiline = Multiline(self.text, textbox_font, 100)
+    self.multiline = Multiline(self.text, textbox_font, 1000)
     self.text_surface = None
     self.SetText(initial_text)
     self.hovered = False
@@ -54,7 +54,7 @@ class TextBox(Widget):
     textbox_color.a = 50
     if self.rect == None:
       return;
-    self.multiline.SetWidth(self.rect.width)
+    self.multiline.SetWidth(self.rect.width - padding)
     self.text_surface = self.multiline.Render()
     self.surface = pygame.Surface((self.rect.width, self.rect.height), pygame.SRCALPHA)
     border_rect = self.surface.get_rect().inflate(-padding, -padding).move(padding / 2, padding / 2)
@@ -63,7 +63,7 @@ class TextBox(Widget):
     else:
       pygame.draw.rect(self.surface, textbox_color, border_rect, 2)
     if self.text_surface is not None:
-      text_left_align = self.surface.get_width() / 2 - self.text_surface.get_width() / 2
-      text_top_align = self.surface.get_height() / 2 - self.text_surface.get_height() / 2
+      text_left_align = 0
+      text_top_align = padding
       self.surface.blit(self.text_surface, (text_left_align, text_top_align))
     

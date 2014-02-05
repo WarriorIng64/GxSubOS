@@ -31,9 +31,12 @@ class Multiline:
     self.lines = []
     next_line = ""
     for x in self.text:
-      if self.font.size(next_line + x)[0] > self.width:
-        self.lines.append(next_line + x)
+      next_line += x
+      if self.font.size(next_line)[0] > self.width:
+        self.lines.append(next_line)
         next_line = ""
+    if next_line != "":
+      self.lines.append(next_line)
   
   def GetLines(self):
     '''Return the current list of lines.'''
@@ -72,12 +75,12 @@ class Multiline:
     space_height = self.font.size(" ")[1]
     for line in self.lines:
       line_surfaces.append(self.font.render(line, True, glass.accent_color))
-      render_height += self.font.size(line) + space_height
+      render_height += self.font.size(line)[1] + space_height
     render_height -= space_height
     render_surface = pygame.Surface((self.width, render_height), pygame.SRCALPHA)
     # Render each line surface onto the main surface
     current_top = 0;
     for line_surface in line_surfaces:
-      render_surface.blit(line_surface, (0, current_top * x))
+      render_surface.blit(line_surface, (0, current_top))
       current_top += line_surface.get_height() + space_height
     return render_surface
