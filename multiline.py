@@ -41,6 +41,10 @@ class Multiline:
     '''Return the current list of lines.'''
     return self.lines
 
+  def GetText(self):
+    '''Return the current text as a single string.'''
+    return self.text
+
   def SetText(self, text):
     '''Change the current text and update.'''
     self.text = text
