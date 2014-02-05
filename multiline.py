@@ -61,7 +61,7 @@ class Multiline:
   def Render(self):
     '''Return a Surface with the Multiline text properly rendered.'''
     # Trivial cases
-    if self.lines.empty():
+    if len(self.lines) == 0:
       return self.font.render(" ", True, glass.accent_color)
     if len(self.lines) == 1:
       return self.font.render(self.lines[0], True, glass.accent_color)
