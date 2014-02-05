@@ -73,9 +73,9 @@ class Multiline:
       render_height += self.font.size(line) + space_height
     render_height -= space_height
     render_surface = pygame.Surface((self.width, render_height), pygame.SRCALPHA)
-    # The following is a rush job; fix it later
-    x = 0
+    # Render each line surface onto the main surface
+    current_top = 0;
     for line_surface in line_surfaces:
-      render_surface.blit(line_surface, (0, (self.font.size(self.text) + space_height) * x))
-      x += 1
+      render_surface.blit(line_surface, (0, current_top * x))
+      current_top += line_surface.get_height() + space_height
     return render_surface
