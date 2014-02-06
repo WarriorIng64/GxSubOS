@@ -31,7 +31,8 @@ class Multiline:
     self.lines = []
     next_line = ""
     for x in self.text:
-      next_line += x
+      if not (next_line == "" and x == ' '):
+        next_line += x
       if self.font.size(next_line)[0] > self.width:
         self.lines.append(next_line)
         next_line = ""

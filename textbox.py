@@ -50,18 +50,15 @@ class TextBox(Widget):
   def Redraw(self):
     """Redraw this TextBox."""
     padding = 4
-    textbox_color = glass.accent_color
-    textbox_color.a = 50
+    textbox_color = pygame.color.Color(0, 0, 0)
+    textbox_color.a = 100
     if self.rect == None:
       return;
     self.multiline.SetWidth(self.rect.width - padding * 2)
     self.text_surface = self.multiline.Render()
     self.surface = pygame.Surface((self.rect.width, self.rect.height), pygame.SRCALPHA)
     border_rect = self.surface.get_rect().inflate(-padding, -padding).move(padding / 2, padding / 2)
-    if self.hovered:
-      pygame.draw.rect(self.surface, textbox_color, border_rect)
-    else:
-      pygame.draw.rect(self.surface, textbox_color, border_rect, 2)
+    pygame.draw.rect(self.surface, textbox_color, border_rect)
     if self.text_surface is not None:
       text_left_align = padding
       text_top_align = padding
