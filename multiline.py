@@ -31,11 +31,11 @@ class Multiline:
     self.lines = []
     next_line = ""
     for x in self.text:
-      if not (next_line == "" and x == ' '):
-        next_line += x
-      if self.font.size(next_line)[0] > self.width:
+      if self.font.size(next_line + x)[0] > self.width:
         self.lines.append(next_line)
         next_line = ""
+      if not (next_line == "" and x == ' '):
+        next_line += x
     if next_line != "":
       self.lines.append(next_line)
   
