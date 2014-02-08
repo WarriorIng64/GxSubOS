@@ -31,6 +31,8 @@ class Label(Widget):
     self.text_surface = None
     self.SetLabelText(label_text)
     self.hovered = False
+    self.requested_width = 0
+    self.requested_height = 0
   
   def SetLabelText(self, label_text):
     """Sets the text displayed on the label."""

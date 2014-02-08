@@ -27,6 +27,8 @@ class Container(Widget):
     self.rect = None
     self.UpdateRect()
     self.surface = None
+    self.requested_width = 0
+    self.requested_height = 0
   
   def UpdateRect(self):
     """Updates this Container's rect."""
@@ -117,14 +119,40 @@ class Container(Widget):
 class HBox(Container):
   def UpdateChildWidgetSizes(self):
     """Updates the sizes and positions of the child widgets so they are
-    arranged from left to right, filling the vertical space of the HBox."""
+    arranged from left to right, filling the vertical space of the HBox.
+    This also respects the requested widths of child widgets if they are set."""
     if len(self.child_widgets) == 0:
       return
-    cw = self.rect.width / len(self.child_widgets)
+    total_requested_width = 0
+    total_widgets_requesting = 0
+    for child in self.child_widgets:
+      # Only a requested_width of 0 means a requested width is not set
+      if child.requested_width != 0:
+        total_requested_width += child.requested_width
+        total_widgets_requesting += 1
+    
     ch = self.rect.height
-    for i in range(len(self.child_widgets)):
-      rect = pygame.Rect(i * cw, 0, cw, ch)
-      self.child_widgets[i].rect = rect.copy()
+    if total_widgets_requesting >= len(self.child_widgets):
+      # All widgets will set their own width
+      current_left = 0
+      for child in self.child_widgets:
+        rect = pygame.Rect(current_left, 0, child.requested_width, ch)
+        child.rect = rect.copy()
+        current_left += child.requested_width
+    elif total_widgets_requesting == 0:
+      # No widgets set their own width
+      cw = self.rect.width / len(self.child_widgets)
+      for i in range(len(self.child_widgets)):
+        rect = pygame.Rect(i * cw, 0, cw, ch)
+        self.child_widgets[i].rect = rect.copy()
+    else:
+      # Some widgets set their own width; adjust the rest accordingly
+      cw = (self.rect.width - total_requested_width) /  (len(self.child_widgets) - total_widgets_requesting)
+      for child in self.child_widgets:
+        current_width = child.requested_width if child.requested_width != 0 else cw
+        rect = pygame.Rect(current_left, 0, current_width, ch)
+        child.rect = rect.copy()
+        current_left += current_width
     self.RedrawChildWidgets()
   
   def UpdateRect(self):

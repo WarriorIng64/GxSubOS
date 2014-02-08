@@ -24,6 +24,8 @@ class Widget:
     self.parent_window = parent_window
     self.rect = None
     self.surface = None
+    self.requested_width = 0
+    self.requested_height = 0
   
   def PointInsideWidget(self, x, y):
     """Returns True if the given point is inside this Widget's rect."""
@@ -44,6 +46,14 @@ class Widget:
     self.parent_window.top_level_container.Redraw()
     self.parent_window.DrawWindowSurface()
     self.parent_window.wm.UpdateUpdateRect(self.parent_window)
+  
+  def RequestWidth(self, width):
+    """Set a preferred width for this instance."""
+    self.requested_width = width
+  
+  def RequestHeight(self, height):
+    """Set a preferred height for this instance."""
+    self.requested_height = height
 
 class EmptyWidget(Widget):
   """A class implementing a Widget which is invisible and doesn't do anything.

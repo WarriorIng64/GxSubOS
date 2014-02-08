@@ -32,6 +32,8 @@ class Button(Widget):
     self.SetButtonText(button_text)
     self.click_code = click_code
     self.hovered = False
+    self.requested_width = 0
+    self.requested_height = 0
   
   def SetClickCode(self, click_code):
     """Sets the Python code which will be executed when this Button is

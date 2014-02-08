@@ -33,6 +33,8 @@ class TextBox(Widget):
     self.text_surface = None
     self.SetText(initial_text)
     self.hovered = False
+    self.requested_width = 0
+    self.requested_height = 0
   
   def SetText(self, text):
     """Sets the text displayed in the textbox."""
