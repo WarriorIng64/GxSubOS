@@ -164,14 +164,41 @@ class HBox(Container):
 class VBox(Container):
   def UpdateChildWidgetSizes(self):
     """Updates the sizes and positions of the child widgets so they are
-    arranged from top to bottom, filling the horizontal space of the VBox."""
+    arranged from top to bottom, filling the horizontal space of the VBox.
+    This also respects the requested heights of child widgets if they are set."""
     if len(self.child_widgets) == 0:
       return
+    total_requested_height = 0
+    total_widgets_requesting = 0
+    for child in self.child_widgets:
+      # Only a requested_height of 0 means a requested height is not set
+      if child.requested_height != 0:
+        total_requested_height += child.requested_height
+        total_widgets_requesting += 1
+    
     cw = self.rect.width
-    ch = self.rect.height / len(self.child_widgets)
-    for i in range(len(self.child_widgets)):
-      rect = pygame.Rect(0, i * ch, cw, ch)
-      self.child_widgets[i].rect = rect.copy()
+    if total_widgets_requesting >= len(self.child_widgets):
+      # All widgets will set their own height
+      current_top = 0
+      for child in self.child_widgets:
+        rect = pygame.Rect(0, current_top, cw, child.requested_height)
+        child.rect = rect.copy()
+        current_top += child.requested_height
+    elif total_widgets_requesting == 0:
+      # No widgets set their own height
+      ch = self.rect.height / len(self.child_widgets)
+      for i in range(len(self.child_widgets)):
+        rect = pygame.Rect(0, i * ch, cw, ch)
+        self.child_widgets[i].rect = rect.copy()
+    else:
+      # Some widgets set their own height; adjust the rest accordingly
+      ch = (self.rect.height - total_requested_height) /  (len(self.child_widgets) - total_widgets_requesting)
+      current_top = 0
+      for child in self.child_widgets:
+        current_height = child.requested_height if child.requested_height != 0 else ch
+        rect = pygame.Rect(0, current_top, cw, current_height)
+        child.rect = rect.copy()
+        current_top += current_height
     self.RedrawChildWidgets()
   
   def UpdateRect(self):
