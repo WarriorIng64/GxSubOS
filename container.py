@@ -148,6 +148,7 @@ class HBox(Container):
     else:
       # Some widgets set their own width; adjust the rest accordingly
       cw = (self.rect.width - total_requested_width) /  (len(self.child_widgets) - total_widgets_requesting)
+      current_left = 0
       for child in self.child_widgets:
         current_width = child.requested_width if child.requested_width != 0 else cw
         rect = pygame.Rect(current_left, 0, current_width, ch)
