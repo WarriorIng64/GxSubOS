@@ -66,7 +66,7 @@ class Button(Widget):
     button_color.a = 100
     if self.rect == None:
       return;
-    self.surface = pygame.Surface((self.rect.width, self.rect.height), pygame.SRCALPHA)
+    self.surface = glass.MakeTransparentSurface(self.rect.width, self.rect.height)
     border_rect = self.surface.get_rect().inflate(-padding, -padding).move(padding / 2, padding / 2)
     if self.hovered:
       pygame.draw.rect(self.surface, button_color, border_rect)

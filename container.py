@@ -16,7 +16,7 @@
 
 import pygame
 from widget import Widget
-import window
+import window, glass
 
 class Container(Widget):
   """A special type of Widget which holds other widgets."""
@@ -85,7 +85,7 @@ class Container(Widget):
     self.UpdateRect()
     if self.rect == None:
       return;
-    self.surface = pygame.Surface(self.rect.size, pygame.SRCALPHA)
+    self.surface = glass.MakeTransparentSurface(self.rect.width, self.rect.height)
     for child in self.child_widgets:
       self.surface.blit(child.surface, child.rect.topleft)
 

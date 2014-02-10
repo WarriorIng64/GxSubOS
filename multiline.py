@@ -102,7 +102,7 @@ class Multiline:
       line_surfaces.append(self.font.render(line, True, glass.accent_color))
       render_height += self.font.size(line)[1] + space_height
     render_height -= space_height
-    render_surface = pygame.Surface((self.width, render_height), pygame.SRCALPHA)
+    render_surface = glass.MakeTransparentSurface(self.width, render_height)
     # Render each line surface onto the main surface
     current_top = 0;
     for line_surface in line_surfaces:

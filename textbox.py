@@ -58,7 +58,7 @@ class TextBox(Widget):
       return;
     self.multiline.SetWidth(self.rect.width - padding * 2)
     self.text_surface = self.multiline.Render()
-    self.surface = pygame.Surface((self.rect.width, self.rect.height), pygame.SRCALPHA)
+    self.surface = glass.MakeTransparentSurface(self.rect.width, self.rect.height)
     border_rect = self.surface.get_rect().inflate(-padding, -padding).move(padding / 2, padding / 2)
     pygame.draw.rect(self.surface, textbox_color, border_rect)
     if self.text_surface is not None:

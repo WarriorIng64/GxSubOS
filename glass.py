@@ -26,6 +26,7 @@ enable_blur = True
 enable_transparency = True
 
 def Blur(surface):
+  """Blurs the given Surface."""
   if not enable_blur:
     return surface
   size = surface.get_size()
@@ -36,12 +37,20 @@ def Blur(surface):
   return surface
 
 def DrawBackground(screen, surface, rect):
-  # Draws the screen onto the given surface with an offset
+  """Draws the screen onto the given Surface with an offset."""
   offset_rect = screen.get_rect().move(-rect.x, -rect.y)
   surface.blit(screen, offset_rect)
 
 def UpdateBlurredDesktopSurface(blurred_desktop_surface, desktop_surface):
+  """Blurs the Surface representing the desktop behind the top window."""
   if enable_blur:
     blurred_desktop_surface = Blur(desktop_surface)
   else:
     blurred_desktop_surface = None
+
+def MakeTransparentSurface(width, height):
+  """Returns a transparent Surface with the given width and height, replacing
+  these values with 1 if they are invalid dimensions for Surface creation."""
+  w = max(width, 1)
+  h = max(height, 1)
+  return pygame.Surface((w, h), pygame.SRCALPHA).copy()

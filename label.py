@@ -50,7 +50,7 @@ class Label(Widget):
     padding = 4
     if self.rect == None:
       return;
-    self.surface = pygame.Surface((self.rect.width, self.rect.height), pygame.SRCALPHA)
+    self.surface = glass.MakeTransparentSurface(self.rect.width, self.rect.height)
     if self.text_surface is not None:
       text_left_align = self.surface.get_width() / 2 - self.text_surface.get_width() / 2
       text_top_align = self.surface.get_height() / 2 - self.text_surface.get_height() / 2
