@@ -34,7 +34,7 @@ class Multiline:
       # Split by characters instead
       next_line = ""
       for x in self.text:
-        if self.font.size(next_line + x)[0] > self.width:
+        if self.font.size(next_line + x)[0] > self.width or x == '\n':
           self.lines.append(next_line)
           next_line = ""
         if not (next_line == "" and x == ' '):
@@ -49,7 +49,14 @@ class Multiline:
         if self.font.size(next_line + " " + next_word)[0] > self.width:
           self.lines.append(next_line)
           next_line = ""
-        if x == ' ':
+        if x == '\n':
+          if next_line != "":
+            next_line += " "
+          next_line += next_word
+          next_word = ""
+          self.lines.append(next_line)
+          next_line = ""
+        elif x == ' ':
           if next_line != "":
             next_line += " "
           next_line += next_word
