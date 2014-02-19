@@ -14,7 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
-import sys, pygame
+import pygame
+import glass
 
 class Widget:
   """A base class for implementing various widgets in windows. This is where
@@ -77,4 +78,4 @@ class EmptyWidget(Widget):
     """Redraw this EmptyWidget."""
     if self.rect == None:
       return;
-    self.surface = pygame.Surface((self.rect.width, self.rect.height), pygame.SRCALPHA)
+    self.surface = glass.MakeTransparentSurface(self.rect.width, self.rect.height)
