@@ -72,5 +72,9 @@ class TextEntryBox(TextBox):
   def HandleKeyDownEvent(self, event):
     """Handles a KEYDOWN event, which is very important for this particular
     class since it handles text input from the keyboard."""
-    self.SetText(self.text + keyboardentry.GetCharFromKey(event))
+    if event.key == pygame.K_BACKSPACE:
+      # Delete text.
+      self.SetText(self.text[:-1])
+    else:
+      self.SetText(self.text + keyboardentry.GetCharFromKey(event))
     
