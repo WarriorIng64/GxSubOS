@@ -82,4 +82,6 @@ class TextEntryBox(TextBox):
       self.SetText(self.text[:-1])
     else:
       self.SetText(self.text + keyboardentry.GetCharFromKey(event))
+    self.Redraw()
+    self.RedrawParentWindow()
     
