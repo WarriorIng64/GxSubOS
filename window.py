@@ -287,3 +287,8 @@ class Window:
         self.StartDragging(mouse_x, mouse_y)
       else:
         tlc.HandleMouseButtonDownEvent(mouse_x - self.rect.x, mouse_y - self.rect.y - titlebar_height, mouse_button)
+
+  def HandleKeyDownEvent(self, event):
+    """Handle a KEYDOWN event."""
+    tlc = self.top_level_container
+    tlc.HandleKeyDownEvent(event)

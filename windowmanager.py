@@ -221,6 +221,10 @@ class WindowManager:
       if event.key == pygame.K_RETURN:
         self.redraw_needed = True
       self.DeleteWallpaperSwitcherIfClosed()
+    else:
+      # Pass this event on to the top window
+      if len(self.window_list) >= 1:
+        self.window_list[-1].HandleKeyDownEvent(event)
   
   def RedrawNeeded(self):
     """Returns true iff a redraw of the nonfocused windows is needed."""

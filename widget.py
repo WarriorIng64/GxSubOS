@@ -41,6 +41,10 @@ class Widget:
     """Handle a MOUSEMOTION event."""
     return
 
+  def HandleKeyDownEvent(self, event):
+    """Handle a KEYDOWN event."""
+    return
+
   def RedrawParentWindow(self):
     """Force the parent window to redraw and reflect app changes."""
     self.parent_window.top_level_container.Redraw()

@@ -105,6 +105,13 @@ class Container(Widget):
     if self.PointInsideWidget(mouse_x, mouse_y):
       self.Redraw()
 
+  def HandleKeyDownEvent(self, event):
+    """Handle a KEYDOWN event. In the case of a Container, just pass it on to
+    the child widgets."""
+    # TODO: Pass the event on only to a single focused child Widget.
+    for child in self.child_widgets:
+      child.HandleKeyDownEvent(event)
+
   def HasDescendantWidget(self, descendant):
     """Checks whether this Container or any of its child Containers contains the
     descendant Widget passed in."""
