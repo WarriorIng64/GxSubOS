@@ -40,6 +40,11 @@ class TextBox(Widget):
     """Sets the text displayed in the textbox."""
     self.text = text
     self.multiline.SetText(text)
+
+  def HandleMouseButtonDownEvent(self, mouse_x, mouse_y, mouse_button):
+    """Handle a MOUSEDOWN event."""
+    if self.PointInsideWidget(mouse_x, mouse_y) and mouse_button == 1:
+      self.SetAsFocusedWidget(self)
   
   def HandleMouseMotionEvent(self, mouse_x, mouse_y):
     """Handle a MOUSEMOTION event."""

@@ -59,6 +59,17 @@ class Widget:
     """Set a preferred height for this instance."""
     self.requested_height = height
 
+  def GetTopLevelContainer(self):
+    """Returns the top-level Container for this Widget."""
+    if self.parent_widget == None:
+      return self
+    else:
+      return self.parent_widget.GetTopLevelContainer()
+
+  def SetAsFocusedWidget(self, new_focused_widget):
+    """Sets a new focused Widget in this hierarchy."""
+    self.GetTopLevelContainer().focused_widget = new_focused_widget
+
 class EmptyWidget(Widget):
   """A class implementing a Widget which is invisible and doesn't do anything.
   These can be used as dynamically-resizing empty spaces in UIs."""

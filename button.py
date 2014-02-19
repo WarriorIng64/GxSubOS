@@ -49,6 +49,7 @@ class Button(Widget):
   def HandleMouseButtonDownEvent(self, mouse_x, mouse_y, mouse_button):
     """Handle a MOUSEDOWN event."""
     if self.PointInsideWidget(mouse_x, mouse_y) and mouse_button == 1:
+      self.SetAsFocusedWidget(self)
       exec self.click_code
   
   def HandleMouseMotionEvent(self, mouse_x, mouse_y):

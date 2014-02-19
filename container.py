@@ -29,6 +29,7 @@ class Container(Widget):
     self.surface = None
     self.requested_width = 0
     self.requested_height = 0
+    self.focused_widget = None
   
   def UpdateRect(self):
     """Updates this Container's rect."""
@@ -107,10 +108,10 @@ class Container(Widget):
 
   def HandleKeyDownEvent(self, event):
     """Handle a KEYDOWN event. In the case of a Container, just pass it on to
-    the child widgets."""
-    # TODO: Pass the event on only to a single focused child Widget.
-    for child in self.child_widgets:
-      child.HandleKeyDownEvent(event)
+    the currently focused child widget."""
+    if self.parent_widget == None:
+      if self.focused_widget != None:
+        self.focused_widget.HandleKeyDownEvent(event)
 
   def HasDescendantWidget(self, descendant):
     """Checks whether this Container or any of its child Containers contains the
@@ -122,6 +123,13 @@ class Container(Widget):
       if child is descendant:
           return True
     return False
+
+  def SetAsFocusedWidget(self, new_focused_widget):
+    """Sets a new focused Widget in this hierarchy."""
+    if self.parent_widget == None:
+      self.focused_widget = new_focused_widget
+    else:
+      self.GetTopLevelContainer().focused_widget = (new_focused_widget)
 
 class HBox(Container):
   def UpdateChildWidgetSizes(self):
