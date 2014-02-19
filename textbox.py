@@ -17,7 +17,7 @@
 import sys, pygame
 from widget import Widget
 from multiline import Multiline
-import glass
+import glass, keyboardentry
 
 textbox_font = pygame.font.Font("fonts/Roboto/Roboto-Regular.ttf", 16)
 
@@ -65,4 +65,12 @@ class TextBox(Widget):
       text_left_align = padding
       text_top_align = padding
       self.surface.blit(self.text_surface, (text_left_align, text_top_align))
+
+class TextEntryBox(TextBox):
+  """A TextBox subclass which permits the user to dynamically edit the text it
+  contains."""
+  def HandleKeyDownEvent(self, event):
+    """Handles a KEYDOWN event, which is very important for this particular
+    class since it handles text input from the keyboard."""
+    self.SetText(self.text + keyboardentry.GetCharFromKey(event))
     
