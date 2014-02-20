@@ -20,6 +20,7 @@ from multiline import Multiline
 import glass, keyboardentry
 
 textbox_font = pygame.font.Font("fonts/Roboto/Roboto-Regular.ttf", 16)
+textbox_mono_font = pygame.font.Font("fonts/ubuntu-font-family-0.80/UbuntuMono-R.ttf", 16)
 
 class TextBox(Widget):
   """A Widget subclass which represents a TextBox within a window."""
@@ -84,4 +85,19 @@ class TextEntryBox(TextBox):
       self.SetText(self.text + keyboardentry.GetCharFromKey(event))
     self.Redraw()
     self.RedrawParentWindow()
+
+class TextEntryMonoBox(TextEntryBox):
+  """A TextEntryBox subclass which uses a monospace font."""
+  def __init__(self, parent_widget=None, parent_window=None, initial_text=None):
+    self.parent_widget = parent_widget
+    self.parent_window = parent_window
+    self.rect = None
+    self.surface = None
+    self.text = ""
+    self.multiline = Multiline(self.text, textbox_mono_font, 1000)
+    self.text_surface = None
+    self.SetText(initial_text)
+    self.hovered = False
+    self.requested_width = 0
+    self.requested_height = 0
     
