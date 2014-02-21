@@ -46,6 +46,7 @@ wallpaper = Wallpaper(size)
 launcher = Launcher(width, height)
 wm = WindowManager(launcher, wallpaper)
 launcher.SetWindowManager(wm)
+pygame.key.set_repeat(500, 50)
 
 wm.DrawDesktopSurface(desktop_surface, wallpaper)
 blurred_desktop_surface = None
