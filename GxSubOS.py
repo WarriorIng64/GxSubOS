@@ -37,8 +37,15 @@ screen.set_alpha(None)
 desktop_surface = pygame.Surface((screen.get_width(), screen.get_height()))
 
 system_font = pygame.font.Font(None, 12)
+loading_font = pygame.font.Font("fonts/Roboto/Roboto-Regular.ttf", 32)
 
 # First-time setup of database and settings
+screen.fill((0, 0, 0))
+loading_message = loading_font.render("GxSubOS is starting up, please wait...", True, glass.accent_color)
+text_left_align = screen.get_width() / 2 - loading_message.get_width() / 2
+text_top_align = screen.get_height() / 2 - loading_message.get_height() / 2
+screen.blit(loading_message, (text_left_align, text_top_align))
+pygame.display.update(screen.get_rect())
 setup.Setup()
 
 # Desktop shell setup
