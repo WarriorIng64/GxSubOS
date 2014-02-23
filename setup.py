@@ -17,8 +17,26 @@
 import os, platform
 from appdb import AppDB
 
+def UpdateApps():
+  '''Gets updates for the installed default apps.'''
+  database = AppDB()
+  initialwd = os.getcwd()
+  appswd = os.getcwd() + "/apps/default"
+  applist = database.RetrieveAppNames()
+  print "Checking for updates to " + str(len(applist)) + " apps..."
+  for appname in applist:
+    appinfo = database.GetAppInfo(appname)
+    os.chdir(appswd + "/" + appname)
+    if platform.system() == "Windows":
+      pull_success = os.system('"C:\Program Files (x86)\Git\cmd\git.exe" pull')
+    else:
+      pull_success = os.system("git pull")
+    if pull_success != 0:
+      print "ERROR: Could not update " + appname + "."
+    os.chdir(initialwd)
+
 def Setup():
-  # Sets up the necessary data for the SubOS if this is the first run.
+  '''Sets up the necessary data for the SubOS if this is the first run.'''
   database = AppDB()
   initialwd = os.getcwd()
   appswd = os.getcwd() + "/apps/default"
@@ -45,15 +63,4 @@ def Setup():
       os.chdir(initialwd)
   else:
     # Apps set up from previous run; check for updates
-    applist = database.RetrieveAppNames()
-    print "Checking for updates to " + str(len(applist)) + " apps..."
-    for appname in applist:
-      appinfo = database.GetAppInfo(appname)
-      os.chdir(appswd + "/" + appname)
-      if platform.system() == "Windows":
-        pull_success = os.system('"C:\Program Files (x86)\Git\cmd\git.exe" pull')
-      else:
-        pull_success = os.system("git pull")
-      if pull_success != 0:
-        print "ERROR: Could not update " + appname + "."
-      os.chdir(initialwd)
+    UpdateApps()
