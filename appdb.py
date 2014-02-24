@@ -56,7 +56,8 @@ class AppDB:
       values = (
         ('GxCalculator',True,'0.1','0.1','https://github.com/WarriorIng64/GxCalculator','https://github.com/WarriorIng64/GxCalculator.git'),
         ('GxWidgetTest',True,'0.1','0.1','https://github.com/WarriorIng64/GxWidgetTest','https://github.com/WarriorIng64/GxWidgetTest.git'),
-        ('GxText',True,'0.1','0.1','https://github.com/WarriorIng64/GxText','https://github.com/WarriorIng64/GxText.git')
+        ('GxText',True,'0.1','0.1','https://github.com/WarriorIng64/GxText','https://github.com/WarriorIng64/GxText.git'),
+        ('GxUpdater',True,'0.1','0.1','https://github.com/WarriorIng64/GxUpdater','https://github.com/WarriorIng64/GxUpdater.git')
       )
       fields = "AppName,DefaultApp,CurVersion,UpdateVersion,WebsiteUrl,RepoURL"
       for app in values:
