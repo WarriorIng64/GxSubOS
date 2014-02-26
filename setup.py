@@ -14,11 +14,12 @@
 # You should have received a copy of the GNU General Public License
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
-import os, platform
+import os, platform, subprocess
 from appdb import AppDB
 
 def UpdateApps():
   '''Gets updates for the installed default apps.'''
+  loading_subprocesses = []
   database = AppDB()
   initialwd = os.getcwd()
   appswd = os.getcwd() + "/apps/default"
@@ -28,19 +29,18 @@ def UpdateApps():
     appinfo = database.GetAppInfo(appname)
     os.chdir(appswd + "/" + appname)
     if platform.system() == "Windows":
-      pull_success = os.system('"C:\Program Files (x86)\Git\cmd\git.exe" pull')
+      loading_subprocesses.append(subprocess.Popen('"C:\Program Files (x86)\Git\cmd\git.exe" --git-dir=' + os.getcwd() + '/.git --work-tree=' + os.getcwd() + ' pull'))
     else:
       pull_success = os.system("git pull")
-    if pull_success != 0:
-      print "ERROR: Could not update " + appname + "."
     os.chdir(initialwd)
+  return loading_subprocesses
 
 def Setup():
   '''Sets up the necessary data for the SubOS if this is the first run.'''
-  database = AppDB()
-  initialwd = os.getcwd()
-  appswd = os.getcwd() + "/apps/default"
   if not os.path.isdir(os.getcwd() + "/apps"):
+    database = AppDB()
+    initialwd = os.getcwd()
+    appswd = os.getcwd() + "/apps/default"
     print "First run; setting up app database."
     # App database setup
     database.InsertDefaultApps()
@@ -61,6 +61,7 @@ def Setup():
       if clone_success != 0:
         print "ERROR: Could not clone " + appname + "."
       os.chdir(initialwd)
+      return []
   else:
     # Apps set up from previous run; check for updates
-    UpdateApps()
+    return UpdateApps()

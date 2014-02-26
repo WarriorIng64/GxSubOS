@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
-import sys, pygame, setup, pygame.mixer
+import sys, subprocess, pygame, setup, pygame.mixer
 from pygame.locals import *
 from appdb import AppDB
 from wallpaper import Wallpaper
@@ -39,14 +39,40 @@ desktop_surface = pygame.Surface((screen.get_width(), screen.get_height()))
 system_font = pygame.font.Font(None, 12)
 loading_font = pygame.font.Font("fonts/Roboto/Roboto-Regular.ttf", 32)
 
-# First-time setup of database and settings
-screen.fill((0, 0, 0))
+# First-time setup of database and settings, and loading
+loading_spinner = pygame.image.load("graphics/progress_spinner_256.png")
 loading_message = loading_font.render("GxSubOS is starting up, please wait...", True, glass.accent_color)
+screen_center_x, screen_center_y = screen.get_width() / 2, screen.get_height() / 2
+text_left_align = screen_center_x - loading_message.get_width() / 2
+text_top_align = screen_center_y - loading_message.get_height() / 2
+screen.fill((0, 0, 0))
+screen.blit(loading_spinner, (screen_center_x - loading_spinner.get_width() / 2, screen_center_y - loading_spinner.get_height() / 2))
+screen.blit(loading_message, (text_left_align, text_top_align))
+pygame.display.update(screen.get_rect())
+degrees = 0
+
+loading_subprocesses = setup.Setup()
+print "Num of subprocesses: " + str(len(loading_subprocesses))
+while len(loading_subprocesses) != 0:
+  # Display an animated loading screen
+  screen.fill((0, 0, 0))
+  degrees -= 3
+  if degrees <= -360:
+    degrees = 0
+  loading_spins = pygame.transform.rotate(loading_spinner, degrees)
+  screen.blit(loading_spins, (screen_center_x - loading_spins.get_width() / 2, screen_center_y - loading_spins.get_height() / 2))
+  screen.blit(loading_message, (text_left_align, text_top_align))
+  pygame.display.flip()
+  for sp in loading_subprocesses:
+    if sp.poll() != None:
+      loading_subprocesses.remove(sp)
+  fpsClock.tick(60)
+screen.fill((0, 0, 0))
+loading_message = loading_font.render("GxSubOS will start in a moment...", True, glass.accent_color)
 text_left_align = screen.get_width() / 2 - loading_message.get_width() / 2
 text_top_align = screen.get_height() / 2 - loading_message.get_height() / 2
 screen.blit(loading_message, (text_left_align, text_top_align))
-pygame.display.update(screen.get_rect())
-setup.Setup()
+pygame.display.flip()
 
 # Desktop shell setup
 wallpaper = Wallpaper(size)
