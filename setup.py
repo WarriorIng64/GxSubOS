@@ -32,12 +32,15 @@ def UpdateApps():
       loading_subprocesses.append(subprocess.Popen('"C:\Program Files (x86)\Git\cmd\git.exe" --git-dir=' + os.getcwd() + '/.git --work-tree=' + os.getcwd() + ' pull'))
     else:
       pull_success = os.system("git pull")
+      if pull_success != 0:
+        print "ERROR: Could not pull " + appname + "."
     os.chdir(initialwd)
   return loading_subprocesses
 
 def Setup():
   '''Sets up the necessary data for the SubOS if this is the first run.'''
   if not os.path.isdir(os.getcwd() + "/apps"):
+    loading_subprocesses = []
     database = AppDB()
     initialwd = os.getcwd()
     appswd = os.getcwd() + "/apps/default"
@@ -55,13 +58,13 @@ def Setup():
       # If we're on Windows, use Git for Windows from https://code.google.com/p/msysgit/
       # Otherwise, assume Linux 
       if platform.system() == "Windows":
-        clone_success = os.system('"C:\Program Files (x86)\Git\cmd\git.exe" clone ' + appinfo["RepoUrl"])
+        loading_subprocesses.append(subprocess.Popen('"C:\Program Files (x86)\Git\cmd\git.exe" clone ' + appinfo["RepoUrl"] + ' ' + appswd + '/' + appname))
       else:
         clone_success = os.system("git clone " + appinfo["RepoUrl"])
-      if clone_success != 0:
-        print "ERROR: Could not clone " + appname + "."
+        if clone_success != 0:
+          print "ERROR: Could not clone " + appname + "."
       os.chdir(initialwd)
-      return []
   else:
     # Apps set up from previous run; check for updates
-    return UpdateApps()
+    loading_subprocesses = UpdateApps()
+  return loading_subprocesses
