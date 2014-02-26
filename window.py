@@ -158,7 +158,7 @@ class Window:
     # Draw the window chrome and prepare the window_surface for blitting
     w, h = self.rect.width, self.rect.height
     window_rect = self.window_surface.get_rect()
-    self.window_surface.fill(0)
+    self.window_surface = pygame.Surface((w, h), pygame.SRCALPHA)
     pygame.draw.rect(self.window_surface, glass.content_area_color, self.content_area_rect)
     self.DrawTitlebar()
     self.window_surface.blit(self.close_image, self.close_rect)
@@ -166,7 +166,7 @@ class Window:
       self.window_surface.blit(self.resize_image, self.resize_rect)
     self.window_surface.convert_alpha()
     self.top_level_container.Redraw()
-    self.content_surface.fill(0)
+    self.content_surface = pygame.Surface(self.content_area_rect.size, pygame.SRCALPHA)
     self.content_surface.blit(self.top_level_container.surface, self.top_level_container.rect)
   
   def SetFocus(self, focus):
