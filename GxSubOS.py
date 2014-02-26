@@ -56,7 +56,7 @@ print "Num of subprocesses: " + str(len(loading_subprocesses))
 while len(loading_subprocesses) != 0:
   # Display an animated loading screen
   screen.fill((0, 0, 0))
-  degrees -= 3
+  degrees -= 5
   if degrees <= -360:
     degrees = 0
   loading_spins = pygame.transform.rotate(loading_spinner, degrees)
