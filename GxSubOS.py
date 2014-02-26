@@ -95,6 +95,20 @@ pygame.mixer.init()
 startup_sound = pygame.mixer.Sound("sounds/startup.ogg")
 startup_sound.play()
 
+# Fade in from black
+fadein_black_surface = pygame.Surface((screen.get_width(), screen.get_height())).convert()
+fadein_black_surface.fill((0, 0, 0))
+fadein_alpha = 255
+fadein_black_surface.set_alpha(fadein_alpha)
+while fadein_alpha > 0:
+  screen.blit(wallpaper.image, wallpaper.rect)
+  fadein_black_surface.set_alpha(fadein_alpha)
+  screen.blit(fadein_black_surface, fadein_black_surface.get_rect())
+  pygame.display.flip()
+  fadein_alpha -= 5
+  fpsClock.tick(60)
+del fadein_black_surface
+
 # MAIN LOOP
 while 1:
   # Check if we quit yet and handle events for windows
