@@ -31,9 +31,7 @@ def UpdateApps():
     if platform.system() == "Windows":
       loading_subprocesses.append(subprocess.Popen('"C:\Program Files (x86)\Git\cmd\git.exe" --git-dir=' + os.getcwd() + '/.git --work-tree=' + os.getcwd() + ' pull'))
     else:
-      pull_success = os.system("git pull")
-      if pull_success != 0:
-        print "ERROR: Could not pull " + appname + "."
+      loading_subprocesses.append(subprocess.Popen('git pull', shell=True))
     os.chdir(initialwd)
   return loading_subprocesses
 
@@ -60,9 +58,7 @@ def Setup():
       if platform.system() == "Windows":
         loading_subprocesses.append(subprocess.Popen('"C:\Program Files (x86)\Git\cmd\git.exe" clone ' + appinfo["RepoUrl"] + ' ' + appswd + '/' + appname))
       else:
-        clone_success = os.system("git clone " + appinfo["RepoUrl"])
-        if clone_success != 0:
-          print "ERROR: Could not clone " + appname + "."
+        loading_subprocesses.append(subprocess.Popen("git clone " + appinfo["RepoUrl"], shell=True))
       os.chdir(initialwd)
   else:
     # Apps set up from previous run; check for updates
