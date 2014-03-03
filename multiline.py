@@ -25,6 +25,7 @@ class Multiline:
     self.width = width
     self.lines = []
     self.split_by_words = split_by_words
+    self.scroll_amount = 0
     self.UpdateLines()
 
   def UpdateLines(self):
@@ -93,6 +94,18 @@ class Multiline:
     self.width = width
     self.UpdateLines()
 
+  def ScrollUp(self, pixels):
+    '''Scroll the text up by the given number of pixels.'''
+    self.scroll_amount += pixels
+    if self.scroll_amount < 0:
+      self.scroll_amount = 0
+
+  def ScrollDown(self, pixels):
+    '''Scroll the text down by the given number of pixels.'''
+    self.scroll_amount += pixels
+    # TODO: Keep the bottom of the text from scrolling above the bottom of the
+    # Multiline surface area.
+
   def Render(self):
     '''Return a Surface with the Multiline text properly rendered.'''
     # Trivial cases
@@ -111,7 +124,7 @@ class Multiline:
     render_height -= space_height
     render_surface = glass.MakeTransparentSurface(self.width, render_height)
     # Render each line surface onto the main surface
-    current_top = 0;
+    current_top = self.scroll_amount;
     for line_surface in line_surfaces:
       render_surface.blit(line_surface, (0, current_top))
       current_top += line_surface.get_height() + space_height
