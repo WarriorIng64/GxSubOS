@@ -42,6 +42,10 @@ class TextBox(Widget):
     self.text = text
     self.multiline.SetText(text)
 
+  def GetText(self):
+    """Returns a string for the text displayed in the textbox."""
+    return self.multiline.GetText()
+
   def HandleMouseButtonDownEvent(self, mouse_x, mouse_y, mouse_button):
     """Handle a MOUSEDOWN event."""
     if self.PointInsideWidget(mouse_x, mouse_y):

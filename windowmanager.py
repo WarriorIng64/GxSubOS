@@ -272,3 +272,8 @@ class WindowManager:
       execfile("apps/default/" + app_name + "/" + app_name + ".py")
     else:
       print "ERROR: Could not load default app " + app_name + "; non-existent directory."
+
+  def RunString(self, code):
+    """Runs the given string in code. Meant to be used for running an app from
+    its source code in an IDE."""
+    exec code
