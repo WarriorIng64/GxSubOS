@@ -204,7 +204,7 @@ class WindowManager:
   
   def HandleMouseButtonDownEvent(self, mouse_x, mouse_y, mouse_button):
     """General function for handling mouse button press events for windows."""
-    if mouse_button == 1:
+    if mouse_button in [1, 4, 5]:
       for window in reversed(self.window_list):
         if window.WindowClicked(mouse_x, mouse_y):
           window.HandleMouseButtonDownEvent(mouse_x, mouse_y, mouse_button)

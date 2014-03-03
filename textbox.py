@@ -44,8 +44,21 @@ class TextBox(Widget):
 
   def HandleMouseButtonDownEvent(self, mouse_x, mouse_y, mouse_button):
     """Handle a MOUSEDOWN event."""
-    if self.PointInsideWidget(mouse_x, mouse_y) and mouse_button == 1:
-      self.SetAsFocusedWidget(self)
+    if self.PointInsideWidget(mouse_x, mouse_y):
+      if mouse_button == 1:
+        # Left-click
+        self.SetAsFocusedWidget(self)
+      elif mouse_button == 4:
+        # Mouse wheel rolled up
+        self.multiline.ScrollDown(16)
+      elif mouse_button == 5:
+        # Mouse whell rolled down
+        self.multiline.ScrollUp(16)
+
+      # Update widget appearance
+      if mouse_button in [1, 4, 5]:
+        self.Redraw()
+        self.RedrawParentWindow()
   
   def HandleMouseMotionEvent(self, mouse_x, mouse_y):
     """Handle a MOUSEMOTION event."""
