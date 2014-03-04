@@ -31,7 +31,7 @@ class PopupMessage():
     self.surface = pygame.Surface((pygame.display.Info().current_w, pygame.display.Info().current_h), pygame.SRCALPHA)
     self.Redraw()
 
-  def Redraw(self):
+  def Redraw(self, surface=None):
     """Redraws this PopupMessage's surface."""
     # TODO: Add onto this so it resembles the mockup more.
     self.surface.fill((0, 0, 0, 100))
@@ -39,5 +39,10 @@ class PopupMessage():
     message_surface = message_font.render(self.message_text, True, glass.accent_color)
     message_pos = (self.surface.get_width() / 2 - message_surface.get_width() / 2, self.surface.get_height() / 2)
     title_pos = (message_pos[0], self.surface.get_height() / 2 - title_surface.get_height())
+    if surface != None:
+      temp_surface = self.surface.copy()
+      temp_surface.fill((0, 0, 0, 100))
+      self.surface.blit(glass.Blur(surface), (0, 0))
+      self.surface.blit(temp_surface, (0, 0))
     self.surface.blit(title_surface, title_pos)
     self.surface.blit(message_surface, message_pos)
