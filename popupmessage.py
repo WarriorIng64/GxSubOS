@@ -25,6 +25,9 @@ padding = 32
 class PopupMessage():
   """A class for diplaying popup messages to the user.
   This is meant to be comparable to using show_message() in GameMaker."""
+  popup_color = glass.glass_color
+  popup_color.a = glass.glass_alpha
+  
   def __init__(self, title_text="Untitled", message_text="(No message.)"):
     self.title_text = title_text
     self.message_text = message_text
@@ -39,10 +42,14 @@ class PopupMessage():
     message_surface = message_font.render(self.message_text, True, glass.accent_color)
     message_pos = (self.surface.get_width() / 2 - message_surface.get_width() / 2, self.surface.get_height() / 2)
     title_pos = (message_pos[0], self.surface.get_height() / 2 - title_surface.get_height())
+    window_rect = pygame.Rect(title_pos[0] - padding, title_pos[1] - padding, message_surface.get_width() + 2 * padding, title_surface.get_height() + message_surface.get_height() + 2 * padding)
+    window_surface = pygame.Surface(window_rect.size, pygame.SRCALPHA)
+    window_surface.fill(self.popup_color)
     if surface != None:
       temp_surface = self.surface.copy()
       temp_surface.fill((0, 0, 0, 100))
       self.surface.blit(glass.Blur(surface), (0, 0))
       self.surface.blit(temp_surface, (0, 0))
+    self.surface.blit(window_surface, window_rect)
     self.surface.blit(title_surface, title_pos)
     self.surface.blit(message_surface, message_pos)
