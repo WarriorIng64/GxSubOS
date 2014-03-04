@@ -18,6 +18,7 @@ import pygame, os
 from window import Window
 from launcherbutton import Launcherbutton
 from wallpaperswitcher import WallpaperSwitcher
+from popupmessage import PopupMessage
 import shadow
 from widget import EmptyWidget
 from container import VBox, HBox
