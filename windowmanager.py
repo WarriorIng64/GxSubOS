@@ -206,20 +206,21 @@ class WindowManager:
   
   def HandleMouseButtonDownEvent(self, mouse_x, mouse_y, mouse_button):
     """General function for handling mouse button press events for windows."""
-    if mouse_button in [1, 4, 5]:
+    if self.popup_message != None:
+      if mouse_button == 1:
+        # Close the popup message.
+        del self.popup_message
+        self.popup_message = None
+        self.RequireRedraw()
+    elif self.wallpaper_switcher != None:
+      self.wallpaper_switcher.HandleMouseButtonDownEvent(mouse_x, mouse_y, mouse_button)
+    elif mouse_button in [1, 4, 5]:
       for window in reversed(self.window_list):
         if window.WindowClicked(mouse_x, mouse_y):
           window.HandleMouseButtonDownEvent(mouse_x, mouse_y, mouse_button)
           break
       self.FindFocusedWindow(mouse_x, mouse_y)
       self.MaintainWindowOrder()
-      if self.popup_message != None:
-        # Close the popup message.
-        del self.popup_message
-        self.popup_message = None
-        self.RequireRedraw()
-    elif self.wallpaper_switcher is not None:
-      self.wallpaper_switcher.HandleMouseButtonDownEvent(mouse_x, mouse_y, mouse_button)
   
   def HandleKeyDownEvent(self, event):
     """General function for handling a keyboard key down event."""
