@@ -29,6 +29,7 @@ class PopupMessage():
     self.title_text = title_text
     self.message_text = message_text
     self.surface = pygame.Surface((pygame.display.Info().current_w, pygame.display.Info().current_h), pygame.SRCALPHA)
+    self.Redraw()
 
   def Redraw():
     """Redraws this PopupMessage's surface."""

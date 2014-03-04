@@ -35,6 +35,7 @@ class WindowManager:
     self.wallpaper_switcher = None
     self.redraw_needed = True
     self.update_rect = pygame.Rect((0, 0), (pygame.display.Info().current_w, pygame.display.Info().current_h))
+    self.popup_message = None
 
   def SetLauncher(self, launcher):
     """Assigns a Launcher instance to this WindowManager for drawing and
@@ -212,6 +213,11 @@ class WindowManager:
           break
       self.FindFocusedWindow(mouse_x, mouse_y)
       self.MaintainWindowOrder()
+      if self.popup_message != None:
+        # Close the popup message.
+        del self.popup_message
+        self.popup_message = None
+        self.RequireRedraw()
     elif self.wallpaper_switcher is not None:
       self.wallpaper_switcher.HandleMouseButtonDownEvent(mouse_x, mouse_y, mouse_button)
   
@@ -261,10 +267,25 @@ class WindowManager:
     surface.blit(self.wallpaper_switcher.surface, self.wallpaper_switcher.rect)
     self.update_rect.union_ip(self.wallpaper_switcher.rect)
     return self.update_rect
+
+  def DrawPopupMessage(self, surface, blurred_surface=None):
+    """Draws the current popup message onto the given surface.
+    A blurred version of the surface behind the message can be passed in to save time.
+    Returns a Rect containing the updated area."""
+    if self.popup_message == None:
+      return self.update_rect
+    surface.blit(self.popup_message.surface)
+    self.update_rect.union_ip(self.popup_message.surface.get_rect())
+    return self.update_rect
   
   def InitializeWidgetTest(self):
     """Debug function for creating a test app for checking out Widget functionality."""
     execfile("apps/default/widget_test.py")
+
+  def ShowPopupMessage(self, title="", message=""):
+    """Show a PopupMessage with the given title and message."""
+    self.popup_message = PopupMessage(title, message)
+    self.RequireRedraw()
 
   def LoadDefaultApp(self, app_name):
     """Loads a default app based on the given app name, which must match the
