@@ -49,6 +49,8 @@ class Startbutton:
           for appname in applist:
             self.startmenu.AddMenuOption("Start " + appname + "...", "self.creator.LoadDefaultApp('" + appname +"')")
           self.startmenu.AddMenuOption("Change wallpaper...", "self.creator.InitializeWallpaperSwitcher()")
+          # Temporary code
+          self.startmenu.AddMenuOption("Show a popup message", "self.creator.ShowPopupMessage('This is a title', 'This is a message!')")
           self.startmenu.AddMenuOption("Shutdown GxSubOS", "pygame.quit();sys.exit()")
           update_rect = update_rect.union(self.startmenu.rect)
         else:
