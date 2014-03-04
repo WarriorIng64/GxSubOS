@@ -31,7 +31,7 @@ class PopupMessage():
     self.surface = pygame.Surface((pygame.display.Info().current_w, pygame.display.Info().current_h), pygame.SRCALPHA)
     self.Redraw()
 
-  def Redraw():
+  def Redraw(self):
     """Redraws this PopupMessage's surface."""
     # TODO: Add onto this so it resembles the mockup more.
     self.surface.fill((0, 0, 0, 100))

@@ -274,7 +274,7 @@ class WindowManager:
     Returns a Rect containing the updated area."""
     if self.popup_message == None:
       return self.update_rect
-    surface.blit(self.popup_message.surface)
+    surface.blit(self.popup_message.surface, self.popup_message.surface.get_rect())
     self.update_rect.union_ip(self.popup_message.surface.get_rect())
     return self.update_rect
   
