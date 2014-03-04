@@ -32,12 +32,13 @@ class PopupMessage():
     self.title_text = title_text
     self.message_text = message_text
     self.surface = pygame.Surface((pygame.display.Info().current_w, pygame.display.Info().current_h), pygame.SRCALPHA)
+    self.gradient_surface = pygame.image.load("graphics/popupmessage_bkg_gradient.png")
+    self.gradient_surface = pygame.transform.smoothscale(self.gradient_surface, (pygame.display.Info().current_w, pygame.display.Info().current_h))
     self.Redraw()
 
   def Redraw(self, surface=None):
     """Redraws this PopupMessage's surface."""
-    # TODO: Add onto this so it resembles the mockup more.
-    self.surface.fill((0, 0, 0, 100))
+    self.surface.fill((0, 0, 0, 0))
     title_surface = title_font.render(self.title_text, True, glass.accent_color)
     message_surface = message_font.render(self.message_text, True, glass.accent_color)
     message_pos = (self.surface.get_width() / 2 - message_surface.get_width() / 2, self.surface.get_height() / 2)
@@ -46,10 +47,8 @@ class PopupMessage():
     window_surface = pygame.Surface(window_rect.size, pygame.SRCALPHA)
     window_surface.fill(self.popup_color)
     if surface != None:
-      temp_surface = self.surface.copy()
-      temp_surface.fill((0, 0, 0, 100))
       self.surface.blit(glass.Blur(surface), (0, 0))
-      self.surface.blit(temp_surface, (0, 0))
+    self.surface.blit(self.gradient_surface, (0, 0))
     self.surface.blit(window_surface, window_rect)
     self.surface.blit(title_surface, title_pos)
     self.surface.blit(message_surface, message_pos)
