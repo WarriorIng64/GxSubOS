@@ -23,7 +23,7 @@ import shadow
 from widget import EmptyWidget
 from container import VBox, HBox
 from button import Button
-from label import Label
+from label import Label, LEFT, CENTER, RIGHT
 from textbox import TextBox, TextEntryBox, TextEntryMonoBox
 
 class WindowManager:
