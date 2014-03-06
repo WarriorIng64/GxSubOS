@@ -19,10 +19,11 @@ from widget import Widget
 import glass
 
 label_font = pygame.font.Font("fonts/Roboto/Roboto-Light.ttf", 16)
+LEFT, CENTER, RIGHT = range(3)
 
 class Label(Widget):
   """A Widget subclass which represents a label within a window."""
-  def __init__(self, parent_widget=None, parent_window=None, label_text=None):
+  def __init__(self, parent_widget=None, parent_window=None, label_text=None, halign=CENTER):
     self.parent_widget = parent_widget
     self.parent_window = parent_window
     self.rect = None
@@ -33,6 +34,7 @@ class Label(Widget):
     self.hovered = False
     self.requested_width = 0
     self.requested_height = 0
+    self.halign = halign
   
   def SetLabelText(self, label_text):
     """Sets the text displayed on the label."""
@@ -44,6 +46,15 @@ class Label(Widget):
   def GetLabelText(self):
     """Gets the text displayed on the label."""
     return self.label_text
+
+  def SetHorizontalAlignment(self, halign):
+    """Sets the horizontal text alignment to whatever is passed in.
+    Acceptable values should be one of the following:
+      label.LEFT
+      label.CENTER
+      label.RIGHT
+    """
+    self.halign = halign
   
   def Redraw(self):
     """Redraw this Label."""
@@ -52,7 +63,13 @@ class Label(Widget):
       return;
     self.surface = glass.MakeTransparentSurface(self.rect.width, self.rect.height)
     if self.text_surface is not None:
-      text_left_align = self.surface.get_width() / 2 - self.text_surface.get_width() / 2
+      if self.halign == LEFT:
+        text_left_align = 0
+      elif self.halign == RIGHT:
+        text_left_align = self.surface.get_width() - self.text_surface.get_width()
+      else:
+        # Default to centered text
+        text_left_align = self.surface.get_width() / 2 - self.text_surface.get_width() / 2
       text_top_align = self.surface.get_height() / 2 - self.text_surface.get_height() / 2
       self.surface.blit(self.text_surface, (text_left_align, text_top_align))
     
