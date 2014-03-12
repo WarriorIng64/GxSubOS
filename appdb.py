@@ -48,21 +48,19 @@ class AppDB:
       cur.execute("CREATE TABLE Apps(AppId INT PRIMARY KEY, \
                    AppName TEXT, \
                    DefaultApp INTEGER, \
-                   CurVersion TEXT, \
-                   UpdateVersion TEXT, \
                    WebsiteUrl TEXT, \
                    RepoUrl TEXT)")
       # The default apps are currently hard-coded here
       values = (
-        ('GxCalculator',True,'0.1','0.1','https://github.com/WarriorIng64/GxCalculator','https://github.com/WarriorIng64/GxCalculator.git'),
-        ('GxFiles',True,'0.1','0.1','https://github.com/WarriorIng64/GxFiles','https://github.com/WarriorIng64/GxFiles.git'),
-        ('GxText',True,'0.1','0.1','https://github.com/WarriorIng64/GxText','https://github.com/WarriorIng64/GxText.git'),
-        ('GxUpdater',True,'0.1','0.1','https://github.com/WarriorIng64/GxUpdater','https://github.com/WarriorIng64/GxUpdater.git'),
-        ('GxWidgetTest',True,'0.1','0.1','https://github.com/WarriorIng64/GxWidgetTest','https://github.com/WarriorIng64/GxWidgetTest.git')
+        ('GxCalculator',True,'https://github.com/WarriorIng64/GxCalculator','https://github.com/WarriorIng64/GxCalculator.git'),
+        ('GxFiles',True,'https://github.com/WarriorIng64/GxFiles','https://github.com/WarriorIng64/GxFiles.git'),
+        ('GxText',True,'https://github.com/WarriorIng64/GxText','https://github.com/WarriorIng64/GxText.git'),
+        ('GxUpdater',True,'https://github.com/WarriorIng64/GxUpdater','https://github.com/WarriorIng64/GxUpdater.git'),
+        ('GxWidgetTest',True,'https://github.com/WarriorIng64/GxWidgetTest','https://github.com/WarriorIng64/GxWidgetTest.git')
       )
-      fields = "AppName,DefaultApp,CurVersion,UpdateVersion,WebsiteUrl,RepoURL"
+      fields = "AppName,DefaultApp,WebsiteUrl,RepoURL"
       for app in values:
-        cur.executemany("INSERT INTO Apps(" + fields + ") VALUES(?, ?, ?, ?, ?, ?)", (app,))
+        cur.executemany("INSERT INTO Apps(" + fields + ") VALUES(?, ?, ?, ?)", (app,))
       con.commit()
   
   def GetAppInfo(self, appname):
