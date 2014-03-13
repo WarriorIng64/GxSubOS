@@ -54,10 +54,10 @@ class TextBox(Widget):
         self.SetAsFocusedWidget(self)
       elif mouse_button == 4:
         # Mouse wheel rolled up
-        self.multiline.ScrollDown(16)
-      elif mouse_button == 5:
-        # Mouse whell rolled down
         self.multiline.ScrollUp(16)
+      elif mouse_button == 5:
+        # Mouse wheel rolled down
+        self.multiline.ScrollDown(16)
 
       # Update widget appearance
       if mouse_button in [1, 4, 5]:
