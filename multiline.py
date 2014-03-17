@@ -97,7 +97,7 @@ class Multiline:
   def ScrollUp(self, pixels):
     '''Scroll the text up by the given number of pixels.'''
     self.scroll_amount += pixels
-    if self.scroll_amount < 0:
+    if self.scroll_amount > 0:
       self.scroll_amount = 0
 
   def ScrollDown(self, pixels):
