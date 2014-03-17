@@ -120,12 +120,11 @@ class Multiline:
     space_height = self.font.size(" ")[0]
     for line in self.lines:
       line_surfaces.append(self.font.render(line, True, glass.accent_color))
-      render_height += self.font.size(line)[1] + space_height
-    render_height -= space_height
+      render_height += self.font.get_linesize()
     render_surface = glass.MakeTransparentSurface(self.width, render_height)
     # Render each line surface onto the main surface
     current_top = self.scroll_amount;
     for line_surface in line_surfaces:
       render_surface.blit(line_surface, (0, current_top))
-      current_top += line_surface.get_height() + space_height
+      current_top += self.font.get_linesize()
     return render_surface
