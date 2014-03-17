@@ -30,7 +30,7 @@ class TextBox(Widget):
     self.rect = None
     self.surface = None
     self.text = ""
-    self.multiline = Multiline(self.text, textbox_font, 1000)
+    self.multiline = Multiline(self.text, textbox_font, pygame.Rect(0, 0, 1, 1))
     self.text_surface = None
     self.SetText(initial_text)
     self.hovered = False
@@ -79,7 +79,7 @@ class TextBox(Widget):
     textbox_color.a = 100
     if self.rect == None:
       return;
-    self.multiline.SetWidth(self.rect.width - padding * 2)
+    self.multiline.SetAreaRect(pygame.Rect(0, 0, self.rect.width - padding * 2, self.rect.height - padding * 2))
     self.text_surface = self.multiline.Render()
     self.surface = glass.MakeTransparentSurface(self.rect.width, self.rect.height)
     border_rect = self.surface.get_rect().inflate(-padding, -padding).move(padding / 2, padding / 2)

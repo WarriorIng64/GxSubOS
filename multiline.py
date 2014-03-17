@@ -18,11 +18,11 @@ import pygame
 import glass
 
 class Multiline:
-  def __init__(self, text, font, width, split_by_words=True):
+  def __init__(self, text, font, area_rect, split_by_words=True):
     '''Initialize with text of the given font within the given width.'''
     self.text = text
     self.font = font
-    self.width = width
+    self.area_rect = area_rect
     self.lines = []
     self.split_by_words = split_by_words
     self.scroll_amount = 0
@@ -35,7 +35,7 @@ class Multiline:
       # Split by characters instead
       next_line = ""
       for x in self.text:
-        if self.font.size(next_line + x)[0] > self.width or x == '\n':
+        if self.font.size(next_line + x)[0] > self.area_rect.width or x == '\n':
           self.lines.append(next_line)
           next_line = ""
         if not (next_line == "" and x == ' '):
@@ -47,7 +47,7 @@ class Multiline:
       next_line = ""
       next_word = ""
       for x in self.text:
-        if self.font.size(next_line + " " + next_word)[0] > self.width:
+        if self.font.size(next_line + " " + next_word)[0] > self.area_rect.width:
           self.lines.append(next_line)
           next_line = ""
         if x == '\n':
@@ -91,7 +91,17 @@ class Multiline:
 
   def SetWidth(self, width):
     '''Change the current width and update.'''
-    self.width = width
+    self.area_rect.width = width
+    self.UpdateLines()
+
+  def SetHeight(self, height):
+    '''Change the current height and update.'''
+    self.area_rect.height = height
+    self.UpdateLines()
+
+  def SetAreaRect(self, area_rect):
+    '''Change the current area Rect and update.'''
+    self.area_rect = area_rect
     self.UpdateLines()
 
   def ScrollUp(self, pixels):
@@ -119,7 +129,7 @@ class Multiline:
     render_height = len(self.lines) * self.font.get_linesize()
     for line in self.lines:
       line_surfaces.append(self.font.render(line, True, glass.accent_color))
-    render_surface = glass.MakeTransparentSurface(self.width, render_height)
+    render_surface = glass.MakeTransparentSurface(self.area_rect.width, render_height)
     # Render each line surface onto the main surface
     current_top = self.scroll_amount;
     for line_surface in line_surfaces:
