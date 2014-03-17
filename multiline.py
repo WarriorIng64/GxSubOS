@@ -116,11 +116,9 @@ class Multiline:
 
     # For more than one line, render with proper spacing
     line_surfaces = []
-    render_height = 0
-    space_height = self.font.size(" ")[0]
+    render_height = len(self.lines) * self.font.get_linesize()
     for line in self.lines:
       line_surfaces.append(self.font.render(line, True, glass.accent_color))
-      render_height += self.font.get_linesize()
     render_surface = glass.MakeTransparentSurface(self.width, render_height)
     # Render each line surface onto the main surface
     current_top = self.scroll_amount;
