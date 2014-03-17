@@ -133,6 +133,7 @@ class Multiline:
     # Render each line surface onto the main surface
     current_top = self.scroll_amount;
     for line_surface in line_surfaces:
-      render_surface.blit(line_surface, (0, current_top))
+      if current_top > -self.font.get_linesize() and current_top < self.area_rect.height:
+        render_surface.blit(line_surface, (0, current_top))
       current_top += self.font.get_linesize()
     return render_surface
