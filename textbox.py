@@ -111,7 +111,7 @@ class TextEntryMonoBox(TextEntryBox):
     self.rect = None
     self.surface = None
     self.text = ""
-    self.multiline = Multiline(self.text, textbox_mono_font, 1000)
+    self.multiline = Multiline(self.text, textbox_mono_font, 1000, keep_leading_whitespace=True)
     self.text_surface = None
     self.SetText(initial_text)
     self.hovered = False

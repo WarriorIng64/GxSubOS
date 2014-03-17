@@ -18,13 +18,14 @@ import pygame
 import glass
 
 class Multiline:
-  def __init__(self, text, font, area_rect, split_by_words=True):
+  def __init__(self, text, font, area_rect, split_by_words=True, keep_leading_whitespace=False):
     '''Initialize with text of the given font within the given width.'''
     self.text = text
     self.font = font
     self.area_rect = area_rect
     self.lines = []
     self.split_by_words = split_by_words
+    self.keep_leading_whitespace = keep_leading_whitespace
     self.scroll_amount = 0
     self.UpdateLines()
 
@@ -58,7 +59,7 @@ class Multiline:
           self.lines.append(next_line)
           next_line = ""
         elif x == ' ':
-          if next_line != "":
+          if (next_line != "") or self.keep_leading_whitespace:
             next_line += " "
           next_line += next_word
           next_word = ""
