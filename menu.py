@@ -45,10 +45,9 @@ class Menu:
   def UpdateSurface(self):
     # Update this menu's surface based on its current state.
     max_menu_width = 1
-    max_entry_height = 2
+    max_entry_height = menu_font.get_linesize() + 2 * padding
     for option in self.options_list:
       max_menu_width = max(max_menu_width, menu_font.size(option[0])[0])
-      max_entry_height = max(max_entry_height, menu_font.size(option[0])[1])
     menu_width = max_menu_width + 2 * padding
     menu_height = max_entry_height * len(self.options_list) + 2 * padding
     self.surface = self.surface = pygame.Surface((menu_width, menu_height), pygame.SRCALPHA)
@@ -59,7 +58,7 @@ class Menu:
     i = 0
     for option in self.options_list:
       option_surface = menu_font.render(option[0], True, (0, 255, 255))
-      self.surface.blit(option_surface, (padding, i * max_entry_height + padding))
+      self.surface.blit(option_surface, (padding, i * max_entry_height +  2 * padding))
       if self.option_highlighted is i:
         pygame.draw.rect(sep_surface, pygame.Color(0, 255, 255, 100), pygame.Rect(0, i * max_entry_height + padding, self.surface.get_width(), max_entry_height))
       drawingshapes.DrawHSeparator(sep_surface, self.rect.width, (i + 1) * max_entry_height + padding)
