@@ -74,9 +74,11 @@ class Multiline:
 
   def ScrollDown(self, pixels):
     '''Scroll the text down by the given number of pixels.'''
-    self.scroll_amount -= pixels
-    # TODO: Keep the bottom of the text from scrolling above the bottom of the
-    # Multiline surface area.
+    lines_height = len(self.lines) * self.font.get_linesize()
+    if lines_height > self.area_rect.height:
+      self.scroll_amount -= pixels
+      if lines_height + self.scroll_amount < self.area_rect.height:
+        self.scroll_amount = self.area_rect.height - lines_height
 
   def Render(self):
     '''Return a Surface with the Multiline text properly rendered.'''
