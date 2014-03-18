@@ -18,59 +18,20 @@ import pygame
 import glass
 
 class Multiline:
-  def __init__(self, text, font, area_rect, split_by_words=True, keep_leading_whitespace=False):
+  def __init__(self, text, font, area_rect, long_lines=False):
     '''Initialize with text of the given font within the given width.'''
     self.text = text
     self.font = font
     self.area_rect = area_rect
+    self.long_lines = long_lines
     self.lines = []
-    self.split_by_words = split_by_words
-    self.keep_leading_whitespace = keep_leading_whitespace
     self.scroll_amount = 0
     self.UpdateLines()
 
   def UpdateLines(self):
     '''Split the current text up according to size requirements.'''
-    self.lines = []
-    if not self.split_by_words:
-      # Split by characters instead
-      next_line = ""
-      for x in self.text:
-        if self.font.size(next_line + x)[0] > self.area_rect.width or x == '\n':
-          self.lines.append(next_line)
-          next_line = ""
-        if not (next_line == "" and x == ' '):
-          next_line += x
-      if next_line != "":
-        self.lines.append(next_line)
-    else:
-      # Split by words
-      next_line = ""
-      next_word = ""
-      for x in self.text:
-        if self.font.size(next_line + " " + next_word)[0] > self.area_rect.width:
-          self.lines.append(next_line)
-          next_line = ""
-        if x == '\n':
-          if next_line != "":
-            next_line += " "
-          next_line += next_word
-          next_word = ""
-          self.lines.append(next_line)
-          next_line = ""
-        elif x == ' ':
-          if (next_line != "") or self.keep_leading_whitespace:
-            next_line += " "
-          next_line += next_word
-          next_word = ""
-        else:
-          next_word += x
-      if next_word != "":
-        if next_line != "":
-          next_line += " "
-        next_line += next_word
-      if next_line != "":
-        self.lines.append(next_line)
+    self.lines = self.text.splitlines()
+    # TODO: Honor self.long_lines
   
   def GetLines(self):
     '''Return the current list of lines.'''
