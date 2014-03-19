@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
+import copy
 import pygame
 import glass, drawingshapes
 
@@ -272,26 +273,34 @@ class CodeEditorMultiline(EditorMultiline):
     render_surface = glass.MakeTransparentSurface(self.area_rect.width, render_height)
     
     # Get the width of the line number section
-    number_width = self.font.length(str(len(self.lines) + 1))
-    
-    # Render each line surface onto the main surface
-    current_top = self.scroll_amount;
-    for i in range(line_surfaces):
-      if current_top > -self.font.get_linesize() and current_top < self.area_rect.height:
-        render_surface.blit(line_surfaces[i], (number_width, current_top))
-        number_surface = self.font.render(str(i), True, glass.accent_color)
-        render_surface.blit(number_surface, (0, current_top))
-      current_top += self.font.get_linesize()
-
+    number_padding = 3
+    number_width = self.font.size(str(len(self.lines) + 1))[0]
     # Draw line numbers separator
-    drawingshapes.DrawVSeparator(render_surface, number_width, render_surface.get_rect().height)
+    number_background = glass.MakeTransparentSurface(number_width + number_padding * 2, render_surface.get_rect().height)
+    number_background.fill(pygame.Color(0, 0, 0, 100))
+    render_surface.blit(number_background, (0, 0))
+    drawingshapes.DrawVSeparator(render_surface, number_width + number_padding * 2, render_surface.get_rect().height)
+    
+    # Render line numbers and each line surface onto the main surface
+    number_color = copy.deepcopy(glass.accent_color)
+    number_opacity = 0.5
+    number_color.r = int(number_color.r * number_opacity)
+    number_color.g = int(number_color.g * number_opacity)
+    number_color.b = int(number_color.b * number_opacity)
+    number_color.a = int(number_color.a * number_opacity)
+    current_top = self.scroll_amount;
+    for i in range(len(line_surfaces)):
+      if current_top > -self.font.get_linesize() and current_top < self.area_rect.height:
+        render_surface.blit(line_surfaces[i], (number_width + number_padding * 3, current_top))
+        number_surface = self.font.render(str(i), True, number_color)
+        render_surface.blit(number_surface, (number_padding, current_top))
+      current_top += self.font.get_linesize()
 
     # Cursor rendering
     cursor_line = self.lines[self.cursor_pos[0]]
-    if cursor_line == "":
-      cursor_x = 0
-    else:
-      cursor_x = self.font.size(cursor_line[:self.cursor_pos[1]])[0]
+    cursor_x = number_width + number_padding * 3
+    if cursor_line != "":
+      cursor_x += self.font.size(cursor_line[:self.cursor_pos[1]])[0]
     cursor_y = self.font.get_linesize() * self.cursor_pos[0] + self.scroll_amount
     try:
       cursor_w = self.font.size(cursor_line[self.cursor_pos[1]])[0]

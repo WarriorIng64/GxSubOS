@@ -16,7 +16,7 @@
 
 import sys, pygame
 from widget import Widget
-from multiline import Multiline, EditorMultiline
+from multiline import Multiline, EditorMultiline, CodeEditorMultiline
 import glass, keyboardentry
 
 textbox_font = pygame.font.Font("fonts/Roboto/Roboto-Regular.ttf", 16)
