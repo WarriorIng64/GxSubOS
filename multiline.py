@@ -231,7 +231,10 @@ class EditorMultiline(Multiline):
       current_top += self.font.get_linesize()
 
     # Cursor rendering
-    cursor_line = self.lines[self.cursor_pos[0]]
+    if len(self.lines) > 0:
+      cursor_line = self.lines[self.cursor_pos[0]]
+    else:
+      cursor_line = ""
     if cursor_line == "":
       cursor_x = 0
     else:
@@ -297,7 +300,10 @@ class CodeEditorMultiline(EditorMultiline):
       current_top += self.font.get_linesize()
 
     # Cursor rendering
-    cursor_line = self.lines[self.cursor_pos[0]]
+    if len(self.lines) > 0:
+      cursor_line = self.lines[self.cursor_pos[0]]
+    else:
+      cursor_line = ""
     cursor_x = number_width + number_padding * 3
     if cursor_line != "":
       cursor_x += self.font.size(cursor_line[:self.cursor_pos[1]])[0]
