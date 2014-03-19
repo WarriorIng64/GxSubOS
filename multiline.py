@@ -211,13 +211,7 @@ class EditorMultiline(Multiline):
 
   def Render(self):
     '''Return a Surface with the EditorMultiline text and cursor properly rendered.'''
-    # Trivial cases
-    if len(self.lines) == 0:
-      return self.font.render(" ", True, glass.accent_color)
-    if len(self.lines) == 1:
-      return self.font.render(self.lines[0], True, glass.accent_color)
-
-    # For more than one line, render with proper spacing
+    # Render with proper spacing
     line_surfaces = []
     render_height = len(self.lines) * self.font.get_linesize()
     for line in self.lines:
@@ -261,14 +255,7 @@ class CodeEditorMultiline(EditorMultiline):
 
   def Render(self):
     '''Return a Surface with the CodeEditorMultiline text and cursor properly rendered.'''
-    # Trivial cases
-    if len(self.lines) == 0:
-      return self.font.render(" ", True, glass.accent_color)
-    if len(self.lines) == 1:
-
-      return self.font.render(self.lines[0], True, glass.accent_color)
-
-    # For more than one line, render with proper spacing
+    # Render lines with proper spacing
     line_surfaces = []
     render_height = len(self.lines) * self.font.get_linesize()
     for line in self.lines:
