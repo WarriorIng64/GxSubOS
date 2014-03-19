@@ -146,6 +146,18 @@ class EditorMultiline(Multiline):
         self.cursor_pos[0] += 1
         self.cursor_pos[1] = 0
 
+  def SetCursorAtBeginning(self):
+    '''Moves the cursor all the way back to the start of the text.'''
+    self.cursor_pos = [0, 0]
+
+  def SetCursorAtEnd(self):
+    '''Moves the cursor all the way to the end of the text.'''
+    if len(self.lines) != 0:
+      self.cursor_pos[0] = len(self.lines) - 1
+    else:
+      self.cursor_pos[0] = 0
+    self.cursor_pos[1] =  len(self.lines[self.cursor_pos[0]])
+
   def GetCursorIndex(self):
     '''Returns the index in the text that the cursor position corresponds to.'''
     index = 0
