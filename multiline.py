@@ -138,8 +138,13 @@ class EditorMultiline(Multiline):
 
   def MoveCursorRight(self):
     '''Moves the current cursor position right one character, if able.'''
-    if self.cursor_pos[1] < len(self.lines[self.cursor_pos[0]]):
-      self.cursor_pos[1] += 1
+    if self.text != "":
+      if self.cursor_pos[1] < len(self.lines[self.cursor_pos[0]]):
+        self.cursor_pos[1] += 1
+      elif self.cursor_pos[1] == len(self.lines[self.cursor_pos[0]]) and self.cursor_pos[0] < len(self.lines) - 1:
+        # Move cursor to beginning of the next line
+        self.cursor_pos[0] += 1
+        self.cursor_pos[1] = 0
 
   def GetCursorIndex(self):
     '''Returns the index in the text that the cursor position corresponds to.'''
@@ -147,6 +152,7 @@ class EditorMultiline(Multiline):
     for i in range(self.cursor_pos[0]):
       index += len(self.lines[i])
     index += self.cursor_pos[1]
+    index += self.text[:index].count('\n')
     return index
 
   def BackspaceAtCursor(self):
