@@ -164,6 +164,15 @@ class EditorMultiline(Multiline):
       self.cursor_pos[0] = 0
     self.cursor_pos[1] =  len(self.lines[self.cursor_pos[0]])
 
+  def SetCursorAtLineStart(self, lineno=self.cursor_pos[0])
+    '''Sets the cursor at the start of the specified line.
+    If not provided, the cursor is moved to the start of the current line.'''
+    if lineno < len(self.lines):
+      self.cursor_pos[0] = lineno
+      self.cursor_pos[1] = 0
+    else:
+      print "WARNING: Attempt to move cursor beyond end of lines."
+
   def GetCursorIndex(self):
     '''Returns the index in the text that the cursor position corresponds to.'''
     index = 0

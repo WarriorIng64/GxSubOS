@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
-import pygame, os
+import pygame, os, sys
 from window import Window
 from launcherbutton import Launcherbutton
 from wallpaperswitcher import WallpaperSwitcher
