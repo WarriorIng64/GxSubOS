@@ -291,19 +291,22 @@ class CodeEditorMultiline(EditorMultiline):
     number_color.b = int(number_color.b * number_opacity)
     number_color.a = int(number_color.a * number_opacity)
     current_top = self.scroll_amount;
+    
+    text_left_pos = number_width + number_padding * 3
+    
     for i in range(len(line_surfaces)):
       if current_top > -self.font.get_linesize() and current_top < self.area_rect.height:
-        render_surface.blit(line_surfaces[i], (number_width + number_padding * 3, current_top))
+        render_surface.blit(line_surfaces[i], (text_left_pos, current_top))
         number_surface = self.font.render(str(i + 1), True, number_color)
         render_surface.blit(number_surface, (number_padding, current_top))
       current_top += self.font.get_linesize()
 
-    # Cursor rendering
+    # Cursor and line highlighting rendering
     if len(self.lines) > 0:
       cursor_line = self.lines[self.cursor_pos[0]]
     else:
       cursor_line = ""
-    cursor_x = number_width + number_padding * 3
+    cursor_x = text_left_pos
     if cursor_line != "":
       cursor_x += self.font.size(cursor_line[:self.cursor_pos[1]])[0]
     cursor_y = self.font.get_linesize() * self.cursor_pos[0] + self.scroll_amount
@@ -313,10 +316,20 @@ class CodeEditorMultiline(EditorMultiline):
       cursor_w = self.font.size(" ")[0]
     cursor_h = self.font.get_linesize()
     cursor_rect = pygame.Rect(cursor_x, cursor_y, cursor_w, cursor_h)
+
+    highlight_left_pos = number_width + number_padding * 2
+    line_highlight_color = copy.deepcopy(glass.highlight_color)
+    line_highlight_color.a = 75
+    line_highlight_rect = pygame.Rect(highlight_left_pos, cursor_y, render_surface.get_rect().width - highlight_left_pos, cursor_h)
+    line_highlight_surface = glass.MakeTransparentSurface(line_highlight_rect.width, cursor_h)
+    line_highlight_surface.fill(line_highlight_color)
+    
     cursor_surface = glass.MakeTransparentSurface(cursor_w, cursor_h)
-    cursor_color = glass.highlight_color
+    cursor_color = copy.deepcopy(glass.highlight_color)
     cursor_color.a = 150
     cursor_surface.fill(cursor_color)
+
+    render_surface.blit(line_highlight_surface, line_highlight_rect)
     render_surface.blit(cursor_surface, cursor_rect)
     
     return render_surface
