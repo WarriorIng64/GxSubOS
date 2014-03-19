@@ -114,7 +114,7 @@ class EditorMultiline(Multiline):
     self.long_lines = long_lines
     self.lines = []
     self.scroll_amount = 0
-    self.cursor_pos = (0, 0) # Line, character
+    self.cursor_pos = [0, 0] # Line, character
     self.UpdateLines()
 
   def MoveCursorUp(self):
@@ -125,7 +125,7 @@ class EditorMultiline(Multiline):
   def MoveCursorDown(self):
     '''Moves the current cursor position down one line, if able.'''
     if self.cursor_pos[0] < len(self.lines) - 1:
-      self.cursor_pos += 1
+      self.cursor_pos[0] += 1
 
   def MoveCursorLeft(self):
     '''Moves the current cursor position left one character, if able.'''
@@ -159,14 +159,18 @@ class EditorMultiline(Multiline):
       current_top += self.font.get_linesize()
 
     # Cursor rendering
-    cursor_x = self.font.size(self.lines[:self.cursor_pos[1]])[0]
+    cursor_line = self.lines[self.cursor_pos[0]]
+    cursor_x = self.font.size(cursor_line[:self.cursor_pos[1]])[0]
     cursor_y = self.font.get_linesize() * self.cursor_pos[0] + self.scroll_amount
-    cursor_w = self.font.size(self.lines[self.cursor_pos[1]])[0]
+    try:
+      cursor_w = self.font.size(cursor_line[self.cursor_pos[1]])[0]
+    except IndexError:
+      cursor_w = self.font.size(" ")[0]
     cursor_h = self.font.get_linesize()
     cursor_rect = pygame.Rect(cursor_x, cursor_y, cursor_w, cursor_h)
     cursor_surface = glass.MakeTransparentSurface(cursor_w, cursor_h)
     cursor_color = glass.highlight_color
-    cursor_color.a = 100
+    cursor_color.a = 150
     cursor_surface.fill(cursor_color)
     render_surface.blit(cursor_surface, cursor_rect)
     

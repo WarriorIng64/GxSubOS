@@ -16,7 +16,7 @@
 
 import sys, pygame
 from widget import Widget
-from multiline import Multiline
+from multiline import Multiline, EditorMultiline
 import glass, keyboardentry
 
 textbox_font = pygame.font.Font("fonts/Roboto/Roboto-Regular.ttf", 16)
@@ -92,12 +92,33 @@ class TextBox(Widget):
 class TextEntryBox(TextBox):
   """A TextBox subclass which permits the user to dynamically edit the text it
   contains."""
+  def __init__(self, parent_widget=None, parent_window=None, initial_text=None):
+    self.parent_widget = parent_widget
+    self.parent_window = parent_window
+    self.rect = None
+    self.surface = None
+    self.text = ""
+    self.multiline = EditorMultiline(self.text, textbox_font, pygame.Rect(0, 0, 1, 1))
+    self.text_surface = None
+    self.SetText(initial_text)
+    self.hovered = False
+    self.requested_width = 0
+    self.requested_height = 0
+  
   def HandleKeyDownEvent(self, event):
     """Handles a KEYDOWN event, which is very important for this particular
     class since it handles text input from the keyboard."""
     if event.key == pygame.K_BACKSPACE:
       # Delete text.
       self.SetText(self.text[:-1])
+    elif event.key == pygame.K_UP:
+      self.multiline.MoveCursorUp()
+    elif event.key == pygame.K_DOWN:
+      self.multiline.MoveCursorDown()
+    elif event.key == pygame.K_LEFT:
+      self.multiline.MoveCursorLeft()
+    elif event.key == pygame.K_RIGHT:
+      self.multiline.MoveCursorRight()
     else:
       self.SetText(self.text + keyboardentry.GetCharFromKey(event))
     self.Redraw()
@@ -111,7 +132,7 @@ class TextEntryMonoBox(TextEntryBox):
     self.rect = None
     self.surface = None
     self.text = ""
-    self.multiline = Multiline(self.text, textbox_mono_font, pygame.Rect(0, 0, 1, 1))
+    self.multiline = EditorMultiline(self.text, textbox_mono_font, pygame.Rect(0, 0, 1, 1))
     self.text_surface = None
     self.SetText(initial_text)
     self.hovered = False
