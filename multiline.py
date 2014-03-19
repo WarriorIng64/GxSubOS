@@ -273,7 +273,7 @@ class CodeEditorMultiline(EditorMultiline):
     render_height = len(self.lines) * self.font.get_linesize()
     for line in self.lines:
       line_surfaces.append(self.font.render(line, True, glass.accent_color))
-    render_surface = glass.MakeTransparentSurface(self.area_rect.width, render_height)
+    render_surface = glass.MakeTransparentSurface(self.area_rect.width, self.area_rect.height)
     
     # Get the width of the line number section
     number_padding = 3
