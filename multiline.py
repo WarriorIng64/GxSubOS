@@ -131,11 +131,43 @@ class EditorMultiline(Multiline):
     '''Moves the current cursor position left one character, if able.'''
     if self.cursor_pos[1] > 0:
       self.cursor_pos[1] -= 1
+    elif self.cursor_pos[0] > 0:
+      # Move cursor to end of previous line
+      self.cursor_pos[0] -= 1
+      self.cursor_pos[1] = len(self.lines[self.cursor_pos[0]])
 
   def MoveCursorRight(self):
     '''Moves the current cursor position right one character, if able.'''
     if self.cursor_pos[1] < len(self.lines[self.cursor_pos[0]]):
       self.cursor_pos[1] += 1
+
+  def GetCursorIndex(self):
+    '''Returns the index in the text that the cursor position corresponds to.'''
+    index = 0
+    for i in range(self.cursor_pos[0]):
+      index += len(self.lines[i])
+    index += self.cursor_pos[1]
+    return index
+
+  def BackspaceAtCursor(self):
+    '''Deletes the character before the cursor position.'''
+    index = self.GetCursorIndex()
+    if not index == 0:
+      if index == 1:
+        self.text = self.text[1:]
+      elif index == len(self.text) - 1:
+        self.text = self.text[:-1]
+      else:
+        self.text = self.text[:index] + self.text[index + 1:]
+      self.UpdateLines()
+      self.MoveCursorLeft()
+
+  def InsertCharAtCursor(self, character):
+    '''Inserts the given character at the cursor position.'''
+    index = self.GetCursorIndex()
+    self.text.insert(index, character)
+    self.UpdateLines()
+    self.MoveCursorRight()
 
   def Render(self):
     '''Return a Surface with the EditorMultiline text and cursor properly rendered.'''
