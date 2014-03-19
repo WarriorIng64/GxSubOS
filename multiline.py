@@ -165,7 +165,12 @@ class EditorMultiline(Multiline):
   def InsertCharAtCursor(self, character):
     '''Inserts the given character at the cursor position.'''
     index = self.GetCursorIndex()
-    self.text.insert(index, character)
+    if index == 0:
+      self.text = character + self.text
+    elif index == len(self.text):
+      self.text = self.text + character
+    else:
+      self.text = self.text[:index] + character + self.text[index:]
     self.UpdateLines()
     self.MoveCursorRight()
 

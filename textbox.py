@@ -110,7 +110,7 @@ class TextEntryBox(TextBox):
     class since it handles text input from the keyboard."""
     if event.key == pygame.K_BACKSPACE:
       # Delete text.
-      self.SetText(self.text[:-1])
+      self.multiline.BackspaceAtCursor()
     elif event.key == pygame.K_UP:
       self.multiline.MoveCursorUp()
     elif event.key == pygame.K_DOWN:
@@ -120,7 +120,7 @@ class TextEntryBox(TextBox):
     elif event.key == pygame.K_RIGHT:
       self.multiline.MoveCursorRight()
     else:
-      self.SetText(self.text + keyboardentry.GetCharFromKey(event))
+      self.multiline.InsertCharAtCursor(keyboardentry.GetCharFromKey(event))
     self.Redraw()
     self.RedrawParentWindow()
 
