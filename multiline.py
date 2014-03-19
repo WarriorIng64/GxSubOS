@@ -280,7 +280,10 @@ class CodeEditorMultiline(EditorMultiline):
     current_top = self.scroll_amount;
     
     text_left_pos = number_width + number_padding * 3
-    
+
+    if len(line_surfaces) == 0:
+      number_surface = self.font.render("1", True, number_color)
+      render_surface.blit(number_surface, (number_padding, 0))
     for i in range(len(line_surfaces)):
       if current_top > -self.font.get_linesize() and current_top < self.area_rect.height:
         render_surface.blit(line_surfaces[i], (text_left_pos, current_top))
