@@ -282,7 +282,6 @@ class CodeEditorMultiline(EditorMultiline):
     number_background = glass.MakeTransparentSurface(number_width + number_padding * 2, render_surface.get_rect().height)
     number_background.fill(pygame.Color(0, 0, 0, 100))
     render_surface.blit(number_background, (0, 0))
-    drawingshapes.DrawVSeparator(render_surface, number_width + number_padding * 2, render_surface.get_rect().height)
     
     # Render line numbers and each line surface onto the main surface
     number_color = copy.deepcopy(glass.accent_color)
