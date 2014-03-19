@@ -176,9 +176,20 @@ class EditorMultiline(Multiline):
       elif index == len(self.text) - 1:
         self.text = self.text[:-1]
       else:
-        self.text = self.text[:index] + self.text[index + 1:]
+        self.text = self.text[:index - 1] + self.text[index:]
       self.UpdateLines()
       self.MoveCursorLeft()
+
+  def DeleteAtCursor(self):
+    '''Deletes the character at the cursor position.'''
+    index = self.GetCursorIndex()
+    if index == 0:
+      self.text = self.text[1:]
+    elif index == len(self.text) - 1:
+      self.text = self.text[:-1]
+    else:
+      self.text = self.text[:index] + self.text[index + 1:]
+    self.UpdateLines()
 
   def InsertCharAtCursor(self, character):
     '''Inserts the given character at the cursor position.'''

@@ -109,8 +109,11 @@ class TextEntryBox(TextBox):
     """Handles a KEYDOWN event, which is very important for this particular
     class since it handles text input from the keyboard."""
     if event.key == pygame.K_BACKSPACE:
-      # Delete text.
+      # Delete text before cursor.
       self.multiline.BackspaceAtCursor()
+    elif event.key == pygame.K_DELETE:
+      # Delete text highlighted by (at) cursor.
+      self.multiline.DeleteAtCursor()
     elif event.key == pygame.K_UP:
       self.multiline.MoveCursorUp()
     elif event.key == pygame.K_DOWN:
