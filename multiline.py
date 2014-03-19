@@ -15,9 +15,11 @@
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
 import pygame
-import glass
+import glass, drawingshapes
+
 
 class Multiline:
+  
   '''A class for displaying multiple lines of text.'''
   
   def __init__(self, text, font, area_rect, long_lines=False):
@@ -104,8 +106,11 @@ class Multiline:
       current_top += self.font.get_linesize()
     return render_surface
 
+
 class EditorMultiline(Multiline):
+  
   '''A Multiline subclass which also displays a cursor for text entry.'''
+  
   def __init__(self, text, font, area_rect, long_lines=False):
     '''Initialize with text of the given font within the given width.'''
     self.text = text
@@ -226,7 +231,67 @@ class EditorMultiline(Multiline):
 
     # Cursor rendering
     cursor_line = self.lines[self.cursor_pos[0]]
-    cursor_x = self.font.size(cursor_line[:self.cursor_pos[1]])[0]
+    if cursor_line == "":
+      cursor_x = 0
+    else:
+      cursor_x = self.font.size(cursor_line[:self.cursor_pos[1]])[0]
+    cursor_y = self.font.get_linesize() * self.cursor_pos[0] + self.scroll_amount
+    try:
+      cursor_w = self.font.size(cursor_line[self.cursor_pos[1]])[0]
+    except IndexError:
+      cursor_w = self.font.size(" ")[0]
+    cursor_h = self.font.get_linesize()
+    cursor_rect = pygame.Rect(cursor_x, cursor_y, cursor_w, cursor_h)
+    cursor_surface = glass.MakeTransparentSurface(cursor_w, cursor_h)
+    cursor_color = glass.highlight_color
+    cursor_color.a = 150
+    cursor_surface.fill(cursor_color)
+    render_surface.blit(cursor_surface, cursor_rect)
+    
+    return render_surface
+
+
+class CodeEditorMultiline(EditorMultiline):
+  
+  '''An EditorMultiline subclass which also displays line numbers.'''
+
+  def Render(self):
+    '''Return a Surface with the CodeEditorMultiline text and cursor properly rendered.'''
+    # Trivial cases
+    if len(self.lines) == 0:
+      return self.font.render(" ", True, glass.accent_color)
+    if len(self.lines) == 1:
+
+      return self.font.render(self.lines[0], True, glass.accent_color)
+
+    # For more than one line, render with proper spacing
+    line_surfaces = []
+    render_height = len(self.lines) * self.font.get_linesize()
+    for line in self.lines:
+      line_surfaces.append(self.font.render(line, True, glass.accent_color))
+    render_surface = glass.MakeTransparentSurface(self.area_rect.width, render_height)
+    
+    # Get the width of the line number section
+    number_width = self.font.length(str(len(self.lines) + 1))
+    
+    # Render each line surface onto the main surface
+    current_top = self.scroll_amount;
+    for i in range(line_surfaces):
+      if current_top > -self.font.get_linesize() and current_top < self.area_rect.height:
+        render_surface.blit(line_surfaces[i], (number_width, current_top))
+        number_surface = self.font.render(str(i), True, glass.accent_color)
+        render_surface.blit(number_surface, (0, current_top))
+      current_top += self.font.get_linesize()
+
+    # Draw line numbers separator
+    drawingshapes.DrawVSeparator(render_surface, number_width, render_surface.get_rect().height)
+
+    # Cursor rendering
+    cursor_line = self.lines[self.cursor_pos[0]]
+    if cursor_line == "":
+      cursor_x = 0
+    else:
+      cursor_x = self.font.size(cursor_line[:self.cursor_pos[1]])[0]
     cursor_y = self.font.get_linesize() * self.cursor_pos[0] + self.scroll_amount
     try:
       cursor_w = self.font.size(cursor_line[self.cursor_pos[1]])[0]

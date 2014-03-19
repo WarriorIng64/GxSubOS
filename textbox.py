@@ -141,4 +141,19 @@ class TextEntryMonoBox(TextEntryBox):
     self.hovered = False
     self.requested_width = 0
     self.requested_height = 0
+
+class TextEntryCodeBox(TextEntryMonoBox):
+  """A TextEntryMonoBox subclass which is used for code entry."""
+  def __init__(self, parent_widget=None, parent_window=None, initial_text=None):
+    self.parent_widget = parent_widget
+    self.parent_window = parent_window
+    self.rect = None
+    self.surface = None
+    self.text = ""
+    self.multiline = CodeEditorMultiline(self.text, textbox_mono_font, pygame.Rect(0, 0, 1, 1))
+    self.text_surface = None
+    self.SetText(initial_text)
+    self.hovered = False
+    self.requested_width = 0
+    self.requested_height = 0
     
