@@ -292,7 +292,7 @@ class CodeEditorMultiline(EditorMultiline):
     for i in range(len(line_surfaces)):
       if current_top > -self.font.get_linesize() and current_top < self.area_rect.height:
         render_surface.blit(line_surfaces[i], (number_width + number_padding * 3, current_top))
-        number_surface = self.font.render(str(i), True, number_color)
+        number_surface = self.font.render(str(i + 1), True, number_color)
         render_surface.blit(number_surface, (number_padding, current_top))
       current_top += self.font.get_linesize()
 
