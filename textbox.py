@@ -122,6 +122,9 @@ class TextEntryBox(TextBox):
       self.multiline.MoveCursorLeft()
     elif event.key == pygame.K_RIGHT:
       self.multiline.MoveCursorRight()
+    elif event.key == pygame.K_RETURN:
+      # Handle newlines
+      self.multiline.InsertCharAtCursor('\n')
     else:
       self.multiline.InsertCharAtCursor(keyboardentry.GetCharFromKey(event))
     self.Redraw()

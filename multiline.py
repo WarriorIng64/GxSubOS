@@ -170,7 +170,7 @@ class EditorMultiline(Multiline):
     for i in range(self.cursor_pos[0]):
       index += len(self.lines[i])
     index += self.cursor_pos[1]
-    index += self.text[:index].count('\n')
+    index += self.text[:index + 1].count('\n')
     return index
 
   def BackspaceAtCursor(self):
@@ -225,7 +225,7 @@ class EditorMultiline(Multiline):
       current_top += self.font.get_linesize()
 
     # Cursor rendering
-    if len(self.lines) > 0:
+    if len(self.lines) > 0 and self.cursor_pos[0] < len(self.lines):
       cursor_line = self.lines[self.cursor_pos[0]]
     else:
       cursor_line = ""
@@ -292,7 +292,7 @@ class CodeEditorMultiline(EditorMultiline):
       current_top += self.font.get_linesize()
 
     # Cursor and line highlighting rendering
-    if len(self.lines) > 0:
+    if len(self.lines) > 0 and self.cursor_pos[0] < len(self.lines):
       cursor_line = self.lines[self.cursor_pos[0]]
     else:
       cursor_line = ""
