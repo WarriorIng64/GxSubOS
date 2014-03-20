@@ -45,6 +45,7 @@ class Window:
     
     self.CreateSurfaces(width, height)
     self.titlebar_text = titlebar_text
+    self.statusbar_text = ""
     self.being_dragged = False
     self.being_resized = False
     self.is_maximized = False
@@ -112,6 +113,16 @@ class Window:
     text_surf.get_rect().x = self.rect.x + titlebar_height
     text_surf.get_rect().y = self.rect.y
     self.window_surface.blit(text_surf, [titlebar_height + 4, 1, 0, 0])
+    # Draw statusbar text
+    text_surf = statusbar_font.render(self.statusbar_text, True, glass.accent_color)
+    text_surf.get_rect().x = self.rect.x + 2
+    text_surf.get_rect().y = self.rect.y + self.rect.height - titlebar_height
+    self.window_surface.blit(text_surf, [2, self.rect.height - titlebar_height, 0, 0])
+
+  def SetStatusbarText(self, text=""):
+    """Sets the new text displayed in the statusbar.
+    If no text is passed in, the statusbar will be blank."""
+    self.statusbar_text = text
   
   def MoveByAmount(self, x, y):
     """Moves this Window by the given x and y values."""
