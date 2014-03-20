@@ -22,6 +22,7 @@ pygame.font.init()
 
 titlebar_height = 24
 titlebar_font = pygame.font.Font("fonts/Roboto/Roboto-Regular.ttf", 18)
+statusbar_font = pygame.font.Font("fonts/Roboto/Roboto-Light.ttf", 18)
 focused_titlebar_font = pygame.font.Font("fonts/Roboto/Roboto-Bold.ttf", 18)
 
 class Window:
