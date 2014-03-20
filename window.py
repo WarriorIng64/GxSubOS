@@ -120,6 +120,11 @@ class Window:
       text_surf.get_rect().y = self.rect.y + self.rect.height - titlebar_height
       self.window_surface.blit(text_surf, [2, self.rect.height - titlebar_height, 0, 0])
 
+  def SetTitlebarText(self, text="<Untitled>"):
+    """Sets the new text displayed in the titlebar.
+    If no text is passed in, the titlebar will show <Untitled>."""
+    self.titlebar_text = text
+
   def SetStatusbarText(self, text=""):
     """Sets the new text displayed in the statusbar.
     If no text is passed in, the statusbar will be blank."""
