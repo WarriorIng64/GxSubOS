@@ -18,12 +18,13 @@ import sys, pygame
 import glass
 
 indicator_font = pygame.font.Font("fonts/Roboto/Roboto-Regular.ttf", 18)
+unknown_indicator_image = pygame.image.load("graphics/unknown_indicator_image.png")
 
 class Indicator:
   
   '''A class implementing indicators for the indicator tray.'''
   
-  def __init__(self, number, frame_code="", click_code="" image=None):
+  def __init__(self, number, frame_code="", click_code="", image=unknown_indicator_image):
     self.number = number
     self.frame_code = frame_code
     self.image = image
