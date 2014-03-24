@@ -73,3 +73,11 @@ class Indicator:
     the Indicator further left. The IndicatorTray is responsible for the correct
     positioning of each Indicator according to their numbers.'''
     self.number = new_number
+
+  def HandleMouseButtonDownEvent(self, mouse_event, mouse_button):
+    '''Handle a MOUSEDOWN event. Namely, if this indicator is left-clicked, we
+    should run the click code.'''
+    if mouse_event != None:
+      mouse_x, mouse_y = mouse_event.pos
+      if mouse_button == 1 and self.rect.collidepoint(mouse_x, mouse_y):
+        self.RunClickCode()
