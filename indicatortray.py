@@ -56,9 +56,9 @@ class IndicatorTray():
   def UpdateIndicatorPositions(self):
     '''Updates the positions of all the Indicators in the list.'''
     next_right = 0
-    for indicator in indicators:
+    for indicator in indicator_list:
       new_x = pygame.display.Info().current_w - next_right - indicator.width
-      indicator.UpdatePosition(new_x)
+      self.update_rect.union_ip(indicator.UpdatePosition(new_x))
       next_right += indicator.width
 
   def RedrawBackground(self, screen):
@@ -72,3 +72,10 @@ class IndicatorTray():
     triangle_points = [(tray_left - tray_height, 0), (tray_left, 0), (tray_left, tray_height)]
     pygame.draw.polygon(self.surface, transparent, triangle_points)
     pygame.draw.rect(self.surface, transparent, pygame.Rect(tray_left - tray_height, 0, tray_width + tray_height, tray_height))
+
+  def UpdateWholeTray(self, screen):
+    '''Update the whole IndicatorTray and its Indicators.'''
+    self.UpdateIndicatorPositions()
+    for indicator in indicator_list:
+      indicator.RunFrameCode()
+    self.RedrawBackground(screen)
