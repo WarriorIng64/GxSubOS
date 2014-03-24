@@ -30,6 +30,15 @@ class IndicatorTray():
   def __init__(self, screenw, screenh):
     self.indicator_list = []
     self.surface = glass.MakeTransparentSurface(screenw, tray_height)
+    if glass.enable_transparency:
+      self.surface.fill(self.tray_color)
+      self.color_surface = pygame.Surface((screenw, tray_height), pygame.SRCALPHA)
+      self.color_surface.fill(self.tray_color)
+    else:
+      self.surface.fill(self.tray_color_opaque)
+      self.color_surface = pygame.Surface((screenw, tray_height))
+      self.color_surface.fill(self.tray_color_opaque)
+    self.update_rect = pygame.Rect(0, 0, 0, 0)
     self.wm = None
 
   def SetWindowManager(self, windowmanager):
@@ -43,3 +52,23 @@ class IndicatorTray():
     for indicator in indicator_list:
       width += indicator.width
     return width
+
+  def UpdateIndicatorPositions(self):
+    '''Updates the positions of all the Indicators in the list.'''
+    next_right = 0
+    for indicator in indicators:
+      new_x = pygame.display.Info().current_w - next_right - indicator.width
+      indicator.UpdatePosition(new_x)
+      next_right += indicator.width
+
+  def RedrawBackground(self, screen):
+    '''Redraw the background behind the Indicators.'''
+    tray_width = self.GetIndicatorsWidth()
+    tray_left = pygame.display.Info().current_w - tray_width
+    glass.DrawBackground(screen, self.surface, self.surface.get_rect())
+    if glass.enable_transparency:
+      self.surface = glass.Blur(self.surface)
+    self.surface.blit(self.color_surface, [0, 0, 0, 0])
+    triangle_points = [(tray_left - tray_height, 0), (tray_left, 0), (tray_left, tray_height)]
+    pygame.draw.polygon(self.surface, transparent, triangle_points)
+    pygame.draw.rect(self.surface, transparent, pygame.Rect(tray_left - tray_height, 0, tray_width + tray_height, tray_height))
