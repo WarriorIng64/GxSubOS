@@ -71,9 +71,9 @@ class IndicatorTray():
     if glass.enable_transparency:
       self.surface = glass.Blur(self.surface)
     self.surface.blit(self.color_surface, [0, 0, 0, 0])
-    triangle_points = [(tray_left - self.tray_height, 0), (tray_left, 0), (tray_left, self.tray_height)]
+    triangle_points = [(tray_left - self.tray_height, 0), (tray_left - self.tray_height, self.tray_height), (tray_left, self.tray_height)]
     pygame.draw.polygon(self.surface, transparent, triangle_points)
-    pygame.draw.rect(self.surface, transparent, pygame.Rect(tray_left - self.tray_height, 0, tray_width + self.tray_height, self.tray_height))
+    pygame.draw.rect(self.surface, transparent, pygame.Rect(0, 0, tray_left - self.tray_height, self.tray_height))
 
   def DrawTray(self, screen):
     '''Draws this IndicatorTray onto the provided Surface. Returns a Rect
