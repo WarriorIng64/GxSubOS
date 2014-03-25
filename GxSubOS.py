@@ -46,7 +46,7 @@ setup.Setup()
 wallpaper = Wallpaper(size)
 launcher = Launcher(width, height)
 indicator_tray = IndicatorTray(width, height)
-wm = WindowManager(launcher, wallpaper)
+wm = WindowManager(launcher, indicator_tray, wallpaper)
 launcher.SetWindowManager(wm)
 indicator_tray.SetWindowManager(wm)
 

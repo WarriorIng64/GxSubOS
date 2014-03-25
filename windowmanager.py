@@ -27,9 +27,10 @@ from textbox import TextBox
 
 class WindowManager:
   """This class manages the windows and desktop environment."""
-  def __init__(self, launcher=None, wallpaper=None):
+  def __init__(self, launcher=None, indicator_tray=None, wallpaper=None):
     self.window_list = []
     self.launcher = launcher
+    self.indicator_tray = indicator_tray
     self.wallpaper = wallpaper
     self.wallpaper_switcher = None
     self.redraw_needed = True
@@ -39,6 +40,11 @@ class WindowManager:
     """Assigns a Launcher instance to this WindowManager for drawing and
     manipulation purposes."""
     self.launcher = launcher
+
+  def SetIndicatorTray(self, indicator_tray):
+    """Assigns an IndicatorTray instance to this WindowManager for drawing and
+    manipulation purposes."""
+    self.indicator_tray = indicator_tray
   
   def SetWallpaper(self, wp):
     """Assigns a Wallpaper instance to this WindowManager for drawing and
