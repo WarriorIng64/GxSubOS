@@ -18,7 +18,7 @@ import sys, pygame
 import glass
 
 indicator_font = pygame.font.Font("fonts/Roboto/Roboto-Regular.ttf", 18)
-unknown_indicator_image = pygame.image.load("graphics/unknown_indicator_image.png")
+unknown_indicator_image = pygame.image.load("graphics/indicator_icon_unknown.png")
 
 class Indicator:
   
