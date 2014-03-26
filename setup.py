@@ -16,6 +16,7 @@
 
 import os, platform, subprocess
 from appdb import AppDB
+from indicatordb import IndicatorDB
 
 def UpdateApps():
   '''Gets updates for the installed default apps.'''
@@ -35,13 +36,33 @@ def UpdateApps():
     os.chdir(initialwd)
   return loading_subprocesses
 
+def UpdateIndicators():
+  '''Gets updates for the installed default indicators.'''
+  loading_subprocesses = []
+  database = IndicatorDB()
+  initialwd = os.getcwd()
+  indicatorswd = os.getcwd() + "/indicators/default"
+  indicatorlist = database.RetrieveIndicatorNames()
+  print "Checking for updates to " + str(len(indicatorlist)) + " indicators..."
+  for indicatorname in indicatorlist:
+    indicatorinfo = database.GetIndicatorInfo(indicatorname)
+    os.chdir(indicatorswd + "/" + indicatorname)
+    if platform.system() == "Windows":
+      loading_subprocesses.append(subprocess.Popen('"C:\Program Files (x86)\Git\cmd\git.exe" --git-dir=' + os.getcwd() + '/.git --work-tree=' + os.getcwd() + ' pull'))
+    else:
+      loading_subprocesses.append(subprocess.Popen('git pull', shell=True))
+    os.chdir(initialwd)
+  return loading_subprocesses
+
 def Setup():
   '''Sets up the necessary data for the SubOS if this is the first run.'''
-  if not os.path.isdir(os.getcwd() + "/apps"):
+  if (not os.path.isdir(os.getcwd() + "/apps")) or (not os.path.isdir(os.getcwd() + "/indicators")):
     loading_subprocesses = []
-    database = AppDB()
     initialwd = os.getcwd()
-    appswd = os.getcwd() + "/apps/default"
+    
+    # Apps first
+    database = AppDB()
+    appswd = initialwd + "/apps/default"
     print "First run; setting up app database."
     # App database setup
     database.InsertDefaultApps()
@@ -60,7 +81,29 @@ def Setup():
       else:
         loading_subprocesses.append(subprocess.Popen("git clone " + appinfo["RepoUrl"], shell=True))
       os.chdir(initialwd)
+      
+    # Indicators second
+    database = IndicatorDB()
+    indicatorswd = initialwd + "/indicators/default"
+    print "First run; setting up indicator database."
+    # Indicator database setup
+    database.InsertDefaultIndicators()
+    indicatorlist = database.RetrieveIndicatorNames()
+    # Create directories and retrieve default indicators from Git repos
+    os.makedirs(indicatorswd)
+    print "Need to clone " + str(len(indicatorlist)) + " default indicators."
+    for indicatorname in indicatorlist:
+      # Create each repo and pull
+      indicatorinfo = database.GetIndicatorInfo(indicatorname)
+      os.chdir(indicatorswd)
+      # If we're on Windows, use Git for Windows from https://code.google.com/p/msysgit/
+      # Otherwise, assume Linux 
+      if platform.system() == "Windows":
+        loading_subprocesses.append(subprocess.Popen('"C:\Program Files (x86)\Git\cmd\git.exe" clone ' + indicatorinfo["RepoUrl"] + ' ' + indicatorswd + '/' + indicatorname))
+      else:
+        loading_subprocesses.append(subprocess.Popen("git clone " + indicatorinfo["RepoUrl"], shell=True))
+      os.chdir(initialwd)
   else:
     # Apps set up from previous run; check for updates
-    loading_subprocesses = UpdateApps()
+    loading_subprocesses = UpdateApps() + UpdateIndicators()
   return loading_subprocesses

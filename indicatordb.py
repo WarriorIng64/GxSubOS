@@ -32,7 +32,7 @@ class IndicatorDB:
         cur.execute("SELECT IndicatorName FROM Indicators")
         rows = cur.fetchall()
         for row in rows:
-          appslist.append(row["IndicatorName"])
+          indicatorslist.append(row["IndicatorName"])
         return indicatorslist
       except sqlite3.OperationalError:
         print "ERROR: IndicatorDB.RetrieveIndicatorNames() failed due to operational error."
