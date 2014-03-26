@@ -26,8 +26,11 @@ def LoadFocusedShadowImage(filename):
   return pygame.image.load(shadow_path + filename)
 
 def LoadLauncherShadow(filename):
-  # Loads the given shadow from file and returns the surface
   shadow_path = "graphics/shadows/launcher/"
+  return pygame.image.load(shadow_path + filename)
+
+def LoadIndicatorTrayShadow(filename):
+  shadow_path = "graphics/shadows/indicator_tray/"
   return pygame.image.load(shadow_path + filename)
 
 shadow_tl_image = LoadShadowImage("topleft.png")
@@ -51,6 +54,9 @@ shadow_focused_l_image = LoadFocusedShadowImage("left.png")
 launcher_shadow = LoadLauncherShadow("vertical_left.png")
 launcher_shadow_middle = LoadLauncherShadow("vertical_left_middle.png")
 
+indicator_tray_shadow = LoadIndicatorTrayShadow("horizontal_bottom.png")
+indicator_tray_shadow_end = LoadIndicatorTrayShadow("diagonal_left.png")
+
 shadow_width = shadow_t_image.get_height()
 
 class Corner():
@@ -60,8 +66,8 @@ class Edge():
   T, L, R, B = range(4)
 
 def DrawWindowShadowCorner(screen, window_rect, corner):
-  # Draws the corner of the shadow for a non-focused window.
-  # Returns a Rect for the drawn area.
+  '''Draws the corner of the shadow for a non-focused window.
+  Returns a Rect for the drawn area.'''
   offset = window.titlebar_height
   if corner == Corner.TL:
     shadow_image = shadow_tl_image
@@ -80,8 +86,8 @@ def DrawWindowShadowCorner(screen, window_rect, corner):
   return pygame.Rect(pos, size)
 
 def DrawWindowShadowEdge(screen, window_rect, edge):
-  # Draws the edge of the shadow for a non-focused window.
-  # Returns a Rect for the drawn area.
+  '''Draws the edge of the shadow for a non-focused window.
+  Returns a Rect for the drawn area.'''
   offset = window.titlebar_height
   if edge == Edge.T:
     shadow_size = (window_rect.width - offset * 2, shadow_width)
@@ -103,8 +109,8 @@ def DrawWindowShadowEdge(screen, window_rect, edge):
   return pygame.Rect(shadow_pos, shadow_size)
 
 def DrawFocusedWindowShadowCorner(screen, window_rect, corner):
-  # Draws the corner of the shadow for a focused window.
-  # Returns a Rect for the drawn area.
+  '''Draws the corner of the shadow for a focused window.
+  Returns a Rect for the drawn area.'''
   offset = window.titlebar_height
   if corner == Corner.TL:
     shadow_image = shadow_focused_tl_image
@@ -123,8 +129,8 @@ def DrawFocusedWindowShadowCorner(screen, window_rect, corner):
   return pygame.Rect(pos, size)
 
 def DrawFocusedWindowShadowEdge(screen, window_rect, edge):
-  # Draws the edge of the shadow for a focused window.
-  # Returns a Rect for the drawn area.
+  '''Draws the edge of the shadow for a focused window.
+  Returns a Rect for the drawn area.'''
   offset = window.titlebar_height
   if edge == Edge.T:
     shadow_size = (window_rect.width - offset * 2, shadow_width)
@@ -146,8 +152,8 @@ def DrawFocusedWindowShadowEdge(screen, window_rect, edge):
   return pygame.Rect(shadow_pos, shadow_size)
 
 def DrawWindowShadow(screen, window_rect):
-  # Draws the shadow for a non-focused window.
-  # Returns a Rect containing the whole area drawn.
+  '''Draws the shadow for a non-focused window.
+  Returns a Rect containing the whole area drawn.'''
   rect_list = []
   rect_list.append(DrawWindowShadowCorner(screen, window_rect, Corner.TL))
   rect_list.append(DrawWindowShadowCorner(screen, window_rect, Corner.TR))
@@ -160,8 +166,8 @@ def DrawWindowShadow(screen, window_rect):
   return rect_list[0].unionall(rect_list[1:])
 
 def DrawFocusedWindowShadow(screen, window_rect):
-  # Draws the shadow for a non-focused window.
-  # Returns a Rect containing the whole area drawn.
+  '''Draws the shadow for a non-focused window.
+  Returns a Rect containing the whole area drawn.'''
   rect_list = []
   rect_list.append(DrawFocusedWindowShadowCorner(screen, window_rect, Corner.TL))
   rect_list.append(DrawFocusedWindowShadowCorner(screen, window_rect, Corner.TR))
@@ -174,7 +180,7 @@ def DrawFocusedWindowShadow(screen, window_rect):
   return rect_list[0].unionall(rect_list[1:])
 
 def DrawLauncherShadow(launcher):
-  # Draws the launcher shadow on the launcher's surface
+  '''Draws the launcher shadow on the launcher's surface.'''
   if launcher.max_exists:
     return
   mid = launcher.launcher_width / 2
@@ -192,3 +198,15 @@ def DrawLauncherShadow(launcher):
   launcher.surface.blit(top_shadow, top_rect)
   launcher.surface.blit(launcher_shadow_middle, middle_rect)
   launcher.surface.blit(bottom_shadow, bottom_rect)
+
+def DrawIndicatorTrayShadow(indicator_tray):
+  '''Draws the shadow on the IndicatorTray's surface.'''
+  bottom_width = indicator_tray.GetIndicatorsWidth()
+  bottom_x = pygame.display.Info().current_w - bottom_width
+  end_x = bottom_x - indicator_tray.tray_height - shadow_width
+  bottom_rect = pygame.Rect((bottom_x, indicator_tray.tray_height), (bottom_width, shadow_width))
+  bottom_size = bottom_rect.size
+  bottom_shadow = pygame.transform.scale(indicator_tray_shadow, bottom_size)
+  
+  indicator_tray.surface.blit(indicator_tray_shadow_end, (end_x, 0))
+  indicator_tray.surface.blit(bottom_shadow, bottom_rect)

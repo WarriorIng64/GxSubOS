@@ -28,10 +28,11 @@ class IndicatorTray():
   tray_color_opaque = glass.glass_color
   tray_color.a = glass.glass_alpha
   tray_height = 24
+  shadow_height = 10
 
   def __init__(self, screenw, screenh):
     self.indicator_list = []
-    self.surface = glass.MakeTransparentSurface(screenw, self.tray_height)
+    self.surface = glass.MakeTransparentSurface(screenw, self.tray_height + self.shadow_height)
     if glass.enable_transparency:
       self.surface.fill(self.tray_color)
       self.color_surface = pygame.Surface((screenw, self.tray_height), pygame.SRCALPHA)
@@ -74,6 +75,8 @@ class IndicatorTray():
     triangle_points = [(tray_left - self.tray_height, 0), (tray_left - self.tray_height, self.tray_height), (tray_left, self.tray_height)]
     pygame.draw.polygon(self.surface, transparent, triangle_points)
     pygame.draw.rect(self.surface, transparent, pygame.Rect(0, 0, tray_left - self.tray_height, self.tray_height))
+    pygame.draw.rect(self.surface, transparent, pygame.Rect(0, self.tray_height, self.surface.get_width(), self.surface.get_height() - self.tray_height))
+    shadow.DrawIndicatorTrayShadow(self)
 
   def DrawTray(self, screen):
     '''Draws this IndicatorTray onto the provided Surface. Returns a Rect
