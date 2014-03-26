@@ -96,3 +96,8 @@ class IndicatorTray():
     indicator = Indicator(len(self.indicator_list))
     self.indicator_list.append(indicator)
     return indicator
+
+  def HandleMouseButtonDownEvent(self, mouse_event, mouse_button):
+    '''Pass MOUSEDOWN events to the Indicators this holds.'''
+    for indicator in self.indicator_list:
+      indicator.HandleMouseButtonDownEvent(mouse_event, mouse_button)

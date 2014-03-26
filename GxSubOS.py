@@ -132,6 +132,7 @@ while 1:
         if event.type is MOUSEBUTTONDOWN:
           wm.HandleMouseButtonDownEvent(mouse_x, mouse_y, mouse_button)
           launcher.HandleMouseButtonDownEvent(mouse_event, mouse_button)
+          indicator_tray.HandleMouseButtonDownEvent(mouse_event, mouse_button)
         else:
           wm.HandleMouseButtonUpEvent(mouse_x, mouse_y, mouse_button)
       else:
