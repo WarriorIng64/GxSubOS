@@ -24,9 +24,10 @@ class Indicator:
   
   '''A class implementing indicators for the indicator tray.'''
   
-  def __init__(self, number, frame_code="", click_code="", image=unknown_indicator_image):
+  def __init__(self, number, frame_code="", click_code="", icon=unknown_indicator_image, image=unknown_indicator_image):
     self.number = number
     self.frame_code = frame_code
+    self.icon = icon
     self.image = image
     self.width = 24
     self.rect = self.image.get_rect()
@@ -41,6 +42,10 @@ class Indicator:
     '''Accepts a string containing Python code. This code will be executed once
     per left click on the Indicator.'''
     self.click_code = code
+
+  def SetIcon(self, icon):
+    '''Accepts a surface to use as the icon for this Indicator.'''
+    self.icon = icon
   
   def RunFrameCode(self):
     '''Executes the currently-set frame code. Meant to be called once each
