@@ -29,6 +29,7 @@ class Indicator:
     self.frame_code = frame_code
     self.image = image
     self.width = 24
+    self.rect = self.image.get_rect()
   
   def SetFrameCode(self, code):
     '''Accepts a string containing Python code. This code will be executed once

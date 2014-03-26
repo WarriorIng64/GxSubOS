@@ -49,6 +49,7 @@ indicator_tray = IndicatorTray(width, height)
 wm = WindowManager(launcher, indicator_tray, wallpaper)
 launcher.SetWindowManager(wm)
 indicator_tray.SetWindowManager(wm)
+wm.LoadDefaultIndicators()
 
 wm.DrawDesktopSurface(desktop_surface, wallpaper)
 blurred_desktop_surface = None

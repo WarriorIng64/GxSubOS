@@ -282,3 +282,7 @@ class WindowManager:
       execfile("apps/default/" + indicator_name + "/" + indicator_name + ".py")
     else:
       print "ERROR: Could not load default app " + indicator_name + "; non-existent directory."
+
+  def LoadDefaultIndicators(self):
+    """Loads all of the default indicators before the 3rd party ones."""
+    self.indicator_tray.AddIndicator('PowerIndicator')

@@ -89,3 +89,7 @@ class IndicatorTray():
     for indicator in self.indicator_list:
       indicator.RunFrameCode()
     self.RedrawBackground(screen)
+
+  def AddIndicator(self, indicator_name):
+    '''Adds the given Indicator based on the provided name.'''
+    self.indicator_list.append(Indicator(len(self.indicator_list)))
