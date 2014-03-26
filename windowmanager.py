@@ -310,8 +310,8 @@ class WindowManager:
     exec code
   
   def LoadDefaultIndicator(self, indicator_name):
-    """Loads a default app based on the given app name, which must match the 
-    file name minus the extension."""
+    """Loads a default indicator based on the given indicator name, which must
+    match the file name minus the extension."""
     if os.path.isdir("indicators/default/" + indicator_name + "/"):
       execfile("indicators/default/" + indicator_name + "/" + indicator_name + ".py")
     else:
