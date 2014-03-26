@@ -91,5 +91,8 @@ class IndicatorTray():
     self.RedrawBackground(screen)
 
   def AddIndicator(self, indicator_name):
-    '''Adds the given Indicator based on the provided name.'''
-    self.indicator_list.append(Indicator(len(self.indicator_list)))
+    '''Adds the given Indicator based on the provided name.
+    Returns a reference to the Indicator added.'''
+    indicator = Indicator(len(self.indicator_list))
+    self.indicator_list.append(indicator)
+    return indicator

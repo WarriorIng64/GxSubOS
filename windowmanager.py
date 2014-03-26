@@ -15,6 +15,7 @@
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
 import pygame, os, sys
+from indicatordb import IndicatorDB
 from window import Window
 from launcherbutton import Launcherbutton
 from wallpaperswitcher import WallpaperSwitcher
@@ -313,11 +314,15 @@ class WindowManager:
     """Loads a default indicator based on the given indicator name, which must
     match the file name minus the extension."""
     if os.path.isdir("indicators/default/" + indicator_name + "/"):
-      execfile("indicators/default/" + indicator_name + "/" + indicator_name + ".py")
+      indicator = self.indicator_tray.AddIndicator('PowerIndicator')
+      indicator.RunSetupCode("indicators/default/" + indicator_name + "/" + indicator_name + ".py")
     else:
       print "ERROR: Could not load default indicator " + indicator_name + "; non-existent directory."
       self.ShowPopupMessage("Error", "Could not load default indicator " + indicator_name + "; non-existent directory.")
 
   def LoadDefaultIndicators(self):
     """Loads all of the default indicators before the 3rd party ones."""
-    self.indicator_tray.AddIndicator('PowerIndicator')
+    database = IndicatorDB()
+    indicators = database.RetrieveIndicatorNames()
+    for indicator_name in indicators:
+      self.LoadDefaultIndicator(indicator_name)

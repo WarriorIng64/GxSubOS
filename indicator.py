@@ -31,6 +31,11 @@ class Indicator:
     self.image = image
     self.width = 24
     self.rect = self.image.get_rect()
+
+  def RunSetupCode(self, path):
+    '''Accepts a string containing the path to the Python script this will run
+    to set up all of its variables.'''
+    execfile(path)
   
   def SetFrameCode(self, code):
     '''Accepts a string containing Python code. This code will be executed once
