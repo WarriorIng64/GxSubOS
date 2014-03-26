@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="24"
+   height="24"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r"
+   sodipodi:docname="shutdown.svg"
+   inkscape:export-filename="C:\Users\chorton\Documents\GitHub\GxSubOS\indicators\default\PowerIndicator\shutdown.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="21.916667"
+     inkscape:cx="12"
+     inkscape:cy="12"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:window-width="1280"
+     inkscape:window-height="738"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2985"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-1028.3622)">
+    <path
+       style="fill:#00ffff;fill-opacity:1;stroke:none"
+       d="M 10 4.25 C 6.547024 5.1363558 4 8.2705315 4 12 C 4 16.418278 7.581722 20 12 20 C 16.418278 20 20 16.418278 20 12 C 20 8.2705315 17.452976 5.1363558 14 4.25 L 14 6.46875 C 16.275138 7.2899558 17.90625 9.4436356 17.90625 12 C 17.90625 15.25911 15.25911 17.90625 12 17.90625 C 8.74089 17.90625 6.09375 15.25911 6.09375 12 C 6.09375 9.4436356 7.7248619 7.2899558 10 6.46875 L 10 4.25 z "
+       transform="translate(0,1028.3622)"
+       id="path2987" />
+    <rect
+       style="fill:#00ffff;fill-opacity:1;stroke:none"
+       id="rect2994"
+       width="2"
+       height="10"
+       x="11"
+       y="1031.3927"
+       ry="0" />
+  </g>
+</svg>
