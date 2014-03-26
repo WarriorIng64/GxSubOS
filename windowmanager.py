@@ -28,9 +28,10 @@ from textbox import TextBox, TextEntryBox, TextEntryMonoBox, TextEntryCodeBox
 
 class WindowManager:
   """This class manages the windows and desktop environment."""
-  def __init__(self, launcher=None, wallpaper=None):
+  def __init__(self, launcher=None, indicator_tray=None, wallpaper=None):
     self.window_list = []
     self.launcher = launcher
+    self.indicator_tray = indicator_tray
     self.wallpaper = wallpaper
     self.wallpaper_switcher = None
     self.redraw_needed = True
@@ -41,6 +42,11 @@ class WindowManager:
     """Assigns a Launcher instance to this WindowManager for drawing and
     manipulation purposes."""
     self.launcher = launcher
+
+  def SetIndicatorTray(self, indicator_tray):
+    """Assigns an IndicatorTray instance to this WindowManager for drawing and
+    manipulation purposes."""
+    self.indicator_tray = indicator_tray
   
   def SetWallpaper(self, wp):
     """Assigns a Wallpaper instance to this WindowManager for drawing and
@@ -296,8 +302,20 @@ class WindowManager:
       execfile("apps/default/" + app_name + "/" + app_name + ".py")
     else:
       print "ERROR: Could not load default app " + app_name + "; non-existent directory."
-
+  
   def RunString(self, code):
     """Runs the given string in code. Meant to be used for running an app from
     its source code in an IDE."""
     exec code
+  
+  def LoadDefaultIndicator(self, indicator_name):
+    """Loads a default app based on the given app name, which must match the 
+    file name minus the extension."""
+    if os.path.isdir("indicators/default/" + indicator_name + "/"):
+      execfile("apps/default/" + indicator_name + "/" + indicator_name + ".py")
+    else:
+      print "ERROR: Could not load default app " + indicator_name + "; non-existent directory."
+
+  def LoadDefaultIndicators(self):
+    """Loads all of the default indicators before the 3rd party ones."""
+    self.indicator_tray.AddIndicator('PowerIndicator')

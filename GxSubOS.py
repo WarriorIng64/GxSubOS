@@ -20,6 +20,7 @@ from appdb import AppDB
 from wallpaper import Wallpaper
 from launcher import Launcher
 from windowmanager import WindowManager
+from indicatortray import IndicatorTray
 from menu import Menu
 import glass
 
@@ -77,8 +78,12 @@ pygame.display.flip()
 # Desktop shell setup
 wallpaper = Wallpaper(size)
 launcher = Launcher(width, height)
-wm = WindowManager(launcher, wallpaper)
+indicator_tray = IndicatorTray(width, height)
+wm = WindowManager(launcher, indicator_tray, wallpaper)
 launcher.SetWindowManager(wm)
+indicator_tray.SetWindowManager(wm)
+wm.LoadDefaultIndicators()
+
 pygame.key.set_repeat(500, 50)
 
 wm.DrawDesktopSurface(desktop_surface, wallpaper)
@@ -143,9 +148,11 @@ while 1:
   screen.blit(desktop_surface, desktop_surface.get_rect())
   update_rects.append(wm.DrawTopWindow(screen, blurred_desktop_surface))
   launcher.UpdateWholeLauncher(screen, wm)
+  indicator_tray.UpdateWholeTray(screen)
   update_rects.append(launcher.DrawLauncher(screen))
   update_rects.append(wm.DrawWallpaperSwitcher(screen))
   update_rects.append(wm.DrawPopupMessage(screen))
+  update_rects.append(indicator_tray.DrawTray(screen))
 
   pygame.display.update(update_rects)
   wm.ResetUpdateRect()
