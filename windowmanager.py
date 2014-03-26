@@ -302,6 +302,7 @@ class WindowManager:
       execfile("apps/default/" + app_name + "/" + app_name + ".py")
     else:
       print "ERROR: Could not load default app " + app_name + "; non-existent directory."
+      self.ShowPopupMessage("Error", "Could not load default app " + app_name + "; non-existent directory.")
   
   def RunString(self, code):
     """Runs the given string in code. Meant to be used for running an app from
@@ -312,9 +313,10 @@ class WindowManager:
     """Loads a default app based on the given app name, which must match the 
     file name minus the extension."""
     if os.path.isdir("indicators/default/" + indicator_name + "/"):
-      execfile("apps/default/" + indicator_name + "/" + indicator_name + ".py")
+      execfile("indicators/default/" + indicator_name + "/" + indicator_name + ".py")
     else:
-      print "ERROR: Could not load default app " + indicator_name + "; non-existent directory."
+      print "ERROR: Could not load default indicator " + indicator_name + "; non-existent directory."
+      self.ShowPopupMessage("Error", "Could not load default indicator " + indicator_name + "; non-existent directory.")
 
   def LoadDefaultIndicators(self):
     """Loads all of the default indicators before the 3rd party ones."""
