@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
-import sys, pygame
+import sys, datetime, pygame
 import glass
 
 indicator_font = pygame.font.Font("fonts/Roboto/Roboto-Regular.ttf", 18)
