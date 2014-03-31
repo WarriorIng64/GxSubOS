@@ -62,13 +62,13 @@ class Button(Widget):
   
   def Redraw(self):
     """Redraw this Button."""
-    padding = 4
+    padding = 2
     button_color = glass.accent_color
     button_color.a = 100
     if self.rect == None:
       return;
     self.surface = glass.MakeTransparentSurface(self.rect.width, self.rect.height)
-    border_rect = self.surface.get_rect().inflate(-padding, -padding).move(padding / 2, padding / 2)
+    border_rect = self.surface.get_rect().inflate(-padding * 2, -padding * 2).move(padding / 2, padding / 2)
     if self.hovered:
       pygame.draw.rect(self.surface, button_color, border_rect)
     else:
