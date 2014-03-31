@@ -14,20 +14,42 @@
    height="48"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="New document 1">
+   inkscape:version="0.48.4 r"
+   sodipodi:docname="start.svg"
+   inkscape:export-filename="C:\Users\chorton\Documents\GitHub\GxSubOS\graphics\start.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs4">
     <linearGradient
-       id="linearGradient3781">
+       id="linearGradient3010">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0.49019608;"
+         offset="0"
+         id="stop3012" />
       <stop
          style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop3014" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3781">
+      <stop
+         style="stop-color:#000000;stop-opacity:0;"
          offset="0"
          id="stop3783" />
       <stop
+         id="stop3020"
+         offset="0.82985055"
+         style="stop-color:#000000;stop-opacity:0.09243698;" />
+      <stop
+         id="stop3018"
+         offset="0.88797837"
+         style="stop-color:#000000;stop-opacity:0.19327731;" />
+      <stop
          id="stop3789"
-         offset="0.91176468"
-         style="stop-color:#00ffff;stop-opacity:0;" />
+         offset="0.95283329"
+         style="stop-color:#00ffff;stop-opacity:1;" />
       <stop
          style="stop-color:#00ffff;stop-opacity:1;"
          offset="1"
@@ -51,7 +73,7 @@
     <linearGradient
        id="linearGradient3757">
       <stop
-         style="stop-color:#00e8eb;stop-opacity:1;"
+         style="stop-color:#3affff;stop-opacity:1;"
          offset="0"
          id="stop3759" />
       <stop
@@ -104,6 +126,15 @@
          stdDeviation="1.3276176"
          id="feGaussianBlur3809" />
     </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3010"
+       id="linearGradient3016"
+       x1="27.098541"
+       y1="2.9270074"
+       x2="27.098541"
+       y2="22.90876"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -118,10 +149,10 @@
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1680"
-     inkscape:window-height="1028"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-width="1280"
+     inkscape:window-height="738"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
      inkscape:window-maximized="1">
     <inkscape:grid
        type="xygrid"
@@ -156,7 +187,7 @@
        sodipodi:cy="24"
        sodipodi:rx="23"
        sodipodi:ry="23"
-       d="M 47,24 A 23,23 0 1 1 1,24 23,23 0 1 1 47,24 z"
+       d="M 47,24 C 47,36.702549 36.702549,47 24,47 11.297451,47 1,36.702549 1,24 1,11.297451 11.297451,1 24,1 36.702549,1 47,11.297451 47,24 z"
        transform="translate(0,1004.3622)" />
     <text
        xml:space="preserve"
@@ -168,7 +199,8 @@
          sodipodi:role="line"
          id="tspan3777"
          x="23.279016"
-         y="1038.2201">Gx</tspan></text>
+         y="1038.2201"
+         style="-inkscape-font-specification:Roboto Bold;font-family:Roboto;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal">Gx</tspan></text>
     <path
        sodipodi:type="arc"
        style="fill:url(#radialGradient3787);fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
@@ -177,28 +209,29 @@
        sodipodi:cy="24"
        sodipodi:rx="23"
        sodipodi:ry="23"
-       d="M 47,24 A 23,23 0 1 1 1,24 23,23 0 1 1 47,24 z"
+       d="M 47,24 C 47,36.702549 36.702549,47 24,47 11.297451,47 1,36.702549 1,24 1,11.297451 11.297451,1 24,1 36.702549,1 47,11.297451 47,24 z"
        transform="translate(0,1004.3622)" />
-    <path
-       transform="translate(0,1004.3622)"
-       d="M 47,24 A 23,23 0 1 1 1,24 23,23 0 1 1 47,24 z"
-       sodipodi:ry="23"
-       sodipodi:rx="23"
-       sodipodi:cy="24"
-       sodipodi:cx="24"
-       id="path3765"
-       style="fill:url(#radialGradient3767);fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
-       sodipodi:type="arc" />
     <text
        sodipodi:linespacing="125%"
        id="text3791"
-       y="1038.2201"
-       x="23.279016"
-       style="font-size:27.59950256000000124px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#00ffff;fill-opacity:1;stroke:none;font-family:Droid Sans;-inkscape-font-specification:Droid Sans Bold;opacity:0.84343434;filter:url(#filter3807)"
+       y="1038.173"
+       x="23.440733"
+       style="font-size:27.59950256px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;opacity:0.84343435;fill:#00ffff;fill-opacity:1;stroke:none;filter:url(#filter3807);font-family:Droid Sans;-inkscape-font-specification:Droid Sans Bold"
        xml:space="preserve"><tspan
-         y="1038.2201"
-         x="23.279016"
+         y="1038.173"
+         x="23.440733"
          id="tspan3793"
-         sodipodi:role="line">Gx</tspan></text>
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:Roboto Bold">Gx</tspan></text>
+    <path
+       sodipodi:type="arc"
+       style="fill:url(#linearGradient3016);fill-opacity:1;stroke:none"
+       id="path3008"
+       sodipodi:cx="26.961679"
+       sodipodi:cy="13.054745"
+       sodipodi:rx="12.180657"
+       sodipodi:ry="9.9452553"
+       d="m 39.142337,13.054745 a 12.180657,9.9452553 0 1 1 -24.361315,0 12.180657,9.9452553 0 1 1 24.361315,0 z"
+       transform="matrix(1.0919543,0,0,1.0919543,-5.4409218,1001.9668)" />
   </g>
 </svg>
