@@ -53,7 +53,8 @@ class IndicatorDB:
       # The default indicators are currently hard-coded here
       values = (
         ('GxPowerIndicator',True,'https://github.com/WarriorIng64/GxPowerIndicator','https://github.com/WarriorIng64/GxPowerIndicator'),
-        ('GxTimeIndicator',True,'https://github.com/WarriorIng64/GxTimeIndicator','https://github.com/WarriorIng64/GxTimeIndicator')
+        ('GxTimeIndicator',True,'https://github.com/WarriorIng64/GxTimeIndicator','https://github.com/WarriorIng64/GxTimeIndicator'),
+        ('GxBatteryIndicator',True,'https://github.com/WarriorIng64/GxBatteryIndicator','https://github.com/WarriorIng64/GxBatteryIndicator')
       )
       fields = "IndicatorName,DefaultIndicator,WebsiteUrl,RepoURL"
       for indicator in values:
