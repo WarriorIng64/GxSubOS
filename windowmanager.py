@@ -287,7 +287,7 @@ class WindowManager:
     self.update_rect.union_ip(self.popup_message.surface.get_rect())
     return self.update_rect
 
-  def ClosePopupMessage():
+  def ClosePopupMessage(self):
     """Closes the current popup message."""
     del self.popup_message
     self.popup_message = None
