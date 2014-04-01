@@ -104,13 +104,6 @@ class WindowManager:
         return True
     return False
   
-  def UpdateWindows(self, mouse_event, mouse_button):
-    """General function for updating the state of all windows and the list.
-    Returns true iff a redraw of all windows is required."""
-    redraw_needed = self.RemoveClosedWindows(mouse_event, mouse_button)
-    redraw_needed = redraw_needed or self.MaintainWindowOrder()
-    return redraw_needed
-  
   def DrawDesktopSurface(self, desktop_surface, wallpaper):
     """Update the surface behind the focused window."""
     if self.RedrawNeeded():
@@ -337,3 +330,4 @@ class WindowManager:
     """Runs the frame code for each Window in the window list."""
     for i in range(len(self.window_list)):
       self.window_list[i].RunFrameCode()
+    self.RemoveClosedWindows()
