@@ -27,6 +27,7 @@ class Indicator:
   def __init__(self, number, frame_code="", click_code="", icon=unknown_indicator_image, image=unknown_indicator_image):
     self.number = number
     self.frame_code = frame_code
+    self.click_code = click_code
     self.icon = icon
     self.image = image
     self.width = 24
