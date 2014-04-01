@@ -30,7 +30,7 @@ class IndicatorTray():
   tray_height = 24
   shadow_height = 10
 
-  def __init__(self, screenw, screenh):
+  def __init__(self, screenw, screenh, wm=None):
     self.indicator_list = []
     self.surface = glass.MakeTransparentSurface(screenw, self.tray_height + self.shadow_height)
     if glass.enable_transparency:
@@ -42,7 +42,7 @@ class IndicatorTray():
       self.color_surface = pygame.Surface((screenw, self.tray_height))
       self.color_surface.fill(self.tray_color_opaque)
     self.update_rect = pygame.Rect(0, 0, 0, 0)
-    self.wm = None
+    self.wm = wm
 
   def SetWindowManager(self, windowmanager):
     '''Sets the WindowManager that this IndicatorTray will connect to.'''
@@ -99,6 +99,16 @@ class IndicatorTray():
     indicator = Indicator(len(self.indicator_list))
     self.indicator_list.append(indicator)
     return indicator
+  
+  def RemoveClosedIndicators(self):
+    '''Removes any Indicators which indicate that they are closed.'''
+    for indicator in self.indicator_list:
+      if indicator.closed == True:
+        self.indicator_list.remove(indicator)
+    # Maintain indicator order
+    new_number = 0
+    for indicator in self.indicator_list:
+      indicator.number = new_number
 
   def HandleMouseButtonDownEvent(self, mouse_event, mouse_button):
     '''Pass MOUSEDOWN events to the Indicators this holds.'''

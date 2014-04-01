@@ -24,19 +24,26 @@ class Indicator:
   
   '''A class implementing indicators for the indicator tray.'''
   
-  def __init__(self, number, frame_code="", click_code="", icon=unknown_indicator_image, image=unknown_indicator_image):
+  def __init__(self, number, name="an indicator", wm=None, frame_code="", click_code="", icon=unknown_indicator_image, image=unknown_indicator_image):
     self.number = number
+    self.indicator_name = name
+    self.wm = wm
     self.frame_code = frame_code
     self.click_code = click_code
     self.icon = icon
     self.image = image
     self.width = 24
     self.rect = self.image.get_rect()
+    self.closed = False
 
   def RunSetupCode(self, path):
     '''Accepts a string containing the path to the Python script this will run
     to set up all of its variables.'''
     execfile(path)
+  
+  def SetWindowManager(self, wm):
+    '''Provides this Indicator with a reference to the WindowManager.'''
+    self.wm = wm
   
   def SetFrameCode(self, code):
     '''Accepts a string containing Python code. This code will be executed once
@@ -53,10 +60,19 @@ class Indicator:
     '''Accepts a surface to use as the icon for this Indicator.'''
     self.icon = icon
   
+  def SetIndicatorName(self, name):
+    '''Sets this Indicator's display name.'''
+    self.indicator_name = name
+  
   def RunFrameCode(self):
     '''Executes the currently-set frame code. Meant to be called once each
     frame of the SubOS execution.'''
-    exec self.frame_code
+    try:
+      exec self.frame_code
+    except:
+      self.closed = True
+      if self.wm != None:
+        self.wm.ShowPopupMessage("Indicator Crash", "Sorry, but " + self.indicator_name + " needs to close due to an error.")
 
   def RunClickCode(self):
     '''Executes the currently-set click code. Meant to be called once each

@@ -314,7 +314,7 @@ class WindowManager:
     """Loads a default indicator based on the given indicator name, which must
     match the file name minus the extension."""
     if os.path.isdir("indicators/default/" + indicator_name + "/"):
-      indicator = self.indicator_tray.AddIndicator('PowerIndicator')
+      indicator = self.indicator_tray.AddIndicator(indicator_name)
       indicator.RunSetupCode("indicators/default/" + indicator_name + "/" + indicator_name + ".py")
     else:
       print "ERROR: Could not load default indicator " + indicator_name + "; non-existent directory."
