@@ -68,6 +68,10 @@ class Window:
     """Sets this Window's icon from the given path, minus the icon.png at the end."""
     self.icon_image = pygame.image.load(iconpath + "icon.png")
     self.wm.UpdateLauncherIcon(self)
+
+  def SetFrameCode(self, frame_code):
+    """Sets this Window's frame code to run each step."""
+    self.frame_code = frame_code
   
   def Redraw(self, screen, blurred_surface=None):
     """Redraws this Window's surface in preparation for the next blitting."""
