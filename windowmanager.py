@@ -215,10 +215,7 @@ class WindowManager:
     """General function for handling mouse button press events for windows."""
     if self.popup_message != None:
       if mouse_button == 1:
-        # Close the popup message.
-        del self.popup_message
-        self.popup_message = None
-        self.RequireRedraw()
+        self.ClosePopupMessage()
     elif self.wallpaper_switcher != None:
       self.wallpaper_switcher.HandleMouseButtonDownEvent(mouse_x, mouse_y, mouse_button)
     elif mouse_button in [1, 4, 5]:
@@ -231,6 +228,9 @@ class WindowManager:
   
   def HandleKeyDownEvent(self, event):
     """General function for handling a keyboard key down event."""
+    if self.popup_message != None:
+      if event.key in (pygame.K_RETURN, pygame.K_ESCAPE):
+        self.ClosePopupMessage()
     if self.wallpaper_switcher is not None:
       self.wallpaper_switcher.HandleKeyDownEvent(event)
       if event.key == pygame.K_RETURN:
@@ -286,6 +286,12 @@ class WindowManager:
     surface.blit(self.popup_message.surface, self.popup_message.surface.get_rect())
     self.update_rect.union_ip(self.popup_message.surface.get_rect())
     return self.update_rect
+
+  def ClosePopupMessage():
+    """Closes the current popup message."""
+    del self.popup_message
+    self.popup_message = None
+    self.RequireRedraw()
   
   def InitializeWidgetTest(self):
     """Debug function for creating a test app for checking out Widget functionality."""
