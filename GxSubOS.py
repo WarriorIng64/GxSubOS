@@ -142,6 +142,7 @@ while 1:
       wm.HandleKeyDownEvent(event)
   
   # Drawing and game object updates
+  wm.RunWindowFrameCodes()
   if wm.RedrawNeeded():
     wm.DrawDesktopSurface(desktop_surface, wallpaper)
     glass.UpdateBlurredDesktopSurface(blurred_desktop_surface, desktop_surface)

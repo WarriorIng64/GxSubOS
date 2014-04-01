@@ -34,7 +34,7 @@ class Window:
   content_color_opaque = glass.content_area_color
   content_color.a = glass.glass_alpha
   
-  def __init__(self, x, y, width, height, titlebar_text=''):
+  def __init__(self, x, y, width, height, titlebar_text='', frame_code=''):
     self.rect = pygame.rect.Rect(x, y, width, height)
     self.close_image = pygame.image.load("graphics/close.png")
     self.resize_image = pygame.image.load("graphics/resize.png")
@@ -45,6 +45,7 @@ class Window:
     
     self.CreateSurfaces(width, height)
     self.titlebar_text = titlebar_text
+    self.frame_code = frame_code
     self.statusbar_text = ""
     self.being_dragged = False
     self.being_resized = False
@@ -310,3 +311,14 @@ class Window:
     """Handle a KEYDOWN event."""
     tlc = self.top_level_container
     tlc.HandleKeyDownEvent(event)
+
+  def RunFrameCode(self):
+    """Attempts to run the currently set frame code. Meant to be called once per
+    frame by the WindowManager. If there's an exception, report this with a
+    popup message and mark the window as closed."""
+    if not self.window_closed:
+      try:
+        exec self.frame_code
+      except:
+        self.wm.ShowPopupMessage("App Crash", "Sorry, but there was an error running the " + self.titlebar_text + " window and it needs to close.")
+        self.window_closed = True

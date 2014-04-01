@@ -183,6 +183,11 @@ class EditorMultiline(Multiline):
     index += self.text[:index + 1].count('\n')
     return index
 
+  def GetCursorPosition(self):
+    '''Returns the current position of the cursor as a pair. The pair indicates
+    the line and column, in that order.'''
+    return (self.cursor_pos[0], self.cursor_pos[1])
+
   def BackspaceAtCursor(self):
     '''Deletes the character before the cursor position.'''
     index = self.GetCursorIndex()

@@ -326,3 +326,8 @@ class WindowManager:
     indicators = database.RetrieveIndicatorNames()
     for indicator_name in indicators:
       self.LoadDefaultIndicator(indicator_name)
+
+  def RunWindowFrameCodes(self):
+    """Runs the frame code for each Window in the window list."""
+    for i in range(len(self.window_list)):
+      self.window_list[i].RunFrameCode()
