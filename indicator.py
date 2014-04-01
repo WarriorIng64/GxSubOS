@@ -67,12 +67,13 @@ class Indicator:
   def RunFrameCode(self):
     '''Executes the currently-set frame code. Meant to be called once each
     frame of the SubOS execution.'''
-    try:
-      exec self.frame_code
-    except:
-      self.closed = True
-      if self.wm != None:
-        self.wm.ShowPopupMessage("Indicator Crash", "Sorry, but " + self.indicator_name + " needs to close due to an error.")
+    if not self.closed:
+      try:
+        exec self.frame_code
+      except:
+        self.closed = True
+        if self.wm != None:
+          self.wm.ShowPopupMessage("Indicator Crash", "Sorry, but " + self.indicator_name + " needs to close due to an error.")
 
   def RunClickCode(self):
     '''Executes the currently-set click code. Meant to be called once each

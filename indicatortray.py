@@ -91,12 +91,13 @@ class IndicatorTray():
     self.UpdateIndicatorPositions()
     for indicator in self.indicator_list:
       indicator.RunFrameCode()
+    self.RemoveClosedIndicators()
     self.RedrawBackground(screen)
 
   def AddIndicator(self, indicator_name):
     '''Adds the given Indicator based on the provided name.
     Returns a reference to the Indicator added.'''
-    indicator = Indicator(len(self.indicator_list))
+    indicator = Indicator(len(self.indicator_list), indicator_name, self.wm)
     self.indicator_list.append(indicator)
     return indicator
   
