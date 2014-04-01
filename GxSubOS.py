@@ -152,8 +152,8 @@ while 1:
   indicator_tray.UpdateWholeTray(screen)
   update_rects.append(launcher.DrawLauncher(screen))
   update_rects.append(wm.DrawWallpaperSwitcher(screen))
-  update_rects.append(wm.DrawPopupMessage(screen))
   update_rects.append(indicator_tray.DrawTray(screen))
+  update_rects.append(wm.DrawPopupMessage(screen))
 
   pygame.display.update(update_rects)
   wm.ResetUpdateRect()
