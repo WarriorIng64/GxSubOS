@@ -323,6 +323,8 @@ class Window:
     if not self.window_closed:
       try:
         exec self.frame_code
-      except:
-        self.wm.ShowPopupMessage("App Crash", "Sorry, but there was an error running the " + self.titlebar_text + " window and it needs to close.")
+      except Exception as e:
         self.window_closed = True
+        print "***" + self.titlebar_text + " CRASH: " + str(e)
+        if self.wm != None:
+          self.wm.ShowPopupMessage("App Crash", "Sorry, but there was an error running the " + self.titlebar_text + " window and it needs to close.")

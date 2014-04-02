@@ -70,8 +70,9 @@ class Indicator:
     if not self.closed:
       try:
         exec self.frame_code
-      except:
+      except Exception as e:
         self.closed = True
+        print "***" + self.indicator_name + " CRASH: " + str(e)
         if self.wm != None:
           self.wm.ShowPopupMessage("Indicator Crash", "Sorry, but " + self.indicator_name + " needs to close due to an error.")
 
