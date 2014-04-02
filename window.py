@@ -133,7 +133,10 @@ class Window:
   def SetStatusbarText(self, text=""):
     """Sets the new text displayed in the statusbar.
     If no text is passed in, the statusbar will be blank."""
-    self.statusbar_text = text
+    if self.statusbar_text != text:
+      self.statusbar_text = text
+      self.wm.redraw_needed = True
+      self.DrawWindowSurface()
   
   def MoveByAmount(self, x, y):
     """Moves this Window by the given x and y values."""
