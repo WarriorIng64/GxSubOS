@@ -14,7 +14,12 @@
 # You should have received a copy of the GNU General Public License
 # along with GxSubOS. If not, see <http://www.gnu.org/licenses/>.
 
-shutdown_dialog = self.CreateWindow(48, 0, 400, 200, 'Shutdown')
+shutdown_dialog_width = 400
+shutdown_dialog_height = 200
+shutdown_dialog_x = pygame.display.Info().current_w / 2 - shutdown_dialog_width / 2
+shutdown_dialog_y = pygame.display.Info().current_h / 2 - shutdown_dialog_height / 2
+
+shutdown_dialog = self.CreateWindow(shutdown_dialog_x, shutdown_dialog_y, shutdown_dialog_width, shutdown_dialog_height, 'Shutdown')
 shutdown_dialog.icon_image = pygame.image.load("graphics/shutdown.png")
 
 vbox1 = VBox(shutdown_dialog.top_level_container, shutdown_dialog, [])
