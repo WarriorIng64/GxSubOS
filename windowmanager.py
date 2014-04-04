@@ -303,6 +303,14 @@ class WindowManager:
     else:
       print "ERROR: Could not load default app " + app_name + "; non-existent directory."
       self.ShowPopupMessage("Error", "Could not load default app " + app_name + "; non-existent directory.")
+
+  def ShowShutdownDialog(self):
+    """Shows the shutdown dialog."""
+    if os.path.isfile("shutdowndialog.py"):
+      execfile("shutdowndialog.py")
+    else:
+      print "ERROR: Could not find shutdowndialog.py."
+      self.ShowPopupMessage("Error", "Could not show shutdown dialog. Please run pygame.quit();sys.exit() manually.")
   
   def RunString(self, code):
     """Runs the given string in code. Meant to be used for running an app from
