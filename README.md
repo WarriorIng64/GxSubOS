@@ -26,7 +26,7 @@ GxSubOS is provided under the GNU GPLv3.
 [1]: https://code.google.com/p/msysgit/
 
   [1]: http://pygame.org/news.html  "Pygame"
-  [2]: https://sites.google.com/site/gimixsubos/ "Gimix SubOS"
+  [2]: https://sites.google.com/site/gxsubos/ "GxSubOS"
   [3]: http://gmsubos.wikia.com/wiki/GxSubOS "GxSubOS page on SubOS Wiki"
-  [4]: http://gimixsubos.blogspot.com/ "Gimix SubOS News"
+  [4]: http://gxsubos.blogspot.com/ "Gimix SubOS News"
   [5]: http://static4.wikia.nocookie.net/gmsubos/images/5/57/GxSubOS_2-6-2014.png
