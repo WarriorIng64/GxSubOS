@@ -53,7 +53,6 @@ pygame.display.update(screen.get_rect())
 degrees = 0
 
 loading_subprocesses = setup.Setup()
-print "Num of subprocesses: " + str(len(loading_subprocesses))
 while len(loading_subprocesses) != 0:
   # Display an animated loading screen
   screen.fill((0, 0, 0))

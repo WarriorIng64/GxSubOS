@@ -30,9 +30,9 @@ def UpdateApps():
     appinfo = database.GetAppInfo(appname)
     os.chdir(appswd + "/" + appname)
     if platform.system() == "Windows":
-      loading_subprocesses.append(subprocess.Popen('"C:\Program Files (x86)\Git\cmd\git.exe" --git-dir=' + os.getcwd() + '/.git --work-tree=' + os.getcwd() + ' pull'))
+      loading_subprocesses.append(subprocess.Popen('"C:\Program Files (x86)\Git\cmd\git.exe" --git-dir=' + os.getcwd() + '/.git --work-tree=' + os.getcwd() + ' pull -q'))
     else:
-      loading_subprocesses.append(subprocess.Popen('git pull', shell=True))
+      loading_subprocesses.append(subprocess.Popen('git pull -q', shell=True))
     os.chdir(initialwd)
   return loading_subprocesses
 
@@ -48,9 +48,9 @@ def UpdateIndicators():
     indicatorinfo = database.GetIndicatorInfo(indicatorname)
     os.chdir(indicatorswd + "/" + indicatorname)
     if platform.system() == "Windows":
-      loading_subprocesses.append(subprocess.Popen('"C:\Program Files (x86)\Git\cmd\git.exe" --git-dir=' + os.getcwd() + '/.git --work-tree=' + os.getcwd() + ' pull'))
+      loading_subprocesses.append(subprocess.Popen('"C:\Program Files (x86)\Git\cmd\git.exe" --git-dir=' + os.getcwd() + '/.git --work-tree=' + os.getcwd() + ' pull -q'))
     else:
-      loading_subprocesses.append(subprocess.Popen('git pull', shell=True))
+      loading_subprocesses.append(subprocess.Popen('git pull -q', shell=True))
     os.chdir(initialwd)
   return loading_subprocesses
 
@@ -77,10 +77,11 @@ def Setup():
       # If we're on Windows, use Git for Windows from https://code.google.com/p/msysgit/
       # Otherwise, assume Linux 
       if platform.system() == "Windows":
-        loading_subprocesses.append(subprocess.Popen('"C:\Program Files (x86)\Git\cmd\git.exe" clone ' + appinfo["RepoUrl"] + ' ' + appswd + '/' + appname))
+        loading_subprocesses.append(subprocess.Popen('"C:\Program Files (x86)\Git\cmd\git.exe" clone ' + appinfo["RepoUrl"] + ' ' + appswd + '/' + appname + " -q"))
       else:
-        loading_subprocesses.append(subprocess.Popen("git clone " + appinfo["RepoUrl"], shell=True))
+        loading_subprocesses.append(subprocess.Popen("git clone " + appinfo["RepoUrl"] + " -q", shell=True))
       os.chdir(initialwd)
+    print "App database successfully set up."
       
     # Indicators second
     database = IndicatorDB()
@@ -99,10 +100,11 @@ def Setup():
       # If we're on Windows, use Git for Windows from https://code.google.com/p/msysgit/
       # Otherwise, assume Linux 
       if platform.system() == "Windows":
-        loading_subprocesses.append(subprocess.Popen('"C:\Program Files (x86)\Git\cmd\git.exe" clone ' + indicatorinfo["RepoUrl"] + ' ' + indicatorswd + '/' + indicatorname))
+        loading_subprocesses.append(subprocess.Popen('"C:\Program Files (x86)\Git\cmd\git.exe" clone ' + indicatorinfo["RepoUrl"] + ' ' + indicatorswd + '/' + indicatorname + " -q"))
       else:
-        loading_subprocesses.append(subprocess.Popen("git clone " + indicatorinfo["RepoUrl"], shell=True))
+        loading_subprocesses.append(subprocess.Popen("git clone " + indicatorinfo["RepoUrl"] + " -q", shell=True))
       os.chdir(initialwd)
+    print "Indicator database successfully set up."
   else:
     # Apps set up from previous run; check for updates
     loading_subprocesses = UpdateApps() + UpdateIndicators()
