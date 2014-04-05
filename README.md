@@ -29,4 +29,4 @@ GxSubOS is provided under the GNU GPLv3.
   [2]: https://sites.google.com/site/gxsubos/ "GxSubOS"
   [3]: http://gmsubos.wikia.com/wiki/GxSubOS "GxSubOS page on SubOS Wiki"
   [4]: http://gxsubos.blogspot.com/ "Gimix SubOS News"
-  [5]: https://drive.google.com/file/d/0BzBcXJBBpGPaM2NjVmRwSzVjQkk
+  [5]: http://i.imgur.com/c1u4JQt.png
