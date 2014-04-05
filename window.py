@@ -69,6 +69,11 @@ class Window:
     self.icon_image = pygame.image.load(iconpath + "icon.png")
     self.wm.UpdateLauncherIcon(self)
 
+  def SetSpecificIcon(self, iconpath):
+    """Sets this Window's icon from the given path, including the filename at the end."""
+    self.icon_image = pygame.image.load(iconpath)
+    self.wm.UpdateLauncherIcon(self)
+
   def SetFrameCode(self, frame_code):
     """Sets this Window's frame code to run each step."""
     self.frame_code = frame_code

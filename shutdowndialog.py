@@ -20,7 +20,7 @@ shutdown_dialog_x = pygame.display.Info().current_w / 2 - shutdown_dialog_width 
 shutdown_dialog_y = pygame.display.Info().current_h / 2 - shutdown_dialog_height / 2
 
 shutdown_dialog = self.CreateWindow(shutdown_dialog_x, shutdown_dialog_y, shutdown_dialog_width, shutdown_dialog_height, 'Shutdown')
-shutdown_dialog.icon_image = pygame.image.load("graphics/shutdown.png")
+shutdown_dialog.SetSpecificIcon("graphics/shutdown.png")
 
 vbox1 = VBox(shutdown_dialog.top_level_container, shutdown_dialog, [])
 shutdown_dialog.AddWidget(vbox1)

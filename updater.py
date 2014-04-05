@@ -40,7 +40,7 @@ else:
 # Window and UI code
 
 window = self.CreateWindow(48, 0, 300, 100, 'Updater')
-window.icon_image = pygame.image.load("graphics/updater.png")
+window.SetSpecificIcon("graphics/updater.png")
 window.subprocesses = []
 window.total_updates = 0
 
