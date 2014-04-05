@@ -78,4 +78,5 @@ class Launcherbutton:
   def UpdateIcon(self):
     """Updates the icon displayed on this Launcherbutton."""
     self.icon_image = self.window.icon_image
+    self.UpdateImage()
     
