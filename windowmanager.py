@@ -311,6 +311,14 @@ class WindowManager:
     else:
       print "ERROR: Could not find shutdowndialog.py."
       self.ShowPopupMessage("Error", "Could not show shutdown dialog. Please run pygame.quit();sys.exit() manually.")
+
+  def ShowUpdater(self):
+    """Shows the updater."""
+    if os.path.isfile("updater.py"):
+      execfile("updater.py")
+    else:
+      print "ERROR: Could not find updater.py."
+      self.ShowPopupMessage("Error", "Could not show updater. Please check that updater.py exists in root.")
   
   def RunString(self, code):
     """Runs the given string in code. Meant to be used for running an app from

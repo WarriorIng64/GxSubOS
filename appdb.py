@@ -55,7 +55,6 @@ class AppDB:
         ('GxCalculator',True,'https://github.com/WarriorIng64/GxCalculator','https://github.com/WarriorIng64/GxCalculator.git'),
         ('GxFiles',True,'https://github.com/WarriorIng64/GxFiles','https://github.com/WarriorIng64/GxFiles.git'),
         ('GxText',True,'https://github.com/WarriorIng64/GxText','https://github.com/WarriorIng64/GxText.git'),
-        ('GxUpdater',True,'https://github.com/WarriorIng64/GxUpdater','https://github.com/WarriorIng64/GxUpdater.git'),
         ('GxWidgetTest',True,'https://github.com/WarriorIng64/GxWidgetTest','https://github.com/WarriorIng64/GxWidgetTest.git')
       )
       fields = "AppName,DefaultApp,WebsiteUrl,RepoURL"

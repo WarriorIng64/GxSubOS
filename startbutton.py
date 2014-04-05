@@ -48,7 +48,8 @@ class Startbutton:
           for appname in applist:
             self.startmenu.AddMenuOption("Start " + appname + "...", "self.creator.LoadDefaultApp('" + appname +"')")
           self.startmenu.AddMenuOption("Change wallpaper...", "self.creator.InitializeWallpaperSwitcher()")
-          self.startmenu.AddMenuOption("Shutdown GxSubOS", "self.creator.ShowShutdownDialog()")
+          self.startmenu.AddMenuOption("Check for updates...", "self.creator.ShowUpdater()")
+          self.startmenu.AddMenuOption("Shutdown GxSubOS...", "self.creator.ShowShutdownDialog()")
           update_rect = update_rect.union(self.startmenu.rect)
         else:
           # Close the menu
