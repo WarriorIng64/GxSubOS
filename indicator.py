@@ -34,6 +34,7 @@ class Indicator:
     self.image = image
     self.width = 24
     self.rect = self.image.get_rect()
+    self.rect.x = pygame.display.Info().current_w
     self.closed = False
 
   def RunSetupCode(self, path):
