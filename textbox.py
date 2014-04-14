@@ -138,8 +138,8 @@ class TextEntrySinglelineBox(TextEntryBox):
     self.parent_window = parent_window
     self.rect = None
     self.surface = None
-    self.singleline = EditorSingleline(self.text, textbox_font, 1)
     self.text = ""
+    self.singleline = EditorSingleline(self.text, textbox_font, 1)
 
     self.text_surface = None
     self.SetText(initial_text)

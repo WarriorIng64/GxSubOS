@@ -43,7 +43,7 @@ class Singleline():
   
   def SetWidth(self, width):
     '''Change the current width and update.'''
-    self.area_rect.width = width
+    self.width = width
   
   def Render(self):
     '''Return a Surface with the Singleline text properly rendered.'''
@@ -139,7 +139,7 @@ class EditorSingleline(Singleline):
     if self.text == "":
       cursor_x = 0
     else:
-      cursor_x = self.font.size(cursor_line[:self.cursor_pos])[0] + self.scroll_amount
+      cursor_x = self.font.size(self.text[:self.cursor_pos])[0] + self.scroll_amount
     cursor_y = self.font.get_linesize()
     try:
       cursor_w = self.font.size(self.text[self.cursor_pos])[0]
