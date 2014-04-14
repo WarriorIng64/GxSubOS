@@ -16,6 +16,7 @@
 
 import sys, pygame
 from widget import Widget
+from singleline import EditorSingleline
 from multiline import Multiline, EditorMultiline, CodeEditorMultiline
 import glass, keyboardentry
 

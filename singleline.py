@@ -130,7 +130,7 @@ class EditorSingleline(Singleline):
     '''Return a Surface with the EditorSingleline text and cursor properly rendered.'''
     # Render with proper spacing
     render_height = self.font.get_linesize()
-    text_surface = self.font.render(self.text, True, glass.accent_color))
+    text_surface = self.font.render(self.text, True, glass.accent_color)
     render_surface = glass.MakeTransparentSurface(self.width, render_height)
     # Render the text surface onto the main surface
     render_surface.blit(text_surface, (0, 0))
