@@ -182,7 +182,7 @@ class TextEntrySinglelineBox(TextEntryBox):
     self.Redraw()
     self.RedrawParentWindow()
    
-   def Redraw(self):
+  def Redraw(self):
     """Redraw this TextEntrySinglelineBox."""
     padding = 4
     textbox_color = pygame.color.Color(0, 0, 0)
