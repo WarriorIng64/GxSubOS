@@ -140,7 +140,7 @@ class EditorSingleline(Singleline):
       cursor_x = 0
     else:
       cursor_x = self.font.size(self.text[:self.cursor_pos])[0] + self.scroll_amount
-    cursor_y = self.font.get_linesize()
+    cursor_y = 0
     try:
       cursor_w = self.font.size(self.text[self.cursor_pos])[0]
     except IndexError:
