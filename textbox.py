@@ -130,6 +130,75 @@ class TextEntryBox(TextBox):
     self.Redraw()
     self.RedrawParentWindow()
 
+class TextEntrySinglelineBox(TextEntryBox):
+  """A TextEntryBox subclass which only displays one line of text."""
+  def __init__(self, parent_widget=None, parent_window=None, initial_text=None):
+    self.parent_widget = parent_widget
+    self.parent_window = parent_window
+    self.rect = None
+    self.surface = None
+    self.singleline = EditorSingleline(self.text, textbox_font, 1)
+    self.text = ""
+
+    self.text_surface = None
+    self.SetText(initial_text)
+    self.hovered = False
+    self.requested_width = 0
+    self.requested_height = textbox_font.get_linesize() + 4 * 2;
+  
+  def SetText(self, text):
+    """Sets the text displayed in the textbox."""
+    self.text = text
+    self.singleline.SetText(text)
+  
+  def GetText(self):
+    """Returns a string for the text displayed in the textbox."""
+    return self.singleline.GetText()
+  
+  def HandleMouseButtonDownEvent(self, mouse_x, mouse_y, mouse_button):
+    """Handle a MOUSEDOWN event."""
+    if self.PointInsideWidget(mouse_x, mouse_y):
+      if mouse_button == 1:
+        # Left-click
+        self.SetAsFocusedWidget(self)
+        self.Redraw()
+        self.RedrawParentWindow()
+  
+  def HandleKeyDownEvent(self, event):
+    """Handles a KEYDOWN event, which is very important for this particular
+    class since it handles text input from the keyboard."""
+    if event.key == pygame.K_BACKSPACE:
+      # Delete text before cursor.
+      self.singleline.BackspaceAtCursor()
+    elif event.key == pygame.K_DELETE:
+      # Delete text highlighted by (at) cursor.
+      self.singleline.DeleteAtCursor()
+    elif event.key == pygame.K_LEFT:
+      self.singleline.MoveCursorLeft()
+    elif event.key == pygame.K_RIGHT:
+      self.singleline.MoveCursorRight()
+    else:
+      self.singleline.InsertCharAtCursor(keyboardentry.GetCharFromKey(event))
+    self.Redraw()
+    self.RedrawParentWindow()
+   
+   def Redraw(self):
+    """Redraw this TextEntrySinglelineBox."""
+    padding = 4
+    textbox_color = pygame.color.Color(0, 0, 0)
+    textbox_color.a = 100
+    if self.rect == None:
+      return;
+    self.singleline.SetWidth(self.rect.width)
+    self.text_surface = self.singleline.Render()
+    self.surface = glass.MakeTransparentSurface(self.rect.width, self.rect.height)
+    border_rect = self.surface.get_rect().inflate(-padding, -padding).move(padding / 2, padding / 2)
+    pygame.draw.rect(self.surface, textbox_color, border_rect)
+    if self.text_surface is not None:
+      text_left_align = padding
+      text_top_align = padding
+      self.surface.blit(self.text_surface, (text_left_align, text_top_align))
+
 class TextEntryMonoBox(TextEntryBox):
   """A TextEntryBox subclass which uses a monospace font."""
   def __init__(self, parent_widget=None, parent_window=None, initial_text=None):
