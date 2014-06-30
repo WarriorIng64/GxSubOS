@@ -25,7 +25,7 @@ def UpdateApps():
   initialwd = os.getcwd()
   appswd = os.getcwd() + "/apps/default"
   applist = database.RetrieveAppNames()
-  print "Checking for updates to " + str(len(applist)) + " apps..."
+  print("Checking for updates to " + str(len(applist)) + " apps...")
   for appname in applist:
     appinfo = database.GetAppInfo(appname)
     os.chdir(appswd + "/" + appname)
@@ -43,7 +43,7 @@ def UpdateIndicators():
   initialwd = os.getcwd()
   indicatorswd = os.getcwd() + "/indicators/default"
   indicatorlist = database.RetrieveIndicatorNames()
-  print "Checking for updates to " + str(len(indicatorlist)) + " indicators..."
+  print("Checking for updates to " + str(len(indicatorlist)) + " indicators...")
   for indicatorname in indicatorlist:
     indicatorinfo = database.GetIndicatorInfo(indicatorname)
     os.chdir(indicatorswd + "/" + indicatorname)
@@ -63,13 +63,13 @@ def Setup():
     # Apps first
     database = AppDB()
     appswd = initialwd + "/apps/default"
-    print "First run; setting up app database."
+    print("First run; setting up app database.")
     # App database setup
     database.InsertDefaultApps()
     applist = database.RetrieveAppNames()
     # Create directories and retrieve default apps from Git repos
     os.makedirs(appswd)
-    print "Need to clone " + str(len(applist)) + " default apps."
+    print("Need to clone " + str(len(applist)) + " default apps.")
     for appname in applist:
       # Create each repo and pull
       appinfo = database.GetAppInfo(appname)
@@ -81,18 +81,18 @@ def Setup():
       else:
         loading_subprocesses.append(subprocess.Popen("git clone " + appinfo["RepoUrl"] + " -q", shell=True))
       os.chdir(initialwd)
-    print "App database successfully set up."
+    print("App database successfully set up.")
       
     # Indicators second
     database = IndicatorDB()
     indicatorswd = initialwd + "/indicators/default"
-    print "First run; setting up indicator database."
+    print("First run; setting up indicator database.")
     # Indicator database setup
     database.InsertDefaultIndicators()
     indicatorlist = database.RetrieveIndicatorNames()
     # Create directories and retrieve default indicators from Git repos
     os.makedirs(indicatorswd)
-    print "Need to clone " + str(len(indicatorlist)) + " default indicators."
+    print("Need to clone " + str(len(indicatorlist)) + " default indicators.")
     for indicatorname in indicatorlist:
       # Create each repo and pull
       indicatorinfo = database.GetIndicatorInfo(indicatorname)
@@ -104,7 +104,7 @@ def Setup():
       else:
         loading_subprocesses.append(subprocess.Popen("git clone " + indicatorinfo["RepoUrl"] + " -q", shell=True))
       os.chdir(initialwd)
-    print "Indicator database successfully set up."
+    print("Indicator database successfully set up.")
   else:
     # Apps set up from previous run; check for updates
     loading_subprocesses = UpdateApps() + UpdateIndicators()

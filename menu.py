@@ -90,10 +90,10 @@ class Menu:
       if option_clicked != -1:
         try:
           option = self.options_list[option_clicked]
-          exec option[1]
+          exec(option[1])
         except IndexError:
-          print "WARNING: option_clicked outside of menu range."
-          print "\tlen(options_list)=" + str(len(self.options_list)) + ", option_clicked=" + str(option_clicked)
+          print("WARNING: option_clicked outside of menu range.")
+          print("\tlen(options_list)=" + str(len(self.options_list)) + ", option_clicked=" + str(option_clicked))
     self.menu_closed = True
   
   def HandleMouseMotionEvent(self, mouse_event):

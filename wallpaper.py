@@ -37,7 +37,7 @@ class Wallpaper:
     try:
       self.image = pygame.image.load(path)
     except pygame.error:
-      print "Warning: " + path + " could not be loaded."
+      print("Warning: " + path + " could not be loaded.")
       self.image = pygame.image.load("graphics/wallpaper_error.png")
     self.image = pygame.transform.smoothscale(self.image, self.screen_size)
     self.image = self.image.convert()
@@ -63,7 +63,7 @@ class Wallpaper:
     try:
       preview = pygame.image.load(wallpaper_path + self.wallpaper_list[index])
     except pygame.error:
-      print "Warning: " + self.wallpaper_list[index] + " preview could not be loaded."
+      print("Warning: " + self.wallpaper_list[index] + " preview could not be loaded.")
       preview = pygame.image.load("graphics/wallpaper_error.png")
     preview = preview.convert()
     if rect is not None:

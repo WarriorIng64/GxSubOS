@@ -172,7 +172,7 @@ class EditorMultiline(Multiline):
         self.cursor_pos[0] = lineno
       self.cursor_pos[1] = 0
     else:
-      print "WARNING: Attempt to move cursor beyond end of lines."
+      print("WARNING: Attempt to move cursor beyond end of lines.")
 
   def GetCursorIndex(self):
     '''Returns the index in the text that the cursor position corresponds to.'''

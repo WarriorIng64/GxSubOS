@@ -301,7 +301,7 @@ class WindowManager:
     if os.path.isdir("apps/default/" + app_name + "/"):
       execfile("apps/default/" + app_name + "/" + app_name + ".py")
     else:
-      print "ERROR: Could not load default app " + app_name + "; non-existent directory."
+      print("ERROR: Could not load default app " + app_name + "; non-existent directory.")
       self.ShowPopupMessage("Error", "Could not load default app " + app_name + "; non-existent directory.")
 
   def ShowShutdownDialog(self):
@@ -309,7 +309,7 @@ class WindowManager:
     if os.path.isfile("shutdowndialog.py"):
       execfile("shutdowndialog.py")
     else:
-      print "ERROR: Could not find shutdowndialog.py."
+      print("ERROR: Could not find shutdowndialog.py.")
       self.ShowPopupMessage("Error", "Could not show shutdown dialog. Please run pygame.quit();sys.exit() manually.")
 
   def ShowUpdater(self):
@@ -317,13 +317,13 @@ class WindowManager:
     if os.path.isfile("updater.py"):
       execfile("updater.py")
     else:
-      print "ERROR: Could not find updater.py."
+      print("ERROR: Could not find updater.py.")
       self.ShowPopupMessage("Error", "Could not show updater. Please check that updater.py exists in root.")
   
   def RunString(self, code):
     """Runs the given string in code. Meant to be used for running an app from
     its source code in an IDE."""
-    exec code
+    exec(code)
   
   def LoadDefaultIndicator(self, indicator_name):
     """Loads a default indicator based on the given indicator name, which must
@@ -332,7 +332,7 @@ class WindowManager:
       indicator = self.indicator_tray.AddIndicator(indicator_name)
       indicator.RunSetupCode("indicators/default/" + indicator_name + "/" + indicator_name + ".py")
     else:
-      print "ERROR: Could not load default indicator " + indicator_name + "; non-existent directory."
+      print("ERROR: Could not load default indicator " + indicator_name + "; non-existent directory.")
       self.ShowPopupMessage("Error", "Could not load default indicator " + indicator_name + "; non-existent directory.")
 
   def LoadDefaultIndicators(self):

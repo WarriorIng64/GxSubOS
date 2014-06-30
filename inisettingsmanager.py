@@ -28,10 +28,10 @@ class INISettingsManager:
       try:
         open(filename)
       except IOError:
-        print "WARNING: '" + filename + "' does not exist."
+        print("WARNING: '" + filename + "' does not exist.")
         return False
       return True
-    print "WARNING: '" + filename + "' does not exist."
+    print("WARNING: '" + filename + "' does not exist.")
     return False
 
 
@@ -41,9 +41,9 @@ class INISettingsManager:
       self.config.readfp(open(filename))
       self.ini_file_opened = True
     except ConfigParser.Error:
-      print "ERROR: '" + filename + "' could not be opened successfully."
+      print("ERROR: '" + filename + "' could not be opened successfully.")
     except IOError:
-      print "ERROR: '" + filename + "' could not be opened successfully."
+      print("ERROR: '" + filename + "' could not be opened successfully.")
 
   def GetSections(self):
     # Gets the sections from the currently-opened INI file.
@@ -53,9 +53,9 @@ class INISettingsManager:
         sections = self.config.sections()
         return sections
       except ConfigParser.Error:
-        print "ERROR: could not retrieve sections from opened INI file."
+        print("ERROR: could not retrieve sections from opened INI file.")
     else:
-      print "WARNING: No INI file opened for retrieving sections."
+      print("WARNING: No INI file opened for retrieving sections.")
       return sections
 
   def GetValue(self, section, option):
@@ -66,8 +66,8 @@ class INISettingsManager:
         value = self.config.get(section, option)
         return sections
       except ConfigParser.Error:
-        print "ERROR: could not get ('" + section + "','" + option + "') from opened INI file."
+        print("ERROR: could not get ('" + section + "','" + option + "') from opened INI file.")
     else:
-      print "WARNING: No INI file opened for getting value."
+      print("WARNING: No INI file opened for getting value.")
       return value
       

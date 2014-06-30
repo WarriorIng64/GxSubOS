@@ -295,9 +295,9 @@ class Window:
           parent_widget.AddWidget(widget)
           self.DrawWindowSurface()
         else:
-          print "Warning: Attempt to add child widget to Container not in this Window."
+          print("Warning: Attempt to add child widget to Container not in this Window.")
       else:
-        print "Warning: Attempt to add child widget to non-Container."
+        print("Warning: Attempt to add child widget to non-Container.")
   
   def HandleMouseMotionEvent(self, mouse_x, mouse_y):
     """Handle a MOUSEMOTION event. In the case of a Window, just pass it on to
@@ -330,9 +330,9 @@ class Window:
     popup message and mark the window as closed."""
     if not self.window_closed:
       try:
-        exec self.frame_code
+        exec(self.frame_code)
       except Exception as e:
         self.window_closed = True
-        print "***" + self.titlebar_text + " CRASH: " + str(e)
+        print("***" + self.titlebar_text + " CRASH: " + str(e))
         if self.wm != None:
           self.wm.ShowPopupMessage("App Crash", "Sorry, but there was an error running the " + self.titlebar_text + " window and it needs to close.")
