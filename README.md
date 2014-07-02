@@ -23,6 +23,12 @@ In either case, you will need Python 2.7 to actually run GxSubOS, done by runnin
 
 GxSubOS is provided under the GNU GPLv3.
 
+# Contributors
+
+The following GitHub users have contributed to GxSubOS:
+* [WarriorIng64](https://github.com/WarriorIng64)
+* [tp9](https://github.com/tp9)
+
   [1]: http://pygame.org/news.html  "Pygame"
   [2]: https://sites.google.com/site/gxsubos/ "GxSubOS"
   [3]: http://gmsubos.wikia.com/wiki/GxSubOS "GxSubOS page on SubOS Wiki"
