@@ -31,7 +31,7 @@ def Blur(surface):
     return surface
   size = surface.get_size()
   for i in range(glass_blur_amount):
-    surface2 = pygame.transform.smoothscale(surface,(size[0]/2,size[1]/2))
+    surface2 = pygame.transform.smoothscale(surface,(int(size[0]/2),int(size[1]/2)))
     surface2 = pygame.transform.smoothscale(surface2,size)
     surface = pygame.transform.smoothscale(surface2,size)
   return surface

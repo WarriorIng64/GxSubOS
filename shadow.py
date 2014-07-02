@@ -183,12 +183,12 @@ def DrawLauncherShadow(launcher):
   '''Draws the launcher shadow on the launcher's surface.'''
   if launcher.max_exists:
     return
-  mid = launcher.launcher_width / 2
+  mid = int(launcher.launcher_width / 2)
   top_pos = (launcher.launcher_width, 0)
-  top_size = (shadow_width, launcher.buttons_edge)
+  top_size = (int(shadow_width), int(launcher.buttons_edge))
   top_shadow = pygame.transform.scale(launcher_shadow, top_size)
   bottom_pos = (mid, launcher.buttons_edge + mid)
-  bottom_size = (shadow_width, launcher.surface.get_height() - launcher.buttons_edge - mid)
+  bottom_size = (int(shadow_width), int(launcher.surface.get_height() - launcher.buttons_edge - mid))
   bottom_shadow = pygame.transform.scale(launcher_shadow, bottom_size)
   
   top_rect = pygame.Rect(top_pos, top_size)
@@ -204,7 +204,7 @@ def DrawIndicatorTrayShadow(indicator_tray):
   bottom_width = indicator_tray.GetIndicatorsWidth()
   bottom_x = pygame.display.Info().current_w - bottom_width
   end_x = bottom_x - indicator_tray.tray_height - shadow_width
-  bottom_rect = pygame.Rect((bottom_x, indicator_tray.tray_height), (bottom_width, shadow_width))
+  bottom_rect = pygame.Rect((int(bottom_x), int(indicator_tray.tray_height)), (int(bottom_width), int(shadow_width)))
   bottom_size = bottom_rect.size
   bottom_shadow = pygame.transform.scale(indicator_tray_shadow, bottom_size)
   

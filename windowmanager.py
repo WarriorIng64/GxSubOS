@@ -299,7 +299,7 @@ class WindowManager:
     """Loads a default app based on the given app name, which must match the
     file name minus the extension."""
     if os.path.isdir("apps/default/" + app_name + "/"):
-      execfile("apps/default/" + app_name + "/" + app_name + ".py")
+      exec(open("apps/default/" + app_name + "/" + app_name + ".py").read())
     else:
       print("ERROR: Could not load default app " + app_name + "; non-existent directory.")
       self.ShowPopupMessage("Error", "Could not load default app " + app_name + "; non-existent directory.")
@@ -307,7 +307,7 @@ class WindowManager:
   def ShowShutdownDialog(self):
     """Shows the shutdown dialog."""
     if os.path.isfile("shutdowndialog.py"):
-      execfile("shutdowndialog.py")
+      exec(open("shutdowndialog.py").read())
     else:
       print("ERROR: Could not find shutdowndialog.py.")
       self.ShowPopupMessage("Error", "Could not show shutdown dialog. Please run pygame.quit();sys.exit() manually.")
@@ -315,7 +315,7 @@ class WindowManager:
   def ShowUpdater(self):
     """Shows the updater."""
     if os.path.isfile("updater.py"):
-      execfile("updater.py")
+      exec(open("updater.py").read())
     else:
       print("ERROR: Could not find updater.py.")
       self.ShowPopupMessage("Error", "Could not show updater. Please check that updater.py exists in root.")

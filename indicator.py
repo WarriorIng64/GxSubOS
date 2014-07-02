@@ -40,7 +40,7 @@ class Indicator:
   def RunSetupCode(self, path):
     '''Accepts a string containing the path to the Python script this will run
     to set up all of its variables.'''
-    execfile(path)
+    exec(open(path).read())
   
   def SetWindowManager(self, wm):
     '''Provides this Indicator with a reference to the WindowManager.'''
