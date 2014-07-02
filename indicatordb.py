@@ -35,7 +35,7 @@ class IndicatorDB:
           indicatorslist.append(row["IndicatorName"])
         return indicatorslist
       except sqlite3.OperationalError:
-        print "ERROR: IndicatorDB.RetrieveIndicatorNames() failed due to operational error."
+        print("ERROR: IndicatorDB.RetrieveIndicatorNames() failed due to operational error.")
         return []
   
   def InsertDefaultIndicators(self):

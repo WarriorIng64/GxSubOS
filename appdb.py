@@ -35,7 +35,7 @@ class AppDB:
           appslist.append(row["AppName"])
         return appslist
       except sqlite3.OperationalError:
-        print "ERROR: AppDB.RetrieveAppNames() failed due to operational error."
+        print("ERROR: AppDB.RetrieveAppNames() failed due to operational error.")
         return []
   
   def InsertDefaultApps(self):

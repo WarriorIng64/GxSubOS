@@ -45,10 +45,10 @@ class Container(Widget):
   def AddWidget(self, widget):
     """Adds a new Widget to the child widget list."""
     if widget is self:
-      print "Warning: Attempt to add a Container to its own widget list."
+      print("Warning: Attempt to add a Container to its own widget list.")
       return
     if widget is self.parent_widget:
-      print "Warning: Attempt to add a parent widget to a widget list."
+      print("Warning: Attempt to add a parent widget to a widget list.")
       return
     if isinstance(widget, Widget):
       # Successfully add the Widget
@@ -56,7 +56,7 @@ class Container(Widget):
       self.UpdateChildWidgetSizes()
       self.Redraw()
     else:
-      print "Warning: Attempt to add non-Widget to container widget list."
+      print("Warning: Attempt to add non-Widget to container widget list.")
       return
   
   def IsTopLevel(self):
@@ -78,7 +78,7 @@ class Container(Widget):
         child.Redraw()
       else:
         self.child_widgets.remove(child)
-        print "Warning: self in widgets list. This has been removed."
+        print("Warning: self in widgets list. This has been removed.")
   
   def Redraw(self):
     """Redraw this Container. This is done by telling all child widgets to

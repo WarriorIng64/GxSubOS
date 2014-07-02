@@ -70,17 +70,17 @@ class Indicator:
     frame of the SubOS execution.'''
     if not self.closed:
       try:
-        exec self.frame_code
+        exec(self.frame_code)
       except Exception as e:
         self.closed = True
-        print "***" + self.indicator_name + " CRASH: " + str(e)
+        print("***" + self.indicator_name + " CRASH: " + str(e))
         if self.wm != None:
           self.wm.ShowPopupMessage("Indicator Crash", "Sorry, but " + self.indicator_name + " needs to close due to an error.")
 
   def RunClickCode(self):
     '''Executes the currently-set click code. Meant to be called once each
     time the Indicator is left-clicked.'''
-    exec self.click_code
+    exec(self.click_code)
 
   def SetWidth(self, width):
     '''Update this Indicator's width in pixels. If a width is not passed in,
