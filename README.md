@@ -28,4 +28,4 @@ GxSubOS is provided under the GNU GPLv3.
   [3]: http://gmsubos.wikia.com/wiki/GxSubOS "GxSubOS page on SubOS Wiki"
   [4]: http://gxsubos.blogspot.com/ "Gimix SubOS News"
   [5]: http://i.imgur.com/c1u4JQt.png
-  [6]: https://code.google.com/p/msysgit/ "Git for Windows"
+  [6]: http://msysgit.github.io/ "Git for Windows"
