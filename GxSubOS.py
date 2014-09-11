@@ -61,6 +61,9 @@ while len(loading_subprocesses) != 0:
     degrees = 0
   loading_spins = pygame.transform.rotate(loading_spinner, degrees)
   screen.blit(loading_spins, (screen_center_x - loading_spins.get_width() / 2, screen_center_y - loading_spins.get_height() / 2))
+  loading_message = loading_font.render("Fetching updates (" + str(len(loading_subprocesses)) + " repositories remaining); please wait...", True, glass.accent_color)
+  text_left_align = screen.get_width() / 2 - loading_message.get_width() / 2
+  text_top_align = screen.get_height() / 2 - loading_message.get_height() / 2
   screen.blit(loading_message, (text_left_align, text_top_align))
   pygame.display.flip()
   for sp in loading_subprocesses:
@@ -139,7 +142,7 @@ while 1:
         launcher.HandleMouseMotionEvent(mouse_event)
     elif event.type is KEYDOWN:
       wm.HandleKeyDownEvent(event)
-  
+
   # Drawing and game object updates
   wm.RunWindowFrameCodes()
   if wm.RedrawNeeded():
